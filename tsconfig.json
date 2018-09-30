@@ -8,7 +8,7 @@
     "noImplicitAny": true,
     "declaration": false,
     "strictNullChecks": false,
-    "jsx": "react",
+    "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   },

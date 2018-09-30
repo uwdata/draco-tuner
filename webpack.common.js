@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -15,11 +16,31 @@ module.exports = {
   module: {
     rules: [
       // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
-      { test: /\.tsx?$/, use: "ts-loader" },
+      { 
+        test: /\.tsx?$/,
+        use: [
+          { // babel settings in in .babelrc file
+            loader: "babel-loader",
+          },
+          {
+            loader: "ts-loader"
+          }
+        ],
+      },
       // css loading
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader"]
+        exclude: /global\.css$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [require('autoprefixer')]
+            }
+          }
+        ]
       },
       {
         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/],
@@ -43,6 +64,12 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: "./node_modules/wasm-clingo/clingo.wasm", to: "static/clingo.wasm" }
-    ])
+    ]),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: "[name].css",
+      chunkFilename: "[id].css"
+    })
   ]
 };
