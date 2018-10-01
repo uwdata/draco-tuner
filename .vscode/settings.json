@@ -1,6 +1,7 @@
 {
   "editor.tabSize": 2,
   "files.exclude": {
-    "**/*.css": false
-  }
+    "**/*.css": true
+  },
+  "files.insertFinalNewline": true
 }

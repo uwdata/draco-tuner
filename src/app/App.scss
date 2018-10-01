@@ -1,7 +1,10 @@
+@import 'base.scss';
+
 .app {
+  @extend %flex-column;
+  @extend %no-margin-no-padding;
+
   width: 100vw;
   height: 100vh;
-  margin: 0;
-  padding: 0;
   position: relative;
 }

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import './app.css';
 
+import Navbar from './navbar/Navbar';
+
 interface AppState {
   status: string;
 }
@@ -13,6 +15,7 @@ export default class App extends React.Component<AppProps, AppState> {
   render() {
     return (
       <div styleName="app">
+        <Navbar />
       </div>
     );
   }

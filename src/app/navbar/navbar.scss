@@ -1,3 +1,15 @@
+@import 'base.scss';
+
 .navbar {
-  
+  @extend %flex-row;
+  height: 56px;
+  width: 100%;
+  border-bottom: 1px solid $light-grey;
+}
+
+.content {
+  @extend %flex-row-reverse-grow;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 16px;
 }
