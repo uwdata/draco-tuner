@@ -12,7 +12,7 @@ interface AppProps {
 export default class App extends React.Component<AppProps, AppState> {
   render() {
     return (
-      <div className="app">
+      <div styleName="app">
       </div>
     );
   }

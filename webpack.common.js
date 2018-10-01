@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: "./src/index.tsx",
+  context: __dirname,
   resolve: {
     // Add '.ts' and '.tsx' as resolvable extensions.
     extensions: [".ts", ".tsx", ".js", ".json"]
@@ -15,7 +16,7 @@ module.exports = {
   },
   module: {
     rules: [
-      // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
+      // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
       { 
         test: /\.tsx?$/,
         use: [
@@ -27,20 +28,28 @@ module.exports = {
           }
         ],
       },
-      // css loading
+      // local css loading
       {
         test: /\.css$/,
-        exclude: /global\.css$/,
+        exclude: /\.global.css$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
           {
-            loader: 'postcss-loader',
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
             options: {
-              plugins: () => [require('autoprefixer')]
+              importLoader: 1,
+              modules: true,
+              localIdentName: '[name]__[local]'
             }
           }
         ]
+      },
+      // global css loading
+      {
+        test: /\global.css$/,
+        use: ['style-loader', 'css-loader']
       },
       {
         test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.svg$/],
