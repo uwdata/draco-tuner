@@ -5,6 +5,7 @@ import './app.css';
 
 import Navbar from './navbar/Navbar';
 import Editor from './editor/Editor';
+import { connect } from 'react-redux';
 
 interface AppState {
   status: string;
@@ -14,7 +15,7 @@ interface AppProps {
 
 }
 
-export default class App extends React.Component<AppProps, AppState> {
+class App extends React.Component<AppProps, AppState> {
   render() {
     return (
       <div styleName="app">
@@ -29,3 +30,5 @@ export default class App extends React.Component<AppProps, AppState> {
     );
   }
 }
+
+export default connect()(App);
