@@ -9,7 +9,7 @@
     "build": "npm-run-all build-css build-js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "clean": "find . -name \"*.css\" -type f -delete",
+    "clean": "find . -name \"*.css\" -type f -delete && rm -r dist",
     "lint": "tslint -c tslint.json 'src/**/*.tsx'"
   },
   "dependencies": {
