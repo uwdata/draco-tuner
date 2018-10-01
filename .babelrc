@@ -1,6 +1,12 @@
 {
   "presets": ["@babel/preset-react"],
   "plugins": [
-    ["react-css-modules", { "generateScopedName": "[name]__[local]" }]
+    [
+      "react-css-modules",
+      {
+        "generateScopedName": "[name]__[local]",
+        "webpackHotModuleReloading": true
+      }
+    ]
   ]
 }

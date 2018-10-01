@@ -31,7 +31,7 @@ module.exports = {
       // local css loading
       {
         test: /\.css$/,
-        exclude: /\.global.css$/,
+        exclude: [/\.global.css$/, /node_modules/],
         use: [
           {
             loader: 'style-loader'
@@ -49,6 +49,12 @@ module.exports = {
       // global css loading
       {
         test: /\global.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      // external css loading
+      {
+        test: /\.css$/,
+        include: [path.resolve(__dirname, 'node_modules')],
         use: ['style-loader', 'css-loader']
       },
       {

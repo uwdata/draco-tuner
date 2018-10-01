@@ -3,13 +3,13 @@
   "scripts": {
     "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
-    "start-js": "webpack-dev-server --mode development --config webpack.dev.js --open",
+    "start-js": "webpack-dev-server --mode development --hot --config webpack.dev.js --open",
     "build-js": "webpack --mode production --config webpack.prod.js",
     "start": "npm-run-all -p watch-css start-js",
     "build": "npm-run-all build-css build-js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "clean": "find . -name \"*.css\" -type f -delete && rm -r dist",
+    "clean": "find . -name \"src/**/*.css\" -type f -delete && rm -r dist",
     "lint": "tslint -c tslint.json 'src/**/*.tsx'"
   },
   "dependencies": {
