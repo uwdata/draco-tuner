@@ -22,26 +22,6 @@
   flex-direction: column-reverse;
 }
 
-%flex-row-grow {
-  @extend %flex-row;
-  flex-grow: 1;
-}
-
-%flex-row-reverse-grow {
-  @extend %flex-row-reverse;
-  flex-grow: 1;
-}
-
-%flex-column-grow {
-  @extend %flex-column;
-  flex-grow: 1;
-}
-
-%flex-column-reverse-grow {
-  @extend %flex-column-reverse;
-  flex-grow: 1;
-}
-
 %no-margin-no-padding {
   margin: 0;
   padding: 0;

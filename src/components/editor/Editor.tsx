@@ -5,7 +5,7 @@ import './editor.css';
 import { connect } from 'react-redux';
 
 interface EditorProps {
-
+  code: string;
 }
 
 interface EditorState {
@@ -16,10 +16,17 @@ class Editor extends React.Component<EditorProps, EditorState> {
   render() {
     return (
       <div styleName="editor">
+        <div styleName="display" />
         <MonacoEditor />
       </div>
     );
   }
 }
 
-export default connect()(Editor);
+const mapStateToProps = (state: any) => {
+  return {
+    code: state.editor.code,
+  };
+};
+
+export default connect(mapStateToProps)(Editor);

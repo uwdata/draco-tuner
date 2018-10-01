@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { default as ReactMonacoEditor } from "react-monaco-editor";  // tslint:disable-line
 
-import { updateEditorCode } from '../../../actions';
+import { updateEditorCode, runDraco } from '../../../actions';
 
 import { ASP_FORMAT, ASP_THEME }  from './asp';
 import { connect } from 'react-redux';
@@ -66,13 +66,16 @@ class MonacoEditor
 
 const mapStateToProps = (state: any) => {
   return {
-    code: state.code,
+    code: state.editor.code,
   };
 };
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
-    onEditorCodeChange: (code: string) => dispatch(updateEditorCode(code)),
+    onEditorCodeChange: (code: string) => {
+      dispatch(updateEditorCode(code));
+      dispatch(runDraco(code));
+    },
   };
 };
 
