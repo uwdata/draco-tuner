@@ -1,12 +1,10 @@
-export const UPDATE_EDITOR_CODE = 'UPDATE_EDITOR_CODE';
-export const RUN_DRACO = 'RUN_DRACO';
+import { ActionType, getType } from 'typesafe-actions';
 
-export const updateEditorCode = (code: string) => ({
-  value: code,
-  type: UPDATE_EDITOR_CODE,
-});
+import * as editorActions from './editor-actions';
+import * as dracoActions from './draco-actions';
 
-export const runDraco = (code: string) => ({
-  code,
-  type: RUN_DRACO,
-});
+export { editorActions };
+export type EditorAction = ActionType<typeof editorActions>;
+
+export { dracoActions };
+export type DracoAction = ActionType<typeof dracoActions>;

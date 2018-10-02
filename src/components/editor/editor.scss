@@ -2,8 +2,7 @@
 
 .editor {
   @extend %flex-column;
-  width: 100%;
-  height: 100%;
+  @extend %full-width-height;
 }
 
 .display {
@@ -14,5 +13,5 @@
 .display:before {
   content: "";
   display: block;
-  padding-top: 84%;
+  padding-top: 60%;
 }

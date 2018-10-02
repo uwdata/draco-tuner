@@ -1,5 +1,5 @@
 import * as React from 'react';
-import MonacoEditor from './monaco_editor/MonacoEditor';  // tslint:disable-line
+import MonacoEditor from './monaco-editor/MonacoEditor';  // tslint:disable-line
 
 import './editor.css';
 import { connect } from 'react-redux';

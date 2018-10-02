@@ -1,4 +1,5 @@
-import { UPDATE_EDITOR_CODE } from '../actions';
+import { editorActions, EditorAction } from '../actions';
+import { getType } from 'typesafe-actions';
 
 export const SCATTER: string = `% ====== Data definitions ======
 data("cars.json").
@@ -22,12 +23,12 @@ export const INITIAL_STATE = {
   code: SCATTER,
 };
 
-const editor = (state: any = INITIAL_STATE, action: any) => {
+const editor = (state: any = INITIAL_STATE, action: EditorAction) => {
   switch (action.type) {
-    case UPDATE_EDITOR_CODE:
+    case getType(editorActions.updateEditorCode):
       return {
         ...state,
-        code: action.value,
+        code: action.payload,
       };
     default:
       return state;

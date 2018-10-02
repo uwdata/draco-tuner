@@ -29,6 +29,7 @@
     "react-router-dom": "^4.3.1",
     "react-split-pane": "^0.1.82",
     "redux": "^4.0.0",
+    "typesafe-actions": "^2.0.4",
     "vega-embed": "^3.18.1"
   },
   "devDependencies": {

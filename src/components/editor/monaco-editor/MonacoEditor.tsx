@@ -6,6 +6,8 @@ import { updateEditorCode, runDraco } from '../../../actions';
 import { ASP_FORMAT, ASP_THEME }  from './asp';
 import { connect } from 'react-redux';
 
+import './monaco-editor.css';
+
 interface MonacoEditorProps {
   onEditorCodeChange: any;
   code: string;
@@ -27,25 +29,27 @@ class MonacoEditor
 
   render() {
     return (
-      <ReactMonacoEditor
-        ref="monaco"
-        options={{
-          automaticLayout: true,
-          cursorBlinking: 'smooth',
-          wordWrap: 'on',
-          wrappingIndent: 'same',
-          scrollBeyondLastLine: false,
-          minimap: {
-            enabled: false,
-          },
-        }}
-        language="asp"
-        value={this.props.code}
-        theme="draco-light"
-        editorDidMount={this.editorDidMount}
-        editorWillMount={this.editorWillMount}
-        onChange={this.handleEditorChange}
-      />
+      <div styleName="monaco-editor">
+        <ReactMonacoEditor
+          ref="monaco"
+          options={{
+            automaticLayout: true,
+            cursorBlinking: 'smooth',
+            wordWrap: 'on',
+            wrappingIndent: 'same',
+            scrollBeyondLastLine: false,
+            minimap: {
+              enabled: false,
+            },
+          }}
+          language="asp"
+          value={this.props.code}
+          theme="draco-light"
+          editorDidMount={this.editorDidMount}
+          editorWillMount={this.editorWillMount}
+          onChange={this.handleEditorChange}
+        />
+      </div>
     );
   }
 
