@@ -4,11 +4,11 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
 import App from './components/App';
-import reducers from './reducers';
+import { rootReducer } from './reducers';
 
 import './index.global.css';
 
-const store = createStore(reducers);
+const store = createStore(rootReducer);
 
 // @ts-ignore
 window.store = store;

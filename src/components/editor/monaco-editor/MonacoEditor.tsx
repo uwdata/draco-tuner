@@ -1,24 +1,28 @@
 import * as React from 'react';
-import { default as ReactMonacoEditor } from "react-monaco-editor";  // tslint:disable-line
-
-import { updateEditorCode, runDraco } from '../../../actions';
-
-import { ASP_FORMAT, ASP_THEME }  from './asp';
+import { default as ReactMonacoEditor } from "react-monaco-editor"; // tslint:disable-line
 import { connect } from 'react-redux';
-
+import { Dispatch } from 'redux';
+import { RootAction } from '../../../actions';
+import { runDraco } from '../../../actions/draco-actions';
+import { updateEditorCode } from '../../../actions/editor-actions';
+import { RootState } from '../../../reducers';
+import { ASP_FORMAT, ASP_THEME } from './asp';
 import './monaco-editor.css';
 
-interface MonacoEditorProps {
-  onEditorCodeChange: any;
+type StateProps = {
   code: string;
-}
+};
 
-interface MonacoEditorState {
+type DispatchProps = {
+  onEditorCodeChange: (code: string) => void,
+};
 
-}
+export type MonacoEditorProps = StateProps & DispatchProps;
+
+type State = {};
 
 class MonacoEditor
-    extends React.Component<MonacoEditorProps, MonacoEditorState> {
+    extends React.Component<MonacoEditorProps, State> {
   constructor(props: MonacoEditorProps) {
     super(props);
 
@@ -68,13 +72,13 @@ class MonacoEditor
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: RootState): StateProps => {
   return {
     code: state.editor.code,
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
   return {
     onEditorCodeChange: (code: string) => {
       dispatch(updateEditorCode(code));

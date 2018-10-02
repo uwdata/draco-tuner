@@ -1,15 +1,14 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
 import './navbar.css';
 
-interface NavbarProps {
+type StateProps = {};
+type DispatchProps = {};
+type NavbarProps = StateProps & DispatchProps;
 
-}
+type State = {};
 
-interface NavbarState {
-
-}
-
-export default class Navbar extends React.Component<NavbarProps, NavbarState> {
+class Navbar extends React.Component<NavbarProps, State> {
   render() {
     return (
       <div styleName="navbar">
@@ -20,3 +19,5 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
     );
   }
 }
+
+export default connect()(Navbar);

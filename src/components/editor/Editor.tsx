@@ -1,18 +1,20 @@
 import * as React from 'react';
-import MonacoEditor from './monaco-editor/MonacoEditor';  // tslint:disable-line
-
-import './editor.css';
 import { connect } from 'react-redux';
+import { RootState } from '../../reducers';
+import './editor.css';
+import MonacoEditor from './monaco-editor/MonacoEditor'; // tslint:disable-line
 
-interface EditorProps {
+type StateProps = {
   code: string;
-}
+};
 
-interface EditorState {
+type DispatchProps = {};
 
-}
+type EditorProps = StateProps & DispatchProps;
 
-class Editor extends React.Component<EditorProps, EditorState> {
+type State = {};
+
+class Editor extends React.Component<EditorProps, State> {
   render() {
     return (
       <div styleName="editor">
@@ -23,7 +25,7 @@ class Editor extends React.Component<EditorProps, EditorState> {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: RootState): StateProps => {
   return {
     code: state.editor.code,
   };

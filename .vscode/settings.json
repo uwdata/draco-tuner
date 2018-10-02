@@ -3,5 +3,8 @@
   "files.exclude": {
     "**/*.css": true
   },
-  "files.insertFinalNewline": true
+  "files.insertFinalNewline": true,
+  "editor.codeActionsOnSave": {
+		"source.organizeImports": true
+	}
 }

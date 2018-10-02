@@ -1,8 +1,11 @@
 import { combineReducers } from 'redux';
-import editor from './editor';
+import { StateType } from 'typesafe-actions';
 import draco from './draco';
+import editor from './editor';
 
-export default combineReducers({
+export const rootReducer = combineReducers({
   editor,
   draco,
 });
+
+export type RootState = StateType<typeof rootReducer>;

@@ -2,17 +2,28 @@ import Draco from 'draco-vis';  // tslint:disable-line
 import { dracoActions, DracoAction } from '../actions';
 import { getType } from 'typesafe-actions';
 
-const INITIAL_STATE = new Draco('static', (status: string) => { console.log(status); });
-INITIAL_STATE.init();
+export type DracoState = {
+  readonly module?: Draco,
+  readonly solution?: any,
+};
 
-export default (state: any = INITIAL_STATE, action: DracoAction) => {
+export default (state: DracoState = {}, action: DracoAction) => {
   switch (action.type) {
-    case getType(dracoActions.runDraco):
-      const result = state.solve(action.payload);
+    case getType(dracoActions.initDraco):
+      const draco = new Draco('static', (status: string) => { console.log(status); });
+      draco.init();
       return {
         ...state,
-        solution: result,
+        module: draco,
       };
+    case getType(dracoActions.runDraco):
+      if (state.module && state.module.initialized) {
+        const solution = state.module.solve(action.payload);
+        return {
+          ...state,
+          solution,
+        };
+      }
     default:
       return state;
   }

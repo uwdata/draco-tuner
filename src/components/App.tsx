@@ -1,21 +1,25 @@
 import * as React from 'react';
-import SplitPane from "react-split-pane";  // tslint:disable-line
-
-import './app.css';
-
-import Navbar from './navbar/Navbar';
-import Editor from './editor/Editor';
 import { connect } from 'react-redux';
+import SplitPane from "react-split-pane"; // tslint:disable-line
+import { Dispatch } from 'redux';
+import { RootAction } from '../actions';
+import { initDraco } from '../actions/draco-actions';
+import { RootState } from '../reducers';
+import './app.css';
+import Editor from './editor/Editor';
+import Navbar from './navbar/Navbar';
 
-interface AppState {
-  status: string;
-}
+type StateProps = {};
 
-interface AppProps {
+type DispatchProps = {
+  onMount: () => void,
+};
 
-}
+type AppProps =  StateProps & DispatchProps;
 
-class App extends React.Component<AppProps, AppState> {
+type State = {};
+
+class App extends React.Component<AppProps, State> {
   render() {
     return (
       <div styleName="app">
@@ -29,6 +33,25 @@ class App extends React.Component<AppProps, AppState> {
       </div>
     );
   }
+
+  componentDidMount() {
+    this.props.onMount();
+  }
 }
 
-export default connect()(App);
+const mapStateToProps = (state: RootState): StateProps => {
+  return {};
+};
+
+const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
+  return {
+    onMount: () => {
+      dispatch(initDraco());
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(App);
