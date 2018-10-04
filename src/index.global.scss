@@ -70,3 +70,13 @@ cursor: not-allowed;
 .Pane {
   @extend %flex-base;
 }
+
+button {
+  background: inherit;
+  color: inherit;
+  border: inherit;
+  padding: inherit;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}

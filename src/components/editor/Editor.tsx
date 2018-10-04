@@ -2,12 +2,17 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../../reducers';
 import Recommendation from '../recommendation/Recommendation';
+import DracoEditor from './draco-editor/DracoEditor'; // tslint:disable-line
+import EditorBar from './editor-bar/EditorBar';
 import './editor.css';
-import MonacoEditor from './monaco-editor/MonacoEditor'; // tslint:disable-line
 
-type StateProps = {
+type DracoState = {
   code: string;
   solutionSet: any;
+};
+
+type StateProps = {
+  draco: DracoState,
 };
 
 type DispatchProps = {};
@@ -17,6 +22,7 @@ type EditorProps = StateProps & DispatchProps;
 interface State {
   displayWidth: number;
   displayHeight: number;
+  barHeight: number;
   editorHeight: number;
 }
 
@@ -27,6 +33,7 @@ class Editor extends React.Component<EditorProps, State> {
     this.state = {
       displayWidth: 0,
       displayHeight: 0,
+      barHeight: 0,
       editorHeight: 0,
     };
   }
@@ -37,13 +44,16 @@ class Editor extends React.Component<EditorProps, State> {
         styleName="editor"
         id="editor"
       >
+        <div style={{ height: this.state.barHeight }}>
+          <EditorBar/>
+        </div>
         <div
           styleName="display"
           id="display"
           style={{ height: this.state.displayHeight + 32 }}  // inject height
         >
           <Recommendation
-            solutionSet={this.props.solutionSet}
+            solutionSet={this.props.draco.solutionSet}
             width={this.state.displayWidth}
             height={this.state.displayHeight}
           />
@@ -52,7 +62,7 @@ class Editor extends React.Component<EditorProps, State> {
           styleName="text-editor"
           style={{ height: this.state.editorHeight }}
         >
-          <MonacoEditor />
+          <DracoEditor />
         </div>
       </div>
     );
@@ -64,10 +74,12 @@ class Editor extends React.Component<EditorProps, State> {
 
     const displayWidth = displayNode.clientWidth;
     const displayHeight = displayNode.clientWidth * 0.62;
-    const editorHeight = wrapperNode.clientHeight - displayHeight;
+    const barHeight = 40;
+    const editorHeight = wrapperNode.clientHeight - displayHeight - barHeight;
     this.setState({
       displayWidth,
       displayHeight,
+      barHeight,
       editorHeight,
     });
   }
@@ -75,8 +87,10 @@ class Editor extends React.Component<EditorProps, State> {
 
 const mapStateToProps = (state: RootState): StateProps => {
   return {
-    code: state.editor.code,
-    solutionSet: state.draco.solutionSet,
+    draco: {
+      code: state.editor.code.draco,
+      solutionSet: state.draco.solutionSet,
+    },
   };
 };
 
