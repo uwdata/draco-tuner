@@ -1,5 +1,63 @@
 @import 'base.scss';
 
-.recommendation {
+%shrunk-size {
+  width: 96px !important;
+  height: 96px !important;
+}
 
+.recommendation {
+  @extend %flex-row;
+  overflow: hidden;
+  border-radius: 8px;
+
+  transition:
+    width 220ms $standard-ease,
+    height 220ms $standard-ease,
+    transform 220ms $standard-ease;
+
+  &.dragging {
+    transition:
+      width 220ms $standard-ease,
+      height 220ms $standard-ease;
+  }
+
+  &.collapsed {
+    @extend %shrunk-size;
+
+    .main-vis {
+      @extend %shrunk-size;
+    }
+
+    .other-vis {
+      transform: scale(0) translate(-100%);
+
+      .vis {
+      }
+    }
+  }
+}
+
+.main-vis {
+  flex-shrink: 0;
+  z-index: 2;
+  background-color: #fff;
+  transition:
+    width 220ms $standard-ease,
+    height 220ms $standard-ease;
+}
+
+.other-vis {
+  @extend %flex-column;
+  @extend %in-flex-center-all;
+  z-index: 1;
+  overflow: auto;
+  flex-shrink: 0;
+  transform-origin: top left;
+  transform: scale(1) translate(0);
+  transition:
+    transform 220ms $standard-ease;
+
+  .vis {
+
+  }
 }

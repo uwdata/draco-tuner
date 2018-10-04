@@ -22,9 +22,11 @@ type State = {};
 class App extends React.Component<AppProps, State> {
   render() {
     return (
-      <div styleName="app">
-        <Navbar />
-        <div styleName="tuner">
+      <div styleName="app" id="app">
+        <div styleName="navbar">
+          <Navbar />
+        </div>
+        <div styleName="tuner" id="tuner">
           <SplitPane split="vertical" defaultSize={400} /*minSize={256} maxSize={-800}*/>
             <Editor />
             <div></div>

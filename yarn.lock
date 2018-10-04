@@ -391,6 +391,12 @@
   version "15.5.6"
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.6.tgz#9c03d3fed70a8d517c191b7734da2879b50ca26c"
 
+"@types/react-collapse@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@types/react-collapse/-/react-collapse-4.0.2.tgz#891ebb8598a10d2168d5b3bfe5dedb4fb05e6537"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-css-modules@^4.6.2":
   version "4.6.2"
   resolved "https://registry.yarnpkg.com/@types/react-css-modules/-/react-css-modules-4.6.2.tgz#ff6451cb848d5e49c074ce9820bb52073e028f82"
@@ -1699,7 +1705,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.6:
+classnames@^2.2.5, classnames@^2.2.6:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
 
@@ -2482,6 +2488,15 @@ domutils@1.5.1:
     dom-serializer "0"
     domelementtype "1"
 
+draco-vis@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/draco-vis/-/draco-vis-0.0.12.tgz#0312ecd6be6e74b45aa96ac08d80625eb436b5f0"
+  dependencies:
+    draco-vis "^0.0.9"
+    vega-lite "^3.0.0-rc6"
+    vega-typings "^0.3.47"
+    wasm-clingo "0.2.2"
+
 draco-vis@^0.0.9:
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/draco-vis/-/draco-vis-0.0.9.tgz#a1e7a0a4cfe78d9af13b4152552d2d5edb9d2a9e"
@@ -3039,7 +3054,7 @@ get-stdin@^4.0.1:
 
 get-stream@^3.0.0:
   version "3.0.0"
-  resolved "https://registry.yarnpkg.com/get-stream/-/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"
+  resolved "http://registry.npmjs.org/get-stream/-/get-stream-3.0.0.tgz#8e943d1358dc37555054ecbe2edb05aa174ede14"
 
 get-value@^2.0.3, get-value@^2.0.6:
   version "2.0.6"
@@ -4804,6 +4819,10 @@ pbkdf2@^3.0.3:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
+performance-now@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
+
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
@@ -4987,7 +5006,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   dependencies:
@@ -5087,6 +5106,12 @@ querystringify@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.0.0.tgz#fa3ed6e68eb15159457c89b37bc6472833195755"
 
+raf@^3.1.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/raf/-/raf-3.4.0.tgz#a28876881b4bc2ca9117d4138163ddb80f781575"
+  dependencies:
+    performance-now "^2.1.0"
+
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.0.6.tgz#d302c522948588848a8d300c932b44c24231da80"
@@ -5144,6 +5169,13 @@ react-dom@^16.4.1:
     prop-types "^15.6.2"
     schedule "^0.5.0"
 
+react-draggable@^3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/react-draggable/-/react-draggable-3.0.5.tgz#c031e0ed4313531f9409d6cd84c8ebcec0ddfe2d"
+  dependencies:
+    classnames "^2.2.5"
+    prop-types "^15.6.0"
+
 react-json-view@^1.19.0:
   version "1.19.1"
   resolved "https://registry.yarnpkg.com/react-json-view/-/react-json-view-1.19.1.tgz#95d8e59e024f08a25e5dc8f076ae304eed97cf5c"
@@ -5164,6 +5196,14 @@ react-monaco-editor@*, react-monaco-editor@^0.18.0:
     "@types/react" "*"
     monaco-editor "^0.14.2"
     prop-types "^15.6.2"
+
+react-motion@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/react-motion/-/react-motion-0.5.2.tgz#0dd3a69e411316567927917c6626551ba0607316"
+  dependencies:
+    performance-now "^0.2.0"
+    prop-types "^15.5.8"
+    raf "^3.1.0"
 
 react-redux@^5.0.7:
   version "5.0.7"
@@ -6579,7 +6619,7 @@ vega-lite@^2.5.0:
     vega-util "^1.7.0"
     yargs "^11.0.0"
 
-"vega-lite@^3.0.0-rc6 || ^2.6.0":
+vega-lite@^3.0.0-rc6, "vega-lite@^3.0.0-rc6 || ^2.6.0":
   version "3.0.0-rc6"
   resolved "https://registry.yarnpkg.com/vega-lite/-/vega-lite-3.0.0-rc6.tgz#0880f0c362f0a1eb1b09d6e436ebc0d117c1fafc"
   dependencies:
@@ -6683,7 +6723,7 @@ vega-transforms@^2.2.0:
     vega-statistics "^1.2.1"
     vega-util "^1.7.0"
 
-vega-typings@*, vega-typings@^0.3.17, vega-typings@^0.3.4:
+vega-typings@*, vega-typings@^0.3.17, vega-typings@^0.3.4, vega-typings@^0.3.47:
   version "0.3.47"
   resolved "https://registry.yarnpkg.com/vega-typings/-/vega-typings-0.3.47.tgz#9d8e63020e951ad8f31518830af6106f97595dde"
   dependencies:
@@ -6766,6 +6806,10 @@ warning@^4.0.1:
 wasm-clingo@0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/wasm-clingo/-/wasm-clingo-0.0.6.tgz#bed0f18adbcbcac7f37b04e914d363e5aa793044"
+
+wasm-clingo@0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/wasm-clingo/-/wasm-clingo-0.2.2.tgz#aba30a5442b2fbc101c5ab93aec7247cccafd7c6"
 
 watchpack@^1.5.0:
   version "1.6.0"

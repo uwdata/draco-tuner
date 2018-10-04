@@ -1,13 +1,22 @@
-import Draco from 'draco-vis';  // tslint:disable-line
-import { dracoActions, DracoAction } from '../actions';
+import Draco, { Options, SolutionSet } from 'draco-vis'; // tslint:disable-line
 import { getType } from 'typesafe-actions';
+import { DracoAction, dracoActions } from '../actions';
 
 export type DracoState = {
-  readonly module?: Draco,
-  readonly solution?: any,
+  readonly module: Draco | null,
+  readonly solutionSet: SolutionSet | null,
 };
 
-export default (state: DracoState = {}, action: DracoAction) => {
+const initialState: DracoState = {
+  module: null,
+  solutionSet: null,
+};
+
+const options: Options = {
+  models: 7,
+};
+
+export default (state: DracoState = initialState, action: DracoAction) => {
   switch (action.type) {
     case getType(dracoActions.initDraco):
       const draco = new Draco('static', (status: string) => { console.log(status); });
@@ -18,11 +27,17 @@ export default (state: DracoState = {}, action: DracoAction) => {
       };
     case getType(dracoActions.runDraco):
       if (state.module && state.module.initialized) {
-        const solution = state.module.solve(action.payload);
-        return {
-          ...state,
-          solution,
-        };
+        const solutionSet = state.module.solve(action.payload, options);
+
+        switch (solutionSet) {
+          case null:
+            return state;
+          default:
+            return {
+              ...state,
+              solutionSet,
+            };
+        }
       }
     default:
       return state;

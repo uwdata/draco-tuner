@@ -2,8 +2,7 @@
 
 .navbar {
   @extend %flex-row;
-  height: 56px;
-  width: 100%;
+  @extend %full-width-height;
   border-bottom: 1px solid $light-grey;
 }
 

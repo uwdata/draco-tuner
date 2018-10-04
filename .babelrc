@@ -5,7 +5,8 @@
       "react-css-modules",
       {
         "generateScopedName": "[name]__[local]",
-        "webpackHotModuleReloading": true
+        "webpackHotModuleReloading": true,
+        "handleMissingStyleName": "ignore"
       }
     ]
   ]

@@ -3,15 +3,18 @@
 .editor {
   @extend %flex-column;
   @extend %full-width-height;
+  position: relative;
 }
 
 .display {
   position: relative;
-  width: 100%;
+  width: calc(100% - 32px);
+  margin: 16px;
+  border-radius: 16px;
 }
 
-.display:before {
-  content: "";
-  display: block;
-  padding-top: 60%;
+.text-editor {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
 }
