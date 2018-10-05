@@ -1,0 +1,13 @@
+@import 'base.scss';
+
+.info-pane {
+  @extend %elevation-one;
+
+  width: 300px;
+  height: calc(100% - 32px);
+  margin: 16px;
+  border-radius: 8px;
+  position: absolute;
+  left: 100%;
+  top: 0;
+}

@@ -8,6 +8,7 @@ import VegaLiteChart from '../vega-lite-chart/VegaLiteChart';
 import DracoEditor from './draco-editor/DracoEditor';
 import EditorBar from './editor-bar/EditorBar';
 import './editor.css';
+import InfoPane from './info-pane/InfoPane';
 import VegaLiteEditor from './vega-lite-editor/VegaLiteEditor';
 
 type DracoState = {
@@ -95,6 +96,7 @@ class Editor extends React.Component<EditorProps, State> {
             </div>
           </div>
         </div>
+        <InfoPane />
       </div>
     );
   }
