@@ -80,3 +80,8 @@ button {
   cursor: pointer;
   outline: inherit;
 }
+
+.react-monaco-editor-container {  // hack
+  height: auto !important;
+  flex-grow: 1;
+}

@@ -6,7 +6,6 @@ import { updateDracoEditorCode } from '../../../actions/editor-actions';
 import { RootState } from '../../../reducers';
 import BaseEditor, { BaseDispatchProps, BaseStateProps } from '../base-editor/BaseEditor';
 import { ASP_FORMAT, ASP_THEME } from './asp';
-import './draco-editor.css';
 
 interface StateProps extends BaseStateProps {
   code: string;
@@ -29,7 +28,6 @@ class DracoEditor
   }
 
   defineEditor(monaco: any) {
-    console.log('define editor');
     monaco.languages.register({ id: 'asp' });
     monaco.languages.setMonarchTokensProvider('asp', ASP_FORMAT);
     monaco.editor.defineTheme('draco-light', ASP_THEME);
@@ -46,7 +44,7 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
   return {
     onEditorCodeChange: (code: string) => {
       dispatch(updateDracoEditorCode(code));
-      dispatch(runDraco(code));
+      setTimeout(() => dispatch(runDraco(code)), 500);
     },
   };
 };

@@ -1,5 +1,7 @@
 @import 'base.scss';
 
 .base-editor {
-  @extend %full-width-height;
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
 }

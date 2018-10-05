@@ -9,6 +9,7 @@
   @extend %flex-row;
   overflow: hidden;
   border-radius: 8px;
+  width: 100%;
 
   transition:
     width 220ms $standard-ease,
@@ -47,8 +48,10 @@
 }
 
 .other-vis {
-  @extend %flex-column;
-  @extend %in-flex-center-all;
+  @extend %flex-row;
+  flex-wrap: wrap;
+  flex-grow: 1;
+  justify-content: center;
   z-index: 1;
   overflow: auto;
   flex-shrink: 0;
@@ -58,6 +61,7 @@
     transform 220ms $standard-ease;
 
   .vis {
-
+    box-sizing: border-box;
+    padding: 4px;
   }
 }

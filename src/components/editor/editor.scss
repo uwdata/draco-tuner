@@ -11,10 +11,44 @@
   width: calc(100% - 32px);
   margin: 16px;
   border-radius: 16px;
+  background-color: #fff;
+}
+
+.panes {
+  @extend %flex-row;
+  @extend %full-width-height;
+  position: relative;
+
+  .first {
+    z-index: 2;
+  }
+
+  .second {
+    z-index: 1;
+  }
+
+  &.show-second {
+    .first {
+      z-index: 1;
+    }
+
+    .second {
+      z-index: 2;
+    }
+  }
+}
+
+.container {
+  @extend %flex-column;
+  @extend %in-flex-center-all;
+  @extend %full-width-height;
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 
 .text-editor {
-  position: relative;
+  @extend %flex-column;
   width: 100%;
-  overflow: hidden;
+  flex-grow: 1;
 }

@@ -15,3 +15,19 @@ encoding(e0).
 encoding(e1).
 :- not field(e1,horsepower).
 `;
+
+export const VL_HISTOGRAM: string = `{
+  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+  "data": {"url": "cars.json"},
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "origin",
+      "type": "nominal"
+    },
+    "y": {
+      "aggregate": "count",
+      "type": "quantitative"
+    }
+  }
+}`;

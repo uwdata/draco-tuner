@@ -2,10 +2,9 @@
 
 .vega-lite-chart {
   @extend %no-margin-no-padding;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  margin: auto 0 auto 0;
+  @extend %in-flex-center-all;
+  @extend %full-width-height;
+  display: flex !important;
   position: relative;
 
   .vega-actions a {
