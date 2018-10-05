@@ -11,25 +11,25 @@ import './editor.css';
 import InfoPane from './info-pane/InfoPane';
 import VegaLiteEditor from './vega-lite-editor/VegaLiteEditor';
 
-type DracoState = {
+interface DracoState {
   code: string;
   solutionSet: any;
-};
+}
 
-type VegaLiteState = {
+interface VegaLiteState {
   code: string;
   spec: TopLevelSpec;
-};
+}
 
-type StateProps = {
-  draco: DracoState,
-  vegalite: VegaLiteState,
-  currentEditor: string,
-};
+interface StateProps {
+  draco: DracoState;
+  vegalite: VegaLiteState;
+  currentEditor: string;
+}
 
-type DispatchProps = {};
+interface DispatchProps {}
 
-type EditorProps = StateProps & DispatchProps;
+interface EditorProps extends StateProps, DispatchProps {}
 
 interface State {
   displayWidth: number;
@@ -69,7 +69,7 @@ class Editor extends React.Component<EditorProps, State> {
               <Recommendation
                 solutionSet={this.props.draco.solutionSet}
                 width={this.state.displayWidth - 32}
-                height={this.state.displayHeight - 32}
+                height={this.state.displayHeight}
               />
             </div>
             <div
@@ -124,11 +124,11 @@ const mapStateToProps = (state: RootState): StateProps => {
   return {
     draco: {
       code: state.editor.code.draco,
-      solutionSet: state.draco.solutionSet,
+      solutionSet: state.editor.draco.solutionSet,
     },
     vegalite: {
       code: state.editor.code.vegalite,
-      spec: state.editor.vlSpec,
+      spec: state.editor.vegalite.spec,
     },
     currentEditor: state.editor.type,
   };

@@ -2,11 +2,11 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import './navbar.css';
 
-type StateProps = {};
-type DispatchProps = {};
-type NavbarProps = StateProps & DispatchProps;
+interface StateProps {}
+interface DispatchProps {}
+interface NavbarProps extends StateProps, DispatchProps {}
 
-type State = {};
+interface State {}
 
 class Navbar extends React.Component<NavbarProps, State> {
   render() {

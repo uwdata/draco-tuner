@@ -15,7 +15,7 @@ interface DispatchProps extends BaseDispatchProps {
 
 export interface VegaLiteEditorProps extends StateProps, DispatchProps {}
 
-type State = {};
+interface State {}
 
 class VegaLiteEditor
     extends BaseEditor<VegaLiteEditorProps, State> {
@@ -26,6 +26,10 @@ class VegaLiteEditor
   }
 
   defineEditor(monaco: any) {
+  }
+
+  onEditorMount() {
+    this.props.onEditorCodeChange(this.props.code);
   }
 }
 
@@ -39,7 +43,7 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
   return {
     onEditorCodeChange: (code: string) => {
       dispatch(updateVegaLiteEditorCode(code));
-      dispatch(updateVegaLiteSpec(code));
+      dispatch(updateVegaLiteSpec());
     },
   };
 };

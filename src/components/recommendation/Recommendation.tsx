@@ -86,6 +86,7 @@ class Recommendation extends React.Component<RecommendationProps, State> {
                     return (
                       <div
                         styleName="vis"
+                        key={i}
                         style={{
                           width: this.props.width - this.props.height - 32,
                           height: this.props.width - this.props.height - 32,

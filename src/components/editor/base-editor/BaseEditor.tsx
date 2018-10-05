@@ -50,17 +50,20 @@ export default abstract class BaseEditor<P extends BaseEditorProps, S>
     );
   }
 
-  private handleEditorChange(newValue: string, e: any) {
+  protected handleEditorChange(newValue: string, e: any) {
     this.props.onEditorCodeChange(newValue);
   }
 
-  public editorDidMount(editor: any) {
+  protected editorDidMount(editor: any) {
     editor.focus();
+    this.onEditorMount();
   }
 
-  public editorWillMount(monaco: any) {
+  protected editorWillMount(monaco: any) {
     this.defineEditor(monaco);
   }
 
   abstract defineEditor(monaco: any): void;
+
+  abstract onEditorMount(): void;
 }

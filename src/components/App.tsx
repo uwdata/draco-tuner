@@ -3,21 +3,21 @@ import { connect } from 'react-redux';
 import SplitPane from "react-split-pane"; // tslint:disable-line
 import { Dispatch } from 'redux';
 import { RootAction } from '../actions';
-import { initDraco } from '../actions/draco-actions';
+import { initDraco } from '../actions/editor-actions';
 import { RootState } from '../reducers';
 import './app.css';
 import Editor from './editor/Editor';
 import Navbar from './navbar/Navbar';
 
-type StateProps = {};
+interface StateProps {}
 
-type DispatchProps = {
-  onMount: () => void,
-};
+interface DispatchProps {
+  onMount: () => void;
+}
 
-type AppProps =  StateProps & DispatchProps;
+interface AppProps extends StateProps, DispatchProps {}
 
-type State = {};
+interface State {}
 
 class App extends React.Component<AppProps, State> {
   render() {

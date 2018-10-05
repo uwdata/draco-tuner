@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootAction } from '../../../actions';
-import { runDraco } from '../../../actions/draco-actions';
-import { updateDracoEditorCode } from '../../../actions/editor-actions';
+import { updateDracoEditorCode, updateDracoSolutionSet } from '../../../actions/editor-actions';
 import { RootState } from '../../../reducers';
 import BaseEditor, { BaseDispatchProps, BaseStateProps } from '../base-editor/BaseEditor';
 import { ASP_FORMAT, ASP_THEME } from './asp';
@@ -17,7 +16,7 @@ interface DispatchProps extends BaseDispatchProps {
 
 export interface DracoEditorProps extends StateProps, DispatchProps {}
 
-type State = {};
+interface State {}
 
 class DracoEditor
     extends BaseEditor<DracoEditorProps, State> {
@@ -32,6 +31,9 @@ class DracoEditor
     monaco.languages.setMonarchTokensProvider('asp', ASP_FORMAT);
     monaco.editor.defineTheme('draco-light', ASP_THEME);
   }
+
+  onEditorMount() {
+  }
 }
 
 const mapStateToProps = (state: RootState): StateProps => {
@@ -44,7 +46,7 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
   return {
     onEditorCodeChange: (code: string) => {
       dispatch(updateDracoEditorCode(code));
-      setTimeout(() => dispatch(runDraco(code)), 500);
+      setTimeout(() => dispatch(updateDracoSolutionSet()), 500);
     },
   };
 };
