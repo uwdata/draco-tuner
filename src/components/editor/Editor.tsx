@@ -1,7 +1,12 @@
 import classnames from 'classnames';
+import { SolutionSet } from 'draco-vis';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { TopLevelSpec } from 'vega-lite';
+import Worker from 'worker-loader!../../worker/Worker'; // tslint:disable-line
+import { RootAction } from '../../actions';
+import { updateDracoSolutionSet } from '../../actions/editor-actions';
 import { RootState } from '../../reducers';
 import Recommendation from '../recommendation/Recommendation';
 import VegaLiteChart from '../vega-lite-chart/VegaLiteChart';
@@ -27,7 +32,9 @@ interface StateProps {
   currentEditor: string;
 }
 
-interface DispatchProps {}
+interface DispatchProps {
+  onDracoSolutionSetReceived: (solution: SolutionSet) => void;
+}
 
 interface EditorProps extends StateProps, DispatchProps {}
 
@@ -38,6 +45,8 @@ interface State {
 }
 
 class Editor extends React.Component<EditorProps, State> {
+  worker: Worker;
+
   constructor(props: EditorProps) {
     super(props);
 
@@ -45,6 +54,11 @@ class Editor extends React.Component<EditorProps, State> {
       displayWidth: 0,
       displayHeight: 0,
       editorHeight: 400 * 0.62 - 32,
+    };
+
+    this.worker = new Worker();
+    this.worker.onmessage = (e: any) => {
+      this.props.onDracoSolutionSetReceived(e.data.response);
     };
   }
 
@@ -75,7 +89,7 @@ class Editor extends React.Component<EditorProps, State> {
             <div
               styleName="text-editor"
             >
-              <DracoEditor />
+              <DracoEditor worker={this.worker} />
             </div>
           </div>
           <div styleName="container second">
@@ -134,4 +148,15 @@ const mapStateToProps = (state: RootState): StateProps => {
   };
 };
 
-export default connect(mapStateToProps)(Editor);
+const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
+  return {
+    onDracoSolutionSetReceived: (solution: SolutionSet) => {
+      dispatch(updateDracoSolutionSet(solution));
+    },
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Editor);

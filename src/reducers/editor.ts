@@ -1,9 +1,12 @@
-import Draco, { Options, SolutionSet } from 'draco-vis'; // tslint:disable-line
+import Draco, { SolutionSet } from 'draco-vis'; // tslint:disable-line
 import { getType } from 'typesafe-actions';
 import { TopLevelSpec } from 'vega-lite';
+import Worker from 'worker-loader!../worker/Worker'; // tslint:disable-line
 import { EditorAction, editorActions } from '../actions';
 import { EditorType } from '../actions/editor-actions';
 import { SCATTER, VL_HISTOGRAM } from '../examples';
+
+const worker = new Worker();
 
 export type CodeState = {
   readonly draco: string;
@@ -49,10 +52,6 @@ const initialState: EditorState = {
   },
 };
 
-const dracoOptions: Options = {
-  models: 7,
-};
-
 const editor = (state: EditorState = initialState, action: EditorAction) => {
   switch (action.type) {
     case getType(editorActions.initDraco):
@@ -66,7 +65,7 @@ const editor = (state: EditorState = initialState, action: EditorAction) => {
     case getType(editorActions.updateVegaLiteSpec):
       return updateVegaLiteSpec(state);
     case getType(editorActions.updateDracoSolutionSet):
-      return updateDracoSolutionSet(state);
+      return updateDracoSolutionSet(state, action.payload);
     default:
       return state;
   }
@@ -127,24 +126,16 @@ const updateVegaLiteSpec = (state: EditorState): EditorState => {
   };
 };
 
-const updateDracoSolutionSet = (state: EditorState): EditorState => {
-  const program = state.code.draco.trim();
-  if (program !== state.draco.prevProgram) {
-    const solutionSet = state.draco.module.solve(state.code.draco, dracoOptions);
+const updateDracoSolutionSet = (state: EditorState, solutionSet: SolutionSet): EditorState => {
+  const draco = {
+    ...state.draco,
+    solutionSet,
+  };
 
-    if (solutionSet) {
-      const draco = {
-        ...state.draco,
-        solutionSet,
-        prevProgram: program,
-      };
-      return {
-        ...state,
-        draco,
-      };
-    }
-  }
-  return state;
+  return {
+    ...state,
+    draco,
+  };
 };
 
 export default editor;

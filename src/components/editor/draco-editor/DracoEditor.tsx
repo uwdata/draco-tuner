@@ -1,10 +1,15 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import Worker from 'worker-loader!../worker/Worker'; // tslint:disable-line
 import { RootAction } from '../../../actions';
-import { updateDracoEditorCode, updateDracoSolutionSet } from '../../../actions/editor-actions';
+import { updateDracoEditorCode } from '../../../actions/editor-actions';
 import { RootState } from '../../../reducers';
 import BaseEditor, { BaseDispatchProps, BaseStateProps } from '../base-editor/BaseEditor';
 import { ASP_FORMAT, ASP_THEME } from './asp';
+
+interface PassedProps {
+  worker: Worker;
+}
 
 interface StateProps extends BaseStateProps {
   code: string;
@@ -14,7 +19,7 @@ interface DispatchProps extends BaseDispatchProps {
   onEditorCodeChange: (code: string) => void;
 }
 
-export interface DracoEditorProps extends StateProps, DispatchProps {}
+export interface DracoEditorProps extends PassedProps, StateProps, DispatchProps {}
 
 interface State {}
 
@@ -24,6 +29,8 @@ class DracoEditor
 
   constructor(props: DracoEditorProps) {
     super(props);
+
+    this.props.worker.postMessage({ type: 'solve', payload: this.props.code });
   }
 
   defineEditor(monaco: any) {
@@ -33,6 +40,12 @@ class DracoEditor
   }
 
   onEditorMount() {
+    this.props.onEditorCodeChange(this.props.code);
+  }
+
+  protected handleEditorChange(newValue: string, e: any) {
+    super.handleEditorChange(newValue, e);
+    this.props.worker.postMessage({ type: 'solve', payload: this.props.code });
   }
 }
 
@@ -46,7 +59,6 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
   return {
     onEditorCodeChange: (code: string) => {
       dispatch(updateDracoEditorCode(code));
-      setTimeout(() => dispatch(updateDracoSolutionSet()), 500);
     },
   };
 };

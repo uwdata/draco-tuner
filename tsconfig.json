@@ -2,6 +2,11 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "module": "es2015",
+    "lib": [
+      "es2015",
+      "webworker",
+      "dom"
+    ],
     "target": "es6",
     "moduleResolution": "node",
     "sourceMap": true,

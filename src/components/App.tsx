@@ -37,7 +37,7 @@ class App extends React.Component<AppProps, State> {
   }
 
   componentDidMount() {
-    this.props.onMount();
+    // this.props.onMount();
   }
 }
 

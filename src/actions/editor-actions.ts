@@ -1,3 +1,4 @@
+import { SolutionSet } from 'draco-vis';
 import { createAction } from 'typesafe-actions';
 
 export const updateDracoEditorCode = createAction('editor/UPDATE_DRACO_CODE', (resolve) => {
@@ -18,7 +19,7 @@ export const switchEditor = createAction('editor/SWITCH_EDITOR', (resolve) => {
 });
 
 export const updateDracoSolutionSet = createAction('draco/UPDATE_DRACO_SOLUTION_SET', (resolve) => {
-  return () => resolve();
+  return (solution: SolutionSet) => resolve(solution);
 });
 
 export const initDraco = createAction('draco/INIT_DRACO', (resolve) => {
