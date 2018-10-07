@@ -1,12 +1,9 @@
 import Draco, { SolutionSet } from 'draco-vis'; // tslint:disable-line
 import { getType } from 'typesafe-actions';
 import { TopLevelSpec } from 'vega-lite';
-import Worker from 'worker-loader!../worker/Worker'; // tslint:disable-line
 import { EditorAction, editorActions } from '../actions';
 import { EditorType } from '../actions/editor-actions';
 import { SCATTER, VL_HISTOGRAM } from '../examples';
-
-const worker = new Worker();
 
 export type CodeState = {
   readonly draco: string;
@@ -64,7 +61,7 @@ const editor = (state: EditorState = initialState, action: EditorAction) => {
       return switchEditor(state, action.payload);
     case getType(editorActions.updateVegaLiteSpec):
       return updateVegaLiteSpec(state);
-    case getType(editorActions.updateDracoSolutionSet):
+    case getType(editorActions.setDracoSolutionSet):
       return updateDracoSolutionSet(state, action.payload);
     default:
       return state;

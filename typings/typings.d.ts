@@ -13,3 +13,8 @@ declare module "worker-loader!*" {
 
   export default WebpackWorker;
 }
+
+declare module "redux-worker-middleware" {
+  const createWorkerMiddleware: any;
+  export default createWorkerMiddleware;
+}
