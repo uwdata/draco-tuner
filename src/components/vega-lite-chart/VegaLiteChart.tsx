@@ -1,7 +1,9 @@
 import classnames from 'classnames';
+import { vl2asp } from 'draco-vis';
 import * as React from 'react';
 import vegaEmbed, { EmbedOptions, vega } from 'vega-embed';
 import { TopLevelSpec } from 'vega-lite';
+import { TopLevelFacetedUnitSpec } from 'vega-lite/build/src/spec';
 import './vega-lite-chart.css';
 
 const cars = require('../../data/cars.json');
@@ -25,6 +27,12 @@ interface State {}
  * and renders the resulting svg.
  */
 export default class VegaLiteChart extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+
+    this.handleClick = this.handleClick.bind(this);
+  }
+
   componentDidMount() {
     this.updateView(this.props.vlSpec);
   }
@@ -42,7 +50,11 @@ export default class VegaLiteChart extends React.Component<Props, State> {
     });
 
     return (
-      <div styleName={styles} ref="vis">
+      <div
+        styleName={styles}
+        ref="vis"
+        onClick={this.handleClick}
+      >
       </div>
     );
   }
@@ -83,5 +95,9 @@ export default class VegaLiteChart extends React.Component<Props, State> {
 
     // @ts-ignore
     vegaEmbed(element, vlSpec, opt);
+  }
+
+  handleClick() {
+    console.log(vl2asp(this.props.vlSpec as TopLevelFacetedUnitSpec).join('.\n'));
   }
 }

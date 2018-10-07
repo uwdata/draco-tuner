@@ -22,8 +22,9 @@ export const VL_HISTOGRAM: string = `{
   "mark": "bar",
   "encoding": {
     "x": {
-      "field": "origin",
-      "type": "nominal"
+      "bin": true,
+      "field": "horsepower",
+      "type": "quantitative"
     },
     "y": {
       "aggregate": "count",

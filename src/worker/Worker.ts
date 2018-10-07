@@ -17,15 +17,18 @@ ctx.onmessage = ({ data: action }: DracoWorkerEvent) => {
   switch (action.type) {
     case getType(editorActions.updateDracoSolutionSet):
       const solveFunction = (program: string) => {
-        const trimmed = program.trim();
-        if (trimmed !== prevProgram) {
-          prevProgram = trimmed;
+        const nonCommentLines = getnonCommentLines(program);
+        const cleaned = nonCommentLines.join('\n');
+        if (cleaned !== prevProgram) {
+          prevProgram = cleaned;
 
-          const solution = draco.solve(program, dracoOptions);
-          ctx.postMessage({
-            type: getType(setDracoSolutionSet),
-            payload: solution,
-          });
+          if (isValidAsp(nonCommentLines)) {
+            const solution = draco.solve(cleaned, dracoOptions);
+            ctx.postMessage({
+              type: getType(setDracoSolutionSet),
+              payload: solution,
+            });
+          }
         }
       };
 
@@ -37,4 +40,26 @@ ctx.onmessage = ({ data: action }: DracoWorkerEvent) => {
       break;
     default:
   }
+};
+
+const MATCH_RULE = /^.*\(.*\)\./gm;
+const MATCH_NONCOMMENT = /^[^%\n]+/gm;
+
+const isValidAsp = (lines: string[]): boolean => {
+  const valid =
+    lines
+      .map((line) => {
+        const match = line.match(MATCH_RULE);
+        return match !== null;
+      })
+      .reduce((prev, curr) => {
+        return prev && curr;
+      });
+  return valid;
+};
+
+const getnonCommentLines = (code: string): string[] => {
+  const nonCommentLines = code.match(MATCH_NONCOMMENT);
+
+  return nonCommentLines.map(line => line.trim());
 };
