@@ -61,7 +61,7 @@ class Editor extends React.Component<EditorProps, State> {
         styleName="editor"
         id="editor"
       >
-        <EditorBar/>
+        <EditorBar />
         <div styleName={paneStyles}>
           <div styleName="container first">
             <div

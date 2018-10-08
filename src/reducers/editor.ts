@@ -2,7 +2,6 @@ import Draco, { SolutionSet } from 'draco-vis'; // tslint:disable-line
 import { getType } from 'typesafe-actions';
 import { TopLevelSpec } from 'vega-lite';
 import { EditorAction, editorActions } from '../actions';
-import { EditorType } from '../actions/editor-actions';
 import { SCATTER, VL_HISTOGRAM } from '../examples';
 
 export type CodeState = {
@@ -11,26 +10,28 @@ export type CodeState = {
 };
 
 export type VegaLiteState = {
-  readonly spec: TopLevelSpec | null;
+  readonly spec?: TopLevelSpec;
 };
 
 export type DracoState = {
-  readonly module: Draco | null;
-  readonly prevProgram: string | null;
-  readonly solutionSet: SolutionSet | null;
+  readonly module?: Draco;
+  readonly prevProgram?: string;
+  readonly solutionSet?: SolutionSet;
 };
 
 export type InfoPaneState = {
-  readonly vlSpec: TopLevelSpec;
-  readonly aspSpec: string;
-  readonly dracoSpec: SolutionSet;
+  readonly show: boolean;
+  readonly vlSpec?: TopLevelSpec;
+  readonly aspSpec?: string;
+  readonly dracoSpec?: SolutionSet;
 };
 
 export type EditorState = {
   readonly code: CodeState;
-  readonly type: EditorType;
+  readonly type: editorActions.EditorType;
   readonly vegalite: VegaLiteState;
   readonly draco: DracoState;
+  readonly infoPane: InfoPaneState;
 };
 
 const initialState: EditorState = {
@@ -39,20 +40,15 @@ const initialState: EditorState = {
     vegalite: VL_HISTOGRAM,
   },
   type: 'draco',
-  vegalite: {
-    spec: null,
-  },
-  draco: {
-    module: null,
-    prevProgram: null,
-    solutionSet: null,
+  vegalite: {},
+  draco: {},
+  infoPane: {
+    show: false,
   },
 };
 
 const editor = (state: EditorState = initialState, action: EditorAction) => {
   switch (action.type) {
-    case getType(editorActions.initDraco):
-      return initDraco(state);
     case getType(editorActions.updateDracoEditorCode):
       return updateDracoEditorCode(state, action.payload);
     case getType(editorActions.updateVegaLiteEditorCode):
@@ -61,26 +57,17 @@ const editor = (state: EditorState = initialState, action: EditorAction) => {
       return switchEditor(state, action.payload);
     case getType(editorActions.updateVegaLiteSpec):
       return updateVegaLiteSpec(state);
-    case getType(editorActions.setDracoSolutionSet):
-      return updateDracoSolutionSet(state, action.payload);
+    case getType(editorActions.setEditorDracoSolutionSet):
+      return setEditorDracoSolutionSet(state, action.payload);
+    case getType(editorActions.setInfoPaneDracoSolutionSet):
+      return setInfoPaneDracoSolutionSet(state, action.payload);
+    case getType(editorActions.setInfoPaneAsp):
+      return setInfoPaneAsp(state, action.payload);
+    case getType(editorActions.showInfoPane):
+      return showInfoPane(state, action.payload);
     default:
       return state;
   }
-};
-
-const initDraco = (state: EditorState) => {
-  const module = new Draco('static', (status: string) => { console.debug(status); });
-  module.init();
-
-  const draco: DracoState = {
-    ...state.draco,
-    module,
-  };
-
-  return {
-    ...state,
-    draco,
-  };
 };
 
 const updateDracoEditorCode = (state: EditorState, payload: string): EditorState => {
@@ -105,7 +92,7 @@ const updateVegaLiteEditorCode = (state: EditorState, payload: string): EditorSt
   };
 };
 
-const switchEditor = (state: EditorState, payload: EditorType): EditorState => {
+const switchEditor = (state: EditorState, payload: editorActions.EditorType): EditorState => {
   return {
     ...state,
     type: payload,
@@ -123,7 +110,7 @@ const updateVegaLiteSpec = (state: EditorState): EditorState => {
   };
 };
 
-const updateDracoSolutionSet = (state: EditorState, solutionSet: SolutionSet): EditorState => {
+const setEditorDracoSolutionSet = (state: EditorState, solutionSet: SolutionSet): EditorState => {
   const draco = {
     ...state.draco,
     solutionSet,
@@ -132,6 +119,42 @@ const updateDracoSolutionSet = (state: EditorState, solutionSet: SolutionSet): E
   return {
     ...state,
     draco,
+  };
+};
+
+const setInfoPaneDracoSolutionSet = (state: EditorState, solutionSet: SolutionSet): EditorState => {
+  const infoPane = {
+    ...state.infoPane,
+    dracoSpec: solutionSet,
+  };
+
+  return {
+    ...state,
+    infoPane,
+  };
+};
+
+const setInfoPaneAsp = (state: EditorState, asp: string): EditorState => {
+  const infoPane = {
+    ...state.infoPane,
+    aspSpec: asp,
+  };
+
+  return {
+    ...state,
+    infoPane,
+  };
+};
+
+const showInfoPane = (state: EditorState, show: boolean): EditorState => {
+  const infoPane = {
+    ...state.infoPane,
+    show,
+  };
+
+  return {
+    ...state,
+    infoPane,
   };
 };
 

@@ -6,6 +6,7 @@
   @extend %full-width-height;
   display: flex !important;
   position: relative;
+  cursor: pointer;
 
   .vega-actions a {
     pointer-events: all;

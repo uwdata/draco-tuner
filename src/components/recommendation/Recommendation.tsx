@@ -1,6 +1,5 @@
 import classnames from 'classnames';
 import * as React from 'react';
-import Draggable from 'react-draggable'; // tslint:disable-line
 import { TopLevelSpec } from 'vega-lite';
 import VegaLiteChart from '../vega-lite-chart/VegaLiteChart'; // tslint:disable-line
 import './recommendation.css';
@@ -48,13 +47,13 @@ class Recommendation extends React.Component<RecommendationProps, State> {
     });
 
     return (
-      <Draggable
-        onStart={this.handleDragStart}
-        onDrag={this.handleDrag}
-        onStop={this.handleDragStop}
-        position={
-          { x: this.state.x, y: this.state.y }}
-      >
+      // <Draggable
+      //   onStart={this.handleDragStart}
+      //   onDrag={this.handleDrag}
+      //   onStop={this.handleDragStop}
+      //   position={
+      //     { x: this.state.x, y: this.state.y }}
+      // >
         <div
           styleName={styles}
           style={{ height: this.props.height }}
@@ -105,7 +104,7 @@ class Recommendation extends React.Component<RecommendationProps, State> {
             }
           </div>
         </div>
-      </Draggable>
+      // </Draggable>
     );
   }
 

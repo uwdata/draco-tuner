@@ -15,6 +15,11 @@ h1 {
   font-weight: 400;
 }
 
+pre {
+  font-family: 'Lucida Console', Monaco, monospace;
+  font-size: 12px;
+}
+
 
 .Resizer {
   background: #000;
@@ -75,7 +80,7 @@ button {
   background: inherit;
   color: inherit;
   border: inherit;
-  padding: inherit;
+  padding: 0;
   font: inherit;
   cursor: pointer;
   outline: inherit;

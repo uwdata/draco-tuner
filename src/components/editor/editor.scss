@@ -20,20 +20,20 @@
   position: relative;
 
   .first {
-    z-index: 2;
+    visibility: visible;
   }
 
   .second {
-    z-index: 1;
+    visibility: hidden;
   }
 
   &.show-second {
     .first {
-      z-index: 1;
+      visibility: hidden;
     }
 
     .second {
-      z-index: 2;
+      visibility: visible;
     }
   }
 }

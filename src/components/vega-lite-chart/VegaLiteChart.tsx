@@ -1,9 +1,15 @@
 import classnames from 'classnames';
 import { vl2asp } from 'draco-vis';
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { getType } from 'typesafe-actions';
 import vegaEmbed, { EmbedOptions, vega } from 'vega-embed';
 import { TopLevelSpec } from 'vega-lite';
 import { TopLevelFacetedUnitSpec } from 'vega-lite/build/src/spec';
+import { RootAction } from '../../actions';
+import { runDraco } from '../../actions/draco-actions';
+import { setInfoPaneAsp, setInfoPaneDracoSolutionSet, showInfoPane } from '../../actions/editor-actions'; // tslint:disable-line
 import './vega-lite-chart.css';
 
 const cars = require('../../data/cars.json');
@@ -14,11 +20,19 @@ export const datasets = {
   'barley.json': barley,
 };
 
-interface Props {
+interface DispatchProps {
+  runDraco: (code: string) => void;
+  setInfoPaneAsp: (code: string) => void;
+  showInfoPane: (show: boolean) => void;
+}
+
+interface PassedProps {
   vlSpec: TopLevelSpec;
   renderer: 'canvas' | 'svg';
   actions?: boolean;
 }
+
+interface Props extends PassedProps, DispatchProps {}
 
 interface State {}
 
@@ -26,7 +40,7 @@ interface State {}
  * A Visualization component accepts a `vlSpec` as a prop
  * and renders the resulting svg.
  */
-export default class VegaLiteChart extends React.Component<Props, State> {
+class VegaLiteChart extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
@@ -98,6 +112,30 @@ export default class VegaLiteChart extends React.Component<Props, State> {
   }
 
   handleClick() {
-    console.log(vl2asp(this.props.vlSpec as TopLevelFacetedUnitSpec).join('.\n'));
+    const asp = vl2asp(this.props.vlSpec as TopLevelFacetedUnitSpec);
+    const program = `${asp.join('.\n')}.\n`;
+    console.debug(program);
+    this.props.setInfoPaneAsp(program);
+    this.props.runDraco(program);
+    this.props.showInfoPane(true);
   }
 }
+
+const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
+  return {
+    runDraco: (code: string) => {
+      dispatch(runDraco(code, getType(setInfoPaneDracoSolutionSet)));
+    },
+    setInfoPaneAsp: (code: string) => {
+      dispatch(setInfoPaneAsp(code));
+    },
+    showInfoPane: (show: boolean) => {
+      dispatch(showInfoPane(show));
+    },
+  };
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(VegaLiteChart);

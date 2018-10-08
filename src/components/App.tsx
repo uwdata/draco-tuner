@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import SplitPane from "react-split-pane"; // tslint:disable-line
 import { Dispatch } from 'redux';
 import { RootAction } from '../actions';
-import { initDraco } from '../actions/editor-actions';
 import { RootState } from '../reducers';
 import './app.css';
 import Editor from './editor/Editor';
@@ -11,9 +10,7 @@ import Navbar from './navbar/Navbar';
 
 interface StateProps {}
 
-interface DispatchProps {
-  onMount: () => void;
-}
+interface DispatchProps {}
 
 interface AppProps extends StateProps, DispatchProps {}
 
@@ -37,7 +34,6 @@ class App extends React.Component<AppProps, State> {
   }
 
   componentDidMount() {
-    // this.props.onMount();
   }
 }
 
@@ -46,11 +42,7 @@ const mapStateToProps = (state: RootState): StateProps => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
-  return {
-    onMount: () => {
-      dispatch(initDraco());
-    },
-  };
+  return {};
 };
 
 export default connect(

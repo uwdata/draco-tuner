@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { getType } from 'typesafe-actions';
 import { RootAction } from '../../../actions';
-import { updateDracoEditorCode, updateDracoSolutionSet } from '../../../actions/editor-actions';
+import { runDraco } from '../../../actions/draco-actions';
+import { setEditorDracoSolutionSet, updateDracoEditorCode } from '../../../actions/editor-actions'; // tslint:disable-line
 import { RootState } from '../../../reducers';
 import BaseEditor, { BaseDispatchProps, BaseStateProps } from '../base-editor/BaseEditor';
 import { ASP_FORMAT, ASP_THEME } from './asp';
@@ -58,7 +60,7 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
       dispatch(updateDracoEditorCode(code));
     },
     updateDracoSolutionSet: (code: string) => {
-      dispatch(updateDracoSolutionSet(code));
+      dispatch(runDraco(code, getType(setEditorDracoSolutionSet)));
     },
   };
 };
