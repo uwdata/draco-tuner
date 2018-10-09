@@ -1,14 +1,16 @@
 import classnames from 'classnames';
+import { SolutionSet } from 'draco-vis';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootAction } from '../../actions';
-import { showInfoPane, switchEditor, updateDracoEditorCode } from '../../actions/editor-actions';
+import { setEditorDracoSolutionSet, showInfoPane, switchEditor, updateDracoEditorCode } from '../../actions/editor-actions'; // tslint:disable-line
 import { RootState } from '../../reducers';
 import VegaLiteChart from '../vega-lite-chart/VegaLiteChart';
 import './info-pane.css';
 
 interface StateProps {
+  dracoSolution: SolutionSet;
   show: boolean;
   cost?: number;
   violations?: any;
@@ -18,7 +20,7 @@ interface StateProps {
 
 interface DispatchProps {
   showInfoPane: (show: boolean) => void;
-  updateDracoEditor: (code: string) => void;
+  updateDracoEditor: (code: string, sol: SolutionSet) => void;
 }
 
 interface Props extends StateProps, DispatchProps {}
@@ -54,7 +56,7 @@ class InfoPane extends React.Component<Props, any> {
             <pre
               styleName="code draco"
               onClick={() => {
-                this.props.updateDracoEditor(this.props.asp);
+                this.props.updateDracoEditor(this.props.asp, this.props.dracoSolution);
               }}>
               {this.props.asp}
             </pre>
@@ -87,6 +89,7 @@ const mapStateToProps = (state: RootState): StateProps => {
     show,
     vlSpec,
     asp: infoPaneState.aspSpec,
+    dracoSolution: infoPaneState.dracoSpec,
   };
 
   if (facts) {
@@ -108,8 +111,9 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
     showInfoPane: (show: boolean) => {
       dispatch(showInfoPane(show));
     },
-    updateDracoEditor: (code: string) => {
+    updateDracoEditor: (code: string, sol: SolutionSet) => {
       dispatch(updateDracoEditorCode(code));
+      dispatch(setEditorDracoSolutionSet(sol));
       dispatch(switchEditor('draco'));
     },
   };

@@ -76,6 +76,8 @@ h4 {
 .chart-column {
   @extend %flex-row;
   @extend %in-flex-center-all;
+
+  padding-right: 16px;
 }
 
 .chart {
