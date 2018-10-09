@@ -9,7 +9,7 @@ import { TopLevelSpec } from 'vega-lite';
 import { TopLevelFacetedUnitSpec } from 'vega-lite/build/src/spec';
 import { RootAction } from '../../actions';
 import { runDraco } from '../../actions/draco-actions';
-import { setInfoPaneAsp, setInfoPaneDracoSolutionSet, showInfoPane } from '../../actions/editor-actions'; // tslint:disable-line
+import { setInfoPaneAsp, setInfoPaneDracoSolutionSet, setInfoPaneVegalite, showInfoPane } from '../../actions/editor-actions'; // tslint:disable-line
 import './vega-lite-chart.css';
 
 const cars = require('../../data/cars.json');
@@ -24,6 +24,7 @@ interface DispatchProps {
   runDraco: (code: string) => void;
   setInfoPaneAsp: (code: string) => void;
   showInfoPane: (show: boolean) => void;
+  setInfoPaneVegalite: (spec: TopLevelSpec) => void;
 }
 
 interface PassedProps {
@@ -45,6 +46,7 @@ class VegaLiteChart extends React.Component<Props, State> {
     super(props);
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
   }
 
   componentDidMount() {
@@ -115,9 +117,14 @@ class VegaLiteChart extends React.Component<Props, State> {
     const asp = vl2asp(this.props.vlSpec as TopLevelFacetedUnitSpec);
     const program = `${asp.join('.\n')}.\n`;
     console.debug(program);
+    this.props.setInfoPaneVegalite(this.props.vlSpec);
     this.props.setInfoPaneAsp(program);
     this.props.runDraco(program);
     this.props.showInfoPane(true);
+  }
+
+  handleMouseLeave() {
+    this.props.showInfoPane(false);
   }
 }
 
@@ -131,6 +138,9 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
     },
     showInfoPane: (show: boolean) => {
       dispatch(showInfoPane(show));
+    },
+    setInfoPaneVegalite: (spec: TopLevelSpec) => {
+      dispatch(setInfoPaneVegalite(spec));
     },
   };
 };

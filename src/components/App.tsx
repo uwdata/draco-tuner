@@ -6,6 +6,7 @@ import { RootAction } from '../actions';
 import { RootState } from '../reducers';
 import './app.css';
 import Editor from './editor/Editor';
+import InfoPane from './info-pane/InfoPane';
 import Navbar from './navbar/Navbar';
 
 interface StateProps {}
@@ -26,7 +27,9 @@ class App extends React.Component<AppProps, State> {
         <div styleName="tuner" id="tuner">
           <SplitPane split="vertical" defaultSize={400} minSize={400} maxSize={600}>
             <Editor />
-            <div></div>
+            <div>
+              <InfoPane />
+            </div>
           </SplitPane>
         </div>
       </div>

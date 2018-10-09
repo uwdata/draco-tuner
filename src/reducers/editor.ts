@@ -65,6 +65,8 @@ const editor = (state: EditorState = initialState, action: EditorAction) => {
       return setInfoPaneAsp(state, action.payload);
     case getType(editorActions.showInfoPane):
       return showInfoPane(state, action.payload);
+    case getType(editorActions.setInfoPaneVegalite):
+      return setInfoPaneVegalite(state, action.payload);
     default:
       return state;
   }
@@ -150,6 +152,18 @@ const showInfoPane = (state: EditorState, show: boolean): EditorState => {
   const infoPane = {
     ...state.infoPane,
     show,
+  };
+
+  return {
+    ...state,
+    infoPane,
+  };
+};
+
+const setInfoPaneVegalite = (state: EditorState, spec: TopLevelSpec) => {
+  const infoPane = {
+    ...state.infoPane,
+    vlSpec: spec,
   };
 
   return {

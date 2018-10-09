@@ -1,5 +1,6 @@
 import { SolutionSet } from 'draco-vis';
 import { createAction } from 'typesafe-actions';
+import { TopLevelSpec } from 'vega-lite';
 
 export const updateDracoEditorCode = createAction('editor/UPDATE_DRACO_CODE', (resolve) => {
   return (code: string) => resolve(code);
@@ -34,4 +35,8 @@ export const setInfoPaneAsp = createAction('editor/SET_INFO_PANE_ASP', (resolve)
 
 export const showInfoPane = createAction('editor/SHOW_INFO_PANE', (resolve) => {
   return (show: boolean) => resolve(show);
+});
+
+export const setInfoPaneVegalite = createAction('editor/SET_INFO_PANE_VEGALITE', (resolve) => {
+  return (spec: TopLevelSpec) => resolve(spec);
 });
