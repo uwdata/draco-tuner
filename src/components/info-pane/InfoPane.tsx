@@ -1,7 +1,8 @@
 import classnames from 'classnames';
-import { SolutionSet } from 'draco-vis';
+import { SolutionSet, Violation } from 'draco-vis';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import ReactTooltip from 'react-tooltip'; // tslint:disable-line
 import { Dispatch } from 'redux';
 import { RootAction } from '../../actions';
 import { setEditorDracoSolutionSet, showInfoPane, switchEditor, updateDracoEditorCode } from '../../actions/editor-actions'; // tslint:disable-line
@@ -13,7 +14,7 @@ interface StateProps {
   dracoSolution: SolutionSet;
   show: boolean;
   cost?: number;
-  violations?: any;
+  violations?: Violation[];
   vlSpec?: any;
   asp?: any;
 }
@@ -49,9 +50,7 @@ class InfoPane extends React.Component<Props, any> {
           <div styleName="column">
             <h4>{`Cost: ${this.props.cost}`}</h4>
             <h4>Violations</h4>
-            <pre styleName="code">
-              {this.props.violations}
-            </pre>
+            <ViolationTable violations={this.props.violations} />
             <h4>Draco Spec</h4>
             <pre
               styleName="code draco"
@@ -76,6 +75,63 @@ class InfoPane extends React.Component<Props, any> {
   }
 }
 
+interface ViolationTableProps {
+  violations: Violation[];
+}
+
+const VIOLATION_REGEX = /violation\((.+?)\)/;
+const NESTED_VIOLATION_REGEX = /(\w+)+/g;
+
+class ViolationTable extends React.Component<ViolationTableProps, any> {
+  render() {
+    if (!this.props.violations) {
+      return null;
+    }
+
+    return (
+      <table styleName="violation-table">
+        <tbody>
+        {
+          this.props.violations
+            .map((row: Violation, i: number) => {
+              const match = VIOLATION_REGEX.exec(row.witness);
+
+              console.log(row.witness);
+              if (!match) {
+                throw Error(`invalid violation ${JSON.stringify(row)}`);
+              }
+
+              console.log(match[1]);
+              const args = match[1].match(NESTED_VIOLATION_REGEX);
+              if (!args) {
+                throw Error(`invalid violation ${JSON.stringify(row)}`);
+              }
+
+              const constraint = row.constraint;
+              const description = row.description;
+
+              const tooltipContents = `<div>${constraint}<br/><br/>${description}</div>`;
+
+              return (
+                <tr key={i} styleName="table-row">
+                  <td>{row.weight}</td>
+                  <td
+                    data-tip={tooltipContents}
+                    data-html={true}
+                    data-place="right"
+                    data-effect="solid"
+                  >{`${args[0]}(${args[1]})`}</td>
+                  <ReactTooltip />
+                </tr>
+              );
+            })
+        }
+        </tbody>
+      </table>
+    );
+  }
+}
+
 const mapStateToProps = (state: RootState): StateProps => {
   const infoPaneState = state.editor.infoPane;
   const show = infoPaneState.show;
@@ -83,25 +139,16 @@ const mapStateToProps = (state: RootState): StateProps => {
 
   const cost = infoPaneState.dracoSpec ? infoPaneState.dracoSpec.models[0].costs[0] : null;
   const facts = infoPaneState.dracoSpec ? infoPaneState.dracoSpec.models[0].facts : null;
+  const violations = infoPaneState.dracoSpec ? infoPaneState.dracoSpec.models[0].violations : null;
 
   const props: StateProps = {
     cost,
     show,
     vlSpec,
+    violations,
     asp: infoPaneState.aspSpec,
     dracoSolution: infoPaneState.dracoSpec,
   };
-
-  if (facts) {
-    const violationFacts =
-      facts.filter((fact: string) => {
-        return fact.startsWith('violation');
-      });
-
-    const violations = `${violationFacts.join('.\n')}.\n`;
-
-    props.violations = violations;
-  }
 
   return props;
 };

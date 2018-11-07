@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import { vl2asp } from 'draco-vis';
+import { vl2asp } from 'draco-core';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -115,7 +115,7 @@ class VegaLiteChart extends React.Component<Props, State> {
 
   handleClick() {
     const asp = vl2asp(this.props.vlSpec as TopLevelFacetedUnitSpec);
-    const program = `${asp.join('.\n')}.\n`;
+    const program = `${asp.join('\n')}\n`;
     console.debug(program);
     this.props.setInfoPaneVegalite(this.props.vlSpec);
     this.props.setInfoPaneAsp(program);
