@@ -37,8 +37,6 @@ interface State {
 }
 
 class Editor extends React.Component<EditorProps, State> {
-  // worker: Worker;
-
   constructor(props: EditorProps) {
     super(props);
 

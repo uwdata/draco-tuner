@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { default as ReactMonacoEditor } from "react-monaco-editor"; // tslint:disable-line
+import { default as ReactMonacoEditor } from 'react-monaco-editor'; // tslint:disable-line
 import './base-editor.css';
 
 export interface BaseStateProps {

@@ -1,0 +1,6 @@
+@import 'base.scss';
+
+.tuner {
+  @extend %flex-column;
+  @extend %full-width-height;
+}

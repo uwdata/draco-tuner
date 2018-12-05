@@ -5,9 +5,11 @@ import { Dispatch } from 'redux';
 import { RootAction } from '../actions';
 import { RootState } from '../reducers';
 import './app.css';
+import CollectionPane from './collection-pane/CollectionPane';
 import Editor from './editor/Editor';
 import InfoPane from './info-pane/InfoPane';
 import Navbar from './navbar/Navbar';
+import Tuner from './tuner/Tuner';
 
 interface StateProps {}
 
@@ -27,8 +29,12 @@ class App extends React.Component<AppProps, State> {
         <div styleName="tuner" id="tuner">
           <SplitPane split="vertical" defaultSize={400} minSize={400} maxSize={600}>
             <Editor />
-            <div>
+            <div style={{ width: '100%', height: '100%' }}>
               <InfoPane />
+              <SplitPane split="vertical" primary="second" defaultSize={400}>
+                <CollectionPane />
+                <Tuner />
+              </SplitPane>
             </div>
           </SplitPane>
         </div>

@@ -34,6 +34,7 @@ class InfoPane extends React.Component<Props, any> {
   }
 
   render() {
+    console.log(this.props);
     const styles = classnames({
       'info-pane': true,
       show: this.props.show,
@@ -79,7 +80,7 @@ interface ViolationTableProps {
   violations: Violation[];
 }
 
-const VIOLATION_REGEX = /violation\((.+?)\)/;
+const VIOLATION_REGEX = /soft\((.+?)\)/;
 const NESTED_VIOLATION_REGEX = /(\w+)+/g;
 
 class ViolationTable extends React.Component<ViolationTableProps, any> {
@@ -96,18 +97,16 @@ class ViolationTable extends React.Component<ViolationTableProps, any> {
             .map((row: Violation, i: number) => {
               const match = VIOLATION_REGEX.exec(row.witness);
 
-              console.log(row.witness);
               if (!match) {
                 throw Error(`invalid violation ${JSON.stringify(row)}`);
               }
 
-              console.log(match[1]);
               const args = match[1].match(NESTED_VIOLATION_REGEX);
               if (!args) {
                 throw Error(`invalid violation ${JSON.stringify(row)}`);
               }
 
-              const constraint = row.constraint;
+              const constraint = row.asp;
               const description = row.description;
 
               const tooltipContents = `<div>${constraint}<br/><br/>${description}</div>`;
@@ -136,6 +135,8 @@ const mapStateToProps = (state: RootState): StateProps => {
   const infoPaneState = state.editor.infoPane;
   const show = infoPaneState.show;
   const vlSpec = infoPaneState.vlSpec;
+
+  console.log(state);
 
   const cost = infoPaneState.dracoSpec ? infoPaneState.dracoSpec.models[0].costs[0] : null;
   const facts = infoPaneState.dracoSpec ? infoPaneState.dracoSpec.models[0].facts : null;

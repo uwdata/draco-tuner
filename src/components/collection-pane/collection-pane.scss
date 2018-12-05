@@ -1,0 +1,6 @@
+@import 'base.scss';
+
+.collection-pane {
+  @extend %flex-column;
+  @extend %full-width-height;
+}
