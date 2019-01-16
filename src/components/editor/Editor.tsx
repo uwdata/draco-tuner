@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Option } from 'ts-option';
 import { TopLevelSpec } from 'vega-lite';
 import { RootState } from '../../reducers';
 import Recommendation from '../recommendation/Recommendation';
@@ -12,12 +13,12 @@ import VegaLiteEditor from './vega-lite-editor/VegaLiteEditor';
 
 interface DracoState {
   code: string;
-  solutionSet: any;
+  solutionSetOpt: Option<any>;
 }
 
 interface VegaLiteState {
   code: string;
-  spec: TopLevelSpec;
+  specOpt: Option<TopLevelSpec>;
 }
 
 interface StateProps {
@@ -66,7 +67,7 @@ class Editor extends React.Component<EditorProps, State> {
               style={{ height: this.state.displayHeight }}  // inject height
             >
               <Recommendation
-                solutionSet={this.props.draco.solutionSet}
+                solutionSetOpt={this.props.draco.solutionSetOpt}
                 width={this.state.displayWidth - 32}
                 height={this.state.displayHeight}
               />
@@ -83,7 +84,7 @@ class Editor extends React.Component<EditorProps, State> {
               style={{ height: this.state.displayHeight }}  // inject height
             >
               <VegaLiteChart
-                vlSpec={this.props.vegalite.spec}
+                vlSpec={this.props.vegalite.specOpt.orNull}
                 renderer="canvas"
                 actions={false}
               />
@@ -122,11 +123,11 @@ const mapStateToProps = (state: RootState): StateProps => {
   return {
     draco: {
       code: state.editor.code.draco,
-      solutionSet: state.editor.draco.solutionSet,
+      solutionSetOpt: state.editor.draco.solutionSetOpt,
     },
     vegalite: {
       code: state.editor.code.vegalite,
-      spec: state.editor.vegalite.spec,
+      specOpt: state.editor.vegalite.specOpt,
     },
     currentEditor: state.editor.type,
   };

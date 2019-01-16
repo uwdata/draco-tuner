@@ -1,4 +1,5 @@
 import Draco, { SolutionSet } from 'draco-vis'; // tslint:disable-line
+import { none, Option, some } from "ts-option";
 import { getType } from 'typesafe-actions';
 import { TopLevelSpec } from 'vega-lite';
 import { EditorAction, editorActions } from '../actions';
@@ -10,20 +11,20 @@ export type CodeState = {
 };
 
 export type VegaLiteState = {
-  readonly spec?: TopLevelSpec;
+  readonly specOpt: Option<TopLevelSpec>;
 };
 
 export type DracoState = {
-  readonly module?: Draco;
-  readonly prevProgram?: string;
-  readonly solutionSet?: SolutionSet;
+  readonly moduleOpt: Option<Draco>;
+  readonly prevProgramOpt: Option<string>;
+  readonly solutionSetOpt: Option<SolutionSet>;
 };
 
 export type InfoPaneState = {
   readonly show: boolean;
-  readonly vlSpec?: TopLevelSpec;
-  readonly aspSpec?: string;
-  readonly dracoSpec?: SolutionSet;
+  readonly vlSpecOpt: Option<TopLevelSpec>;
+  readonly aspSpecOpt: Option<string>;
+  readonly dracoSpecOpt: Option<SolutionSet>;
 };
 
 export type EditorState = {
@@ -40,10 +41,19 @@ const initialState: EditorState = {
     vegalite: VL_HISTOGRAM,
   },
   type: 'draco',
-  vegalite: {},
-  draco: {},
+  vegalite: {
+    specOpt: none,
+  },
+  draco: {
+    moduleOpt: none,
+    prevProgramOpt: none,
+    solutionSetOpt: none,
+  },
   infoPane: {
     show: false,
+    vlSpecOpt: none,
+    aspSpecOpt: none,
+    dracoSpecOpt: none
   },
 };
 
@@ -104,7 +114,7 @@ const switchEditor = (state: EditorState, payload: editorActions.EditorType): Ed
 const updateVegaLiteSpec = (state: EditorState): EditorState => {
   const vegalite = {
     ...state.vegalite,
-    spec: JSON.parse(state.code.vegalite),
+    specOpt: some(JSON.parse(state.code.vegalite)),
   };
   return {
     ...state,
@@ -115,7 +125,7 @@ const updateVegaLiteSpec = (state: EditorState): EditorState => {
 const setEditorDracoSolutionSet = (state: EditorState, solutionSet: SolutionSet): EditorState => {
   const draco = {
     ...state.draco,
-    solutionSet,
+    solutionSetOpt: some(solutionSet),
   };
 
   return {
@@ -127,7 +137,7 @@ const setEditorDracoSolutionSet = (state: EditorState, solutionSet: SolutionSet)
 const setInfoPaneDracoSolutionSet = (state: EditorState, solutionSet: SolutionSet): EditorState => {
   const infoPane = {
     ...state.infoPane,
-    dracoSpec: solutionSet,
+    dracoSpecOpt: some(solutionSet),
   };
 
   return {
@@ -139,7 +149,7 @@ const setInfoPaneDracoSolutionSet = (state: EditorState, solutionSet: SolutionSe
 const setInfoPaneAsp = (state: EditorState, asp: string): EditorState => {
   const infoPane = {
     ...state.infoPane,
-    aspSpec: asp,
+    aspSpecOpt: some(asp),
   };
 
   return {
@@ -163,7 +173,7 @@ const showInfoPane = (state: EditorState, show: boolean): EditorState => {
 const setInfoPaneVegalite = (state: EditorState, spec: TopLevelSpec) => {
   const infoPane = {
     ...state.infoPane,
-    vlSpec: spec,
+    vlSpecOpt: some(spec),
   };
 
   return {

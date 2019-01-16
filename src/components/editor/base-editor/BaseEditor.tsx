@@ -55,7 +55,6 @@ export default abstract class BaseEditor<P extends BaseEditorProps, S>
   }
 
   protected editorDidMount(editor: any) {
-    editor.focus();
     this.onEditorMount();
   }
 

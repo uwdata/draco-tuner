@@ -41,16 +41,20 @@ ctx.onmessage = ({ data: action }: DracoWorkerEvent) => {
   switch (action.type) {
     case getType(dracoActions.runDraco):
       if (!draco.initialized) {
-        draco.init().then(() => solveFunction(action.payload.code, action.payload.destActionType));
+        draco.init().then(() =>
+          solveFunction(action.payload.code, action.payload.destActionType, action.payload.opt));
       } else {
-        solveFunction(action.payload.code, action.payload.destActionType);
+        solveFunction(action.payload.code, action.payload.destActionType, action.payload.opt);
       }
+      break;
+    case getType(dracoActions.updateDracoAsp):
+      draco.updateAsp(action.payload.aspSet);
       break;
     default:
   }
 };
 
-const solveFunction = (program: string, destActionType: string) => {
+const solveFunction = (program: string, destActionType: string, opt?: any) => {
   const nonCommentLines = getNonCommentLines(program);
   const cleaned = nonCommentLines.join('\n');
   if (cleaned !== prevProgram) {
@@ -60,7 +64,7 @@ const solveFunction = (program: string, destActionType: string) => {
       const dataUrl = getDataUrl(nonCommentLines);
 
       if (dataInfo.url === dataUrl && dataInfo.data) {
-        getSolutionAndSend(cleaned, dracoOptions, destActionType);
+        getSolutionAndSend(cleaned, dracoOptions, destActionType, opt);
       } else {
         loader
           .load(dataUrl)
@@ -72,20 +76,32 @@ const solveFunction = (program: string, destActionType: string) => {
 
             draco.prepareData(data);
 
-            getSolutionAndSend(cleaned, dracoOptions, destActionType);
+            getSolutionAndSend(cleaned, dracoOptions, destActionType, opt);
           });
       }
     }
   }
 };
 
-const getSolutionAndSend = (program, options, destActionType) => {
+const getSolutionAndSend = (program, options, destActionType, opt?: any) => {
   const solution = draco.solve(program, options);
   console.debug(`worker posting to: ${destActionType}`);
-  ctx.postMessage({
-    type: destActionType,
-    payload: solution,
-  });
+
+  if (opt) {
+    ctx.postMessage({
+      type: destActionType,
+      payload: {
+        ...opt,
+        solution,
+      },
+    });
+  } else {
+    ctx.postMessage({
+      type: destActionType,
+      payload: solution,
+    });
+  }
+
 };
 
 const MATCH_NONCOMMENT = /^[^%\n]+/gm;

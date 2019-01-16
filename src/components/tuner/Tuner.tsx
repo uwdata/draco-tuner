@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootAction } from '../../actions';
 import { RootState } from '../../reducers';
+import AspEditor from './asp-editor/AspEditor';
 import './tuner.css';
 
 interface StateProps {
@@ -17,6 +18,7 @@ class Tuner extends React.Component<Props, any> {
   render() {
     return (
       <div styleName="tuner">
+        <AspEditor />
       </div>
     );
   }

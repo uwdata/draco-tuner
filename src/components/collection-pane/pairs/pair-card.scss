@@ -1,0 +1,102 @@
+@import 'base.scss';
+
+.pair {
+  @extend %flex-column;
+  width: 100%;
+  height: 200px;
+  transition: height 220ms $standard-ease;
+  overflow: hidden;
+
+  &.collapsed {
+    height: 16px;
+  }
+
+  &.showInfo {
+    height: 600px;
+  }
+}
+
+.splinter {
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+.split {
+  @extend %flex-row;
+  flex: 0 0 auto;
+  width: 100%;
+  height: calc(200px - 32px);
+  transition: height 220ms $standard-ease;
+
+  .left {
+    @extend %flex-column;
+    align-items: center;
+    width: calc(50% - 16px);
+    height: 100%;
+  }
+
+  .comp {
+    @extend %flex-column;
+    @extend %in-flex-center-all;
+    width: 32px;
+    height: 100%;
+    font-size: 24px;
+  }
+  
+  .right {
+    @extend %flex-column;
+    align-items: center;
+    width: calc(50% - 16px);
+    height: 100%
+  }
+
+  .cost {
+    line-height: 36px;
+    vertical-align: center;
+  }
+  
+  .chart {
+    height: calc(100% - 36px);
+  }
+}
+
+.pass {
+  background-color: rgb(215, 255, 215);
+}
+
+.fail {
+  background-color: rgb(255, 215, 215);
+}
+
+.expand {
+  width: 100%;
+  height: 16px;
+  cursor: pointer;
+}
+
+.info {
+  @extend %flex-row;
+  height: 16px;
+
+  &.expanded {
+    height: 400px;
+  }
+
+  .left {
+    @extend %flex-column;
+    align-items: center;
+    width: 50%;
+    height: 100%;
+  }
+  
+  .right {
+    @extend %flex-column;
+    align-items: center;
+    width: 50%;
+    height: 100%
+  }
+
+  .code {
+    color: $medium-grey;
+  }
+}

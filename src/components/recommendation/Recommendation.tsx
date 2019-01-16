@@ -1,11 +1,12 @@
 import classnames from 'classnames';
 import * as React from 'react';
+import { Option } from 'ts-option';
 import { TopLevelSpec } from 'vega-lite';
 import VegaLiteChart from '../vega-lite-chart/VegaLiteChart'; // tslint:disable-line
 import './recommendation.css';
 
 interface PassedProps {
-  solutionSet: any;
+  solutionSetOpt: Option<any>;
   width: number;
   height: number;
 }
@@ -64,14 +65,16 @@ class Recommendation extends React.Component<RecommendationProps, State> {
             style={{ width: this.props.height, height: this.props.height }}
           >
             {
-              this.props.solutionSet ?
-                <VegaLiteChart
-                  vlSpec={this.props.solutionSet.specs[0]}
-                  renderer="canvas"
-                  actions={false}
-                />
-              :
-                null
+              this.props.solutionSetOpt
+                .map(solutionSet => {
+                  return <VegaLiteChart
+                    vlSpec={solutionSet.specs[0]}
+                    renderer="canvas"
+                    actions={false}
+                  />
+                }
+                )
+                .orNull
             }
           </div>
           <div
@@ -79,28 +82,29 @@ class Recommendation extends React.Component<RecommendationProps, State> {
             style={{ width: this.props.width - this.props.height, height: this.props.height }}
           >
             {
-              this.props.solutionSet ?
-                this.props.solutionSet.specs.slice(1)
-                  .map((vlSpec: TopLevelSpec, i: number) => {
-                    return (
-                      <div
-                        styleName="vis"
-                        key={i}
-                        style={{
-                          width: this.props.width - this.props.height - 32,
-                          height: this.props.width - this.props.height - 32,
-                        }}
-                      >
-                        <VegaLiteChart
-                          vlSpec={vlSpec}
-                          renderer="canvas"
-                          actions={false}
-                        />
-                      </div>
-                    );
-                  })
-              :
-                null
+              this.props.solutionSetOpt
+                .map(_ =>
+                  _.specs.slice(1)
+                    .map((vlSpec: TopLevelSpec, i: number) => {
+                      return (
+                        <div
+                          styleName="vis"
+                          key={i}
+                          style={{
+                            width: this.props.width - this.props.height - 32,
+                            height: this.props.width - this.props.height - 32,
+                          }}
+                        >
+                          <VegaLiteChart
+                            vlSpec={vlSpec}
+                            renderer="canvas"
+                            actions={false}
+                          />
+                        </div>
+                      );
+                    })
+                )
+                .orNull
             }
           </div>
         </div>

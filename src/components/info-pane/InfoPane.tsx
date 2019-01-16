@@ -4,6 +4,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import ReactTooltip from 'react-tooltip'; // tslint:disable-line
 import { Dispatch } from 'redux';
+import { Option } from 'ts-option';
 import { RootAction } from '../../actions';
 import { setEditorDracoSolutionSet, showInfoPane, switchEditor, updateDracoEditorCode } from '../../actions/editor-actions'; // tslint:disable-line
 import { RootState } from '../../reducers';
@@ -11,12 +12,12 @@ import VegaLiteChart from '../vega-lite-chart/VegaLiteChart';
 import './info-pane.css';
 
 interface StateProps {
-  dracoSolution: SolutionSet;
+  dracoSolutionOpt: Option<SolutionSet>;
   show: boolean;
-  cost?: number;
-  violations?: Violation[];
-  vlSpec?: any;
-  asp?: any;
+  costOpt: Option<number>;
+  violationsOpt: Option<Violation[]>;
+  vlSpecOpt: Option<any>;
+  aspOpt: Option<any>;
 }
 
 interface DispatchProps {
@@ -34,7 +35,6 @@ class InfoPane extends React.Component<Props, any> {
   }
 
   render() {
-    console.log(this.props);
     const styles = classnames({
       'info-pane': true,
       show: this.props.show,
@@ -49,21 +49,21 @@ class InfoPane extends React.Component<Props, any> {
         </div>
         <div styleName="content">
           <div styleName="column">
-            <h4>{`Cost: ${this.props.cost}`}</h4>
+            <h4>{`Cost: ${this.props.costOpt.orNull}`}</h4>
             <h4>Violations</h4>
-            <ViolationTable violations={this.props.violations} />
+            <ViolationTable violations={this.props.violationsOpt} />
             <h4>Draco Spec</h4>
             <pre
               styleName="code draco"
               onClick={() => {
-                this.props.updateDracoEditor(this.props.asp, this.props.dracoSolution);
+                this.props.updateDracoEditor(this.props.aspOpt.orNull, this.props.dracoSolutionOpt.orNull);
               }}>
-              {this.props.asp}
+              {this.props.aspOpt.orNull}
             </pre>
           </div>
           <div styleName="chart-column">
               <div styleName="chart">
-                <VegaLiteChart vlSpec={this.props.vlSpec} renderer="svg" actions={false}/>
+                <VegaLiteChart vlSpec={this.props.vlSpecOpt.orNull} renderer="svg" actions={false}/>
               </div>
           </div>
         </div>
@@ -77,15 +77,15 @@ class InfoPane extends React.Component<Props, any> {
 }
 
 interface ViolationTableProps {
-  violations: Violation[];
+  violations: Option<Violation[]>;
 }
 
 const VIOLATION_REGEX = /soft\((.+?)\)/;
 const NESTED_VIOLATION_REGEX = /(\w+)+/g;
 
-class ViolationTable extends React.Component<ViolationTableProps, any> {
+export class ViolationTable extends React.Component<ViolationTableProps, any> {
   render() {
-    if (!this.props.violations) {
+    if (this.props.violations.isEmpty) {
       return null;
     }
 
@@ -93,7 +93,7 @@ class ViolationTable extends React.Component<ViolationTableProps, any> {
       <table styleName="violation-table">
         <tbody>
         {
-          this.props.violations
+          this.props.violations.get
             .map((row: Violation, i: number) => {
               const match = VIOLATION_REGEX.exec(row.witness);
 
@@ -134,21 +134,19 @@ class ViolationTable extends React.Component<ViolationTableProps, any> {
 const mapStateToProps = (state: RootState): StateProps => {
   const infoPaneState = state.editor.infoPane;
   const show = infoPaneState.show;
-  const vlSpec = infoPaneState.vlSpec;
+  const vlSpecOpt = infoPaneState.vlSpecOpt;
 
-  console.log(state);
-
-  const cost = infoPaneState.dracoSpec ? infoPaneState.dracoSpec.models[0].costs[0] : null;
-  const facts = infoPaneState.dracoSpec ? infoPaneState.dracoSpec.models[0].facts : null;
-  const violations = infoPaneState.dracoSpec ? infoPaneState.dracoSpec.models[0].violations : null;
+  const costOpt = infoPaneState.dracoSpecOpt.map(_ => _.models[0].costs[0]);
+  const factsOpt = infoPaneState.dracoSpecOpt.map(_ => _.models[0].facts);
+  const violationsOpt = infoPaneState.dracoSpecOpt.map(_ => _.models[0].violations);
 
   const props: StateProps = {
-    cost,
+    costOpt,
     show,
-    vlSpec,
-    violations,
-    asp: infoPaneState.aspSpec,
-    dracoSolution: infoPaneState.dracoSpec,
+    vlSpecOpt,
+    violationsOpt,
+    aspOpt: infoPaneState.aspSpecOpt,
+    dracoSolutionOpt: infoPaneState.dracoSpecOpt,
   };
 
   return props;
