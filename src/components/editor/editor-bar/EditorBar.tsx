@@ -41,6 +41,14 @@ const EditorBar = (props: EditorBarProps) => {  // tslint:disable-line
       >
         Vega-Lite
       </button>
+      <button
+        styleName={ classnames({ option: true, selected: props.editorType === 'pairs' })}
+        onClick={() => {
+          props.onEditorSelect('pairs');
+        }}
+      >
+        Pairs
+      </button>
     </div>
   );
 };

@@ -9,6 +9,7 @@ import VegaLiteChart from '../vega-lite-chart/VegaLiteChart';
 import DracoEditor from './draco-editor/DracoEditor';
 import EditorBar from './editor-bar/EditorBar';
 import './editor.css';
+import PairsEditor from './pairs-editor/PairsEditor';
 import VegaLiteEditor from './vega-lite-editor/VegaLiteEditor';
 
 interface DracoState {
@@ -52,6 +53,7 @@ class Editor extends React.Component<EditorProps, State> {
     const paneStyles = classnames({
       panes: true,
       'show-second': this.props.currentEditor === 'vega-lite',
+      'show-third': this.props.currentEditor === 'pairs',
     });
 
     return (
@@ -93,6 +95,18 @@ class Editor extends React.Component<EditorProps, State> {
               styleName="text-editor"
             >
               <VegaLiteEditor />
+            </div>
+          </div>
+          <div styleName="container third">
+            <div
+              styleName="display"
+              style={{ height: this.state.displayHeight }}  // inject height
+            >
+            </div>
+            <div
+              styleName="text-editor"
+            >
+              <PairsEditor />
             </div>
           </div>
         </div>

@@ -14,7 +14,11 @@ export const updateVegaLiteSpec = createAction('editor/UPDATE_VEGALITE_SPEC', (r
   return () => resolve();
 });
 
-export type EditorType = 'draco' | 'vega-lite';
+export const updatePairsEditorCode = createAction('editor/UPDATE_PAIRS_CODE', (resolve) => {
+  return (code: string) => resolve(code);
+});
+
+export type EditorType = 'draco' | 'vega-lite' | 'pairs';
 export const switchEditor = createAction('editor/SWITCH_EDITOR', (resolve) => {
   return (editorType: EditorType) => resolve(editorType);
 });

@@ -8,6 +8,7 @@ import { SCATTER, VL_HISTOGRAM } from '../examples';
 export type CodeState = {
   readonly draco: string;
   readonly vegalite: string;
+  readonly pairs: string;
 };
 
 export type VegaLiteState = {
@@ -39,6 +40,7 @@ const initialState: EditorState = {
   code: {
     draco: SCATTER,
     vegalite: VL_HISTOGRAM,
+    pairs: '',
   },
   type: 'draco',
   vegalite: {
@@ -63,6 +65,8 @@ const editor = (state: EditorState = initialState, action: EditorAction) => {
       return updateDracoEditorCode(state, action.payload);
     case getType(editorActions.updateVegaLiteEditorCode):
       return updateVegaLiteEditorCode(state, action.payload);
+    case getType(editorActions.updatePairsEditorCode):
+      return updatePairsEditorCode(state, action.payload);
     case getType(editorActions.switchEditor):
       return switchEditor(state, action.payload);
     case getType(editorActions.updateVegaLiteSpec):
@@ -103,6 +107,17 @@ const updateVegaLiteEditorCode = (state: EditorState, payload: string): EditorSt
     code,
   };
 };
+
+const updatePairsEditorCode = (state: EditorState, payload: string): EditorState => {
+  const code = {
+    ...state.code,
+    pairs: payload,
+  };
+  return {
+    ...state,
+    code,
+  };
+}
 
 const switchEditor = (state: EditorState, payload: editorActions.EditorType): EditorState => {
   return {

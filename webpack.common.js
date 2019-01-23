@@ -79,7 +79,7 @@ module.exports = {
       favicon: "src/favicon.ico"
     }),
     new MonacoWebpackPlugin({
-      languages: ['json']
+      languages: ['json', 'typescript']
     }),
     new CopyWebpackPlugin([
       { from: "./node_modules/wasm-clingo/clingo.wasm", to: "static/clingo.wasm" }

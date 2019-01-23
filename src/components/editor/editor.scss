@@ -27,14 +27,20 @@
     visibility: hidden;
   }
 
-  &.show-second {
-    .first {
-      visibility: hidden;
-    }
+  .third {
+    visibility: hidden;
+  }
 
-    .second {
-      visibility: visible;
-    }
+  &.show-second {
+    .first { visibility: hidden; }
+    .second { visibility: visible; }
+    .third { visibility: hidden; }
+  }
+
+  &.show-third {
+    .first { visibility: hidden; }
+    .second { visibility: hidden; }
+    .third { visibility: visible; }
   }
 }
 
