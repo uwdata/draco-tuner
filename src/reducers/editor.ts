@@ -3,7 +3,7 @@ import { none, Option, some } from "ts-option";
 import { getType } from 'typesafe-actions';
 import { TopLevelSpec } from 'vega-lite';
 import { EditorAction, editorActions } from '../actions';
-import { SCATTER, VL_HISTOGRAM } from '../examples';
+import { PAIR, SCATTER, VL_HISTOGRAM } from '../examples';
 
 export type CodeState = {
   readonly draco: string;
@@ -28,11 +28,16 @@ export type InfoPaneState = {
   readonly dracoSpecOpt: Option<SolutionSet>;
 };
 
+export type PairsState = {
+  readonly pairs: any[];
+}
+
 export type EditorState = {
   readonly code: CodeState;
   readonly type: editorActions.EditorType;
   readonly vegalite: VegaLiteState;
   readonly draco: DracoState;
+  readonly pairs: PairsState;
   readonly infoPane: InfoPaneState;
 };
 
@@ -40,7 +45,7 @@ const initialState: EditorState = {
   code: {
     draco: SCATTER,
     vegalite: VL_HISTOGRAM,
-    pairs: '',
+    pairs: PAIR,
   },
   type: 'draco',
   vegalite: {
@@ -56,6 +61,9 @@ const initialState: EditorState = {
     vlSpecOpt: none,
     aspSpecOpt: none,
     dracoSpecOpt: none
+  },
+  pairs: {
+    pairs: []
   },
 };
 
@@ -81,6 +89,8 @@ const editor = (state: EditorState = initialState, action: EditorAction) => {
       return showInfoPane(state, action.payload);
     case getType(editorActions.setInfoPaneVegalite):
       return setInfoPaneVegalite(state, action.payload);
+    case getType(editorActions.updateEditorPairs):
+      return updateEditorPairs(state, action.payload);
     default:
       return state;
   }
@@ -194,6 +204,17 @@ const setInfoPaneVegalite = (state: EditorState, spec: TopLevelSpec) => {
   return {
     ...state,
     infoPane,
+  };
+};
+
+const updateEditorPairs = (state: EditorState, pairs: any) => {
+  const pairsState = {
+    pairs,
+  };
+
+  return {
+    ...state,
+    pairs: pairsState,
   };
 };
 

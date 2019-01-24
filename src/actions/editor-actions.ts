@@ -44,3 +44,7 @@ export const showInfoPane = createAction('editor/SHOW_INFO_PANE', (resolve) => {
 export const setInfoPaneVegalite = createAction('editor/SET_INFO_PANE_VEGALITE', (resolve) => {
   return (spec: TopLevelSpec) => resolve(spec);
 });
+
+export const updateEditorPairs = createAction('editor/UPDATE_EDITOR_PAIRS', (resolve) => {
+  return (pairs: any[]) => resolve(pairs);
+});

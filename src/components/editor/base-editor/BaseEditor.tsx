@@ -7,7 +7,7 @@ export interface BaseStateProps {
 }
 
 export interface BaseDispatchProps {
-  onEditorCodeChange: (code: string) => void;
+  onEditorCodeChange: (code: string, opt?: any) => void;
 }
 
 export interface BaseEditorProps extends BaseStateProps, BaseDispatchProps {}

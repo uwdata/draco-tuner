@@ -22,3 +22,42 @@ export const VL_HISTOGRAM: string = `{
     }
   }
 }`;
+
+export const PAIR: string = `transform('swap', 'encoding.x', 'encoding.y');
+
+modification('encoding.x.zero', true);
+
+basespec({
+    mark: 'point',
+    encoding: { x: q1, y: q2 }
+});
+basespec({
+    mark: 'bar',
+    encoding: {
+        x: { ...q1, bin: true }, y: q2
+    }
+});
+basespec({
+    mark: 'bar',
+    encoding: {
+        x: o1, y: { q1, aggregate: 'mean' }
+    }
+});
+basespec({
+    mark: 'bar',
+    encoding: {
+        x: n1, y: { q1, aggregate: 'mean' }
+    }
+});
+basespec({
+    mark: 'point',
+    encoding: {
+        x: o1, y: { q1, bin: true }
+    }
+});
+basespec({
+    mark: 'point',
+    encoding: {
+        x: n1, y: o1
+    }
+});`

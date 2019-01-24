@@ -42,9 +42,9 @@ ctx.onmessage = ({ data: action }: DracoWorkerEvent) => {
     case getType(dracoActions.runDraco):
       if (!draco.initialized) {
         draco.init().then(() =>
-          solveFunction(action.payload.code, action.payload.destActionType, action.payload.opt));
+          solveFunction(action.payload.code, action.payload.destActionType, draco, action.payload.opt));
       } else {
-        solveFunction(action.payload.code, action.payload.destActionType, action.payload.opt);
+        solveFunction(action.payload.code, action.payload.destActionType, draco, action.payload.opt);
       }
       break;
     case getType(dracoActions.updateDracoAsp):
@@ -54,7 +54,7 @@ ctx.onmessage = ({ data: action }: DracoWorkerEvent) => {
   }
 };
 
-const solveFunction = (program: string, destActionType: string, opt?: any) => {
+const solveFunction = (program: string, destActionType: string, draco: Draco, opt?: any, ) => {
   const nonCommentLines = getNonCommentLines(program);
   const cleaned = nonCommentLines.join('\n');
   if (cleaned !== prevProgram) {
@@ -64,7 +64,7 @@ const solveFunction = (program: string, destActionType: string, opt?: any) => {
       const dataUrl = getDataUrl(nonCommentLines);
 
       if (dataInfo.url === dataUrl && dataInfo.data) {
-        getSolutionAndSend(cleaned, dracoOptions, destActionType, opt);
+        getSolutionAndSend(cleaned, dracoOptions, destActionType, draco, opt);
       } else {
         loader
           .load(dataUrl)
@@ -76,14 +76,14 @@ const solveFunction = (program: string, destActionType: string, opt?: any) => {
 
             draco.prepareData(data);
 
-            getSolutionAndSend(cleaned, dracoOptions, destActionType, opt);
+            getSolutionAndSend(cleaned, dracoOptions, destActionType, draco, opt);
           });
       }
     }
   }
 };
 
-const getSolutionAndSend = (program, options, destActionType, opt?: any) => {
+const getSolutionAndSend = (program, options, destActionType, draco: Draco, opt?: any) => {
   const solution = draco.solve(program, options);
   console.debug(`worker posting to: ${destActionType}`);
 
@@ -92,6 +92,7 @@ const getSolutionAndSend = (program, options, destActionType, opt?: any) => {
       type: destActionType,
       payload: {
         ...opt,
+        draco,
         solution,
       },
     });

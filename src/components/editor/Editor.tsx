@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Option } from 'ts-option';
 import { TopLevelSpec } from 'vega-lite';
 import { RootState } from '../../reducers';
+import { PairsState } from '../../reducers/editor';
 import Recommendation from '../recommendation/Recommendation';
 import VegaLiteChart from '../vega-lite-chart/VegaLiteChart';
 import DracoEditor from './draco-editor/DracoEditor';
@@ -25,6 +26,7 @@ interface VegaLiteState {
 interface StateProps {
   draco: DracoState;
   vegalite: VegaLiteState;
+  pairs: PairsState;
   currentEditor: string;
 }
 
@@ -102,6 +104,20 @@ class Editor extends React.Component<EditorProps, State> {
               styleName="display"
               style={{ height: this.state.displayHeight }}  // inject height
             >
+              <div styleName="pairs">
+                {this.props.pairs.pairs.map((pair: any) => {
+                  return (
+                    <div styleName="pair">
+                      <div styleName="left">
+                        <VegaLiteChart vlSpec={pair[0]} renderer="canvas" actions={false} />
+                      </div>
+                      <div styleName="right">
+                        <VegaLiteChart vlSpec={pair[1]} renderer="canvas" actions={false} />
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
             <div
               styleName="text-editor"
@@ -142,6 +158,9 @@ const mapStateToProps = (state: RootState): StateProps => {
     vegalite: {
       code: state.editor.code.vegalite,
       specOpt: state.editor.vegalite.specOpt,
+    },
+    pairs: {
+      pairs: state.editor.pairs.pairs,
     },
     currentEditor: state.editor.type,
   };

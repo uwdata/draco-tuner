@@ -12,6 +12,7 @@
   margin: 16px;
   border-radius: 16px;
   background-color: #fff;
+  overflow: auto;
 }
 
 .panes {
@@ -57,4 +58,19 @@
   @extend %flex-column;
   width: 100%;
   flex-grow: 1;
+}
+
+.pair {
+  @extend %flex-row;
+  height: 100px;
+
+  .left {
+    width: 50%;
+    height: 100%;
+  }
+
+  .right {
+    width: 50%;
+    height: 100%;
+  }
 }
