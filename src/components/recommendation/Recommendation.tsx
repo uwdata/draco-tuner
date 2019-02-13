@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import { SolutionSet } from 'draco-vis';
 import * as React from 'react';
 import { Option } from 'ts-option';
 import { TopLevelSpec } from 'vega-lite';
@@ -6,7 +7,7 @@ import VegaLiteChart from '../vega-lite-chart/VegaLiteChart'; // tslint:disable-
 import './recommendation.css';
 
 interface PassedProps {
-  solutionSetOpt: Option<any>;
+  solutionSetOpt: Option<SolutionSet>;
   width: number;
   height: number;
 }
@@ -47,6 +48,7 @@ class Recommendation extends React.Component<RecommendationProps, State> {
       dragging: this.state.dragging,
     });
 
+    console.log(this.props.solutionSetOpt);
     return (
       // <Draggable
       //   onStart={this.handleDragStart}

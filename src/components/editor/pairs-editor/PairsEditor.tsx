@@ -105,7 +105,6 @@ function generatePairs(opt: PairOpt) {
     result.push(pair);
   }
 
-  console.log(result);
   return result;
 }
 

@@ -1,10 +1,12 @@
 
-import { SolutionSet } from 'draco-vis';
+import { ConstraintSet, SolutionSet } from 'draco-vis';
+import { none, Option, option, some } from 'ts-option';
 import { getType } from 'typesafe-actions';
 import { TopLevelFacetedUnitSpec } from 'vega-lite/build/src/spec';
 import { CollectionAction, collectionActions } from '../actions';
 
 export interface CollectionState {
+  dracoConstraintSetOpt: Option<ConstraintSet>;
   pairs: Pair[];
 }
 
@@ -16,22 +18,29 @@ export interface PairItemId {
 export interface PairItem {
   id: PairItemId;
   vlSpec: TopLevelFacetedUnitSpec;
-  solution?: SolutionSet;
+  solutionOpt: Option<SolutionSet>;
 }
 
 export interface Pair {
   id: number;
   title: string;
-  left?: PairItem;
-  right?: PairItem;
+  left: PairItem;
+  right: PairItem;
   comp: '<' | '=';
 }
 
 const collection = (state: CollectionState = initialState, action: CollectionAction) => {
   switch (action.type) {
     case getType(collectionActions.updatePairItem):
-      console.log(action.payload);
       return updatePairItem(state, action.payload);
+    case getType(collectionActions.setDracoConstraintSet):
+      return setDracoConstraintSet(state, action.payload);
+    case getType(collectionActions.saveCollection):
+      return saveCollection(state);
+    case getType(collectionActions.loadCollection):
+      return loadCollection(state);
+    case getType(collectionActions.addPairs):
+      return addPairs(state, action.payload);
     default:
       return state;
   }
@@ -39,7 +48,69 @@ const collection = (state: CollectionState = initialState, action: CollectionAct
 
 export default collection;
 
-const updatePairItem = (state: CollectionState, pairItem: PairItem) => {
+const setDracoConstraintSet = (state: CollectionState, constraintSet: ConstraintSet) => {
+  return {
+    ...state,
+    dracoConstraintSetOpt: some(constraintSet),
+  };
+}
+
+const saveCollection = (state: CollectionState) => {
+  const storage = window.localStorage;
+  const stringifiedState = JSON.stringify(state, (key, value) => {
+    if (key === 'solutionOpt') {
+      return value.orNull;
+    } else if (key === 'dracoConstraintSetOpt') {
+      return null;
+    }
+    return value;
+  });
+  storage.setItem('draco_tuner/collection', stringifiedState);
+  return state;
+}
+
+const loadCollection = (state: CollectionState) => {
+  const storage = window.localStorage;
+  const savedState = storage.getItem('draco_tuner/collection');
+  const parsedState = JSON.parse(savedState, (key, value) => {
+    if (key === 'solutionOpt') {
+      return option(value);
+    } else if (key === 'dracoConstraintSetOpt') {
+      return option(value);
+    }
+    return value;
+  });
+  return parsedState;
+}
+
+const addPairs = (state: CollectionState, pairs: Pair[]) => {
+  const nextId = state.pairs.length;
+
+  pairs.forEach((pair, i) => {
+    pair.id = i + nextId;
+    pair.left.id.pairId = i + nextId;
+    pair.right.id.pairId = i + nextId;
+  });
+
+  const newPairs = state.pairs.concat(pairs);
+  return {
+    ...state,
+    pairs: newPairs
+  }
+}
+
+export interface PairItemFromWorker extends PairItem {
+  solution: SolutionSet;
+}
+
+const updatePairItem = (state: CollectionState, pairItem: PairItemFromWorker) => {
+  pairItem = {
+    ...pairItem,
+    solutionOpt: some(pairItem.solution),
+  };
+
+  delete pairItem.solution;
+
   const pairs =
     state.pairs
       .map((pair: Pair) => {
@@ -77,10 +148,10 @@ const Q_Q: Pair[] = [
     id: 0,
     title: 'hello',
     comp: '=',
-    left: {
+    left: { solutionOpt: none,
       id: {
         pairId: 0,
-        position: 'left',
+        position: 'left' as 'left',
       },
       vlSpec: {
         data: { url : 'cars.json' },
@@ -95,12 +166,12 @@ const Q_Q: Pair[] = [
             type: 'quantitative',
           },
         },
-      },
+      } as TopLevelFacetedUnitSpec,
     },
-    right: {
+    right: { solutionOpt: none,
       id: {
         pairId: 0,
-        position: 'right',
+        position: 'right' as 'right',
       },
       vlSpec: {
         data: { url : 'cars.json' },
@@ -115,7 +186,7 @@ const Q_Q: Pair[] = [
             type: 'quantitative',
           },
         },
-      },
+      } as TopLevelFacetedUnitSpec,
     },
   },
 ];
@@ -125,10 +196,10 @@ const Q_O: Pair[] = [
     id: 1,
     title: 'hello',
     comp: '<',
-    left: {
+    left: { solutionOpt: none,
       id: {
         pairId: 1,
-        position: 'left',
+        position: 'left' as 'left',
       },
       vlSpec: {
         data: { url : 'cars.json' },
@@ -144,12 +215,12 @@ const Q_O: Pair[] = [
             type: 'quantitative',
           },
         },
-      },
+      } as TopLevelFacetedUnitSpec,
     },
-    right: {
+    right: { solutionOpt: none,
       id: {
         pairId: 1,
-        position: 'right',
+        position: 'right' as 'right',
       },
       vlSpec: {
         data: { url : 'cars.json' },
@@ -165,17 +236,17 @@ const Q_O: Pair[] = [
             type: 'quantitative',
           },
         },
-      },
+      } as TopLevelFacetedUnitSpec,
     },
   },
   {
     id: 2,
     title: 'hello',
     comp: '<',
-    left: {
+    left: { solutionOpt: none,
       id: {
         pairId: 2,
-        position: 'left',
+        position: 'left' as 'left',
       },
       vlSpec: {
         data: { url : 'cars.json' },
@@ -191,12 +262,12 @@ const Q_O: Pair[] = [
             aggregate: 'mean',
           },
         },
-      },
+      } as TopLevelFacetedUnitSpec,
     },
-    right: {
+    right: { solutionOpt: none,
       id: {
         pairId: 2,
-        position: 'right',
+        position: 'right' as 'right',
       },
       vlSpec: {
         data: { url : 'cars.json' },
@@ -212,7 +283,7 @@ const Q_O: Pair[] = [
             aggregate: 'mean',
           },
         },
-      },
+      } as TopLevelFacetedUnitSpec,
     },
   },
 ];
@@ -222,10 +293,10 @@ const Q_N: Pair[] = [
     id: 0,
     title: 'hello',
     comp: '<',
-    left: {
+    left: { solutionOpt: none,
       id: {
         pairId: 0,
-        position: 'left',
+        position: 'left' as 'left',
       },
       vlSpec: {
         data: { url : 'cars.json' },
@@ -241,12 +312,12 @@ const Q_N: Pair[] = [
             aggregate: 'mean',
           },
         },
-      },
+      } as TopLevelFacetedUnitSpec,
     },
-    right: {
+    right: { solutionOpt: none,
       id: {
         pairId: 0,
-        position: 'right',
+        position: 'right' as 'right',
       },
       vlSpec: {
         data: { url : 'cars.json' },
@@ -262,7 +333,7 @@ const Q_N: Pair[] = [
             aggregate: 'mean',
           },
         },
-      },
+      } as TopLevelFacetedUnitSpec,
     },
   },
 ];
@@ -272,10 +343,10 @@ const O_O: Pair[] = [
     id: 0,
     title: 'hello',
     comp: '<',
-    left: {
+    left: { solutionOpt: none,
       id: {
         pairId: 0,
-        position: 'left',
+        position: 'left' as 'left',
       },
       vlSpec: {
         data: { url : 'cars.json' },
@@ -295,12 +366,12 @@ const O_O: Pair[] = [
             aggregate: 'count',
           },
         },
-      },
+      } as TopLevelFacetedUnitSpec,
     },
-    right: {
+    right: { solutionOpt: none,
       id: {
         pairId: 0,
-        position: 'right',
+        position: 'right' as 'right',
       },
       vlSpec: {
         data: { url : 'cars.json' },
@@ -320,7 +391,7 @@ const O_O: Pair[] = [
             aggregate: 'count',
           },
         },
-      },
+      } as TopLevelFacetedUnitSpec,
     },
   },
 ];
@@ -330,10 +401,10 @@ const O_N: Pair[] = [
     id: 0,
     title: 'hello',
     comp: '=',
-    left: {
+    left: { solutionOpt: none,
       id: {
         pairId: 0,
-        position: 'left',
+        position: 'left' as 'left',
       },
       vlSpec: {
         data: { url : 'cars.json' },
@@ -352,12 +423,12 @@ const O_N: Pair[] = [
             aggregate: 'count',
           },
         },
-      },
+      } as TopLevelFacetedUnitSpec,
     },
-    right: {
+    right: { solutionOpt: none,
       id: {
         pairId: 0,
-        position: 'right',
+        position: 'right' as 'right',
       },
       vlSpec: {
         data: { url : 'cars.json' },
@@ -376,7 +447,7 @@ const O_N: Pair[] = [
             aggregate: 'count',
           },
         },
-      },
+      } as TopLevelFacetedUnitSpec,
     },
   },
 ];
@@ -386,10 +457,10 @@ const N_N: Pair[] = [
     id: 0,
     title: 'hello',
     comp: '<',
-    left: {
+    left: { solutionOpt: none,
       id: {
         pairId: 0,
-        position: 'left',
+        position: 'left' as 'left',
       },
       vlSpec: {
         data: { url : 'cars.json' },
@@ -404,12 +475,12 @@ const N_N: Pair[] = [
             type: 'nominal',
           },
         },
-      },
+      } as TopLevelFacetedUnitSpec,
     },
-    right: {
+    right: { solutionOpt: none,
       id: {
         pairId: 0,
-        position: 'right',
+        position: 'right' as 'right',
       },
       vlSpec: {
         data: { url : 'cars.json' },
@@ -424,12 +495,13 @@ const N_N: Pair[] = [
             type: 'nominal',
           },
         },
-      },
+      } as TopLevelFacetedUnitSpec,
     },
   },
 ];
 
 const X_Y: CollectionState = {
+  dracoConstraintSetOpt: none,
   pairs: [
     ...Q_Q,
     ...Q_O,

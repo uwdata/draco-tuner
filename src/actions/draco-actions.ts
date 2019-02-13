@@ -13,3 +13,9 @@ export const updateDracoSolutionSet = createAction('draco/UPDATE_DRACO_SOLUTION_
 export const updateDracoAsp = createAction('draco/UPDATE_DRACO_ASP', (resolve) => {
   return (aspSet: any) => resolve({ aspSet }, { WebWorker: true });
 });
+
+export const getConstraintSet = createAction('draco/GET_CONSTRAINT_SET', (resolve) => {
+  return (destActionType: string) => {
+    return resolve({ destActionType }, { WebWorker: true });
+  }
+});

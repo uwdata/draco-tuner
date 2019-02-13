@@ -41,8 +41,9 @@ ctx.onmessage = ({ data: action }: DracoWorkerEvent) => {
   switch (action.type) {
     case getType(dracoActions.runDraco):
       if (!draco.initialized) {
-        draco.init().then(() =>
-          solveFunction(action.payload.code, action.payload.destActionType, draco, action.payload.opt));
+        draco.init().then(() => {
+          solveFunction(action.payload.code, action.payload.destActionType, draco, action.payload.opt)
+        });
       } else {
         solveFunction(action.payload.code, action.payload.destActionType, draco, action.payload.opt);
       }
@@ -50,11 +51,17 @@ ctx.onmessage = ({ data: action }: DracoWorkerEvent) => {
     case getType(dracoActions.updateDracoAsp):
       draco.updateAsp(action.payload.aspSet);
       break;
+    case getType(dracoActions.getConstraintSet):
+      ctx.postMessage({
+        type: action.payload.destActionType,
+        payload: draco.getConstraintSet()
+      });
+      break;
     default:
   }
 };
 
-const solveFunction = (program: string, destActionType: string, draco: Draco, opt?: any, ) => {
+const solveFunction = (program: string, destActionType: string, draco: Draco, opt?: any) => {
   const nonCommentLines = getNonCommentLines(program);
   const cleaned = nonCommentLines.join('\n');
   if (cleaned !== prevProgram) {
@@ -92,7 +99,6 @@ const getSolutionAndSend = (program, options, destActionType, draco: Draco, opt?
       type: destActionType,
       payload: {
         ...opt,
-        draco,
         solution,
       },
     });

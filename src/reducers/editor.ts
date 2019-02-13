@@ -147,10 +147,10 @@ const updateVegaLiteSpec = (state: EditorState): EditorState => {
   };
 };
 
-const setEditorDracoSolutionSet = (state: EditorState, solutionSet: SolutionSet): EditorState => {
+const setEditorDracoSolutionSet = (state: EditorState, solution: SolutionSet): EditorState => {
   const draco = {
     ...state.draco,
-    solutionSetOpt: some(solutionSet),
+    solutionSetOpt: some(solution),
   };
 
   return {
@@ -159,10 +159,10 @@ const setEditorDracoSolutionSet = (state: EditorState, solutionSet: SolutionSet)
   };
 };
 
-const setInfoPaneDracoSolutionSet = (state: EditorState, solutionSet: SolutionSet): EditorState => {
+const setInfoPaneDracoSolutionSet = (state: EditorState, solution: SolutionSet): EditorState => {
   const infoPane = {
     ...state.infoPane,
-    dracoSpecOpt: some(solutionSet),
+    dracoSpecOpt: some(solution),
   };
 
   return {

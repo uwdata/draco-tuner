@@ -5,3 +5,9 @@ export const updateEditorCode = createAction('tuner/UPDATE_EDITOR_CODE', (resolv
     return resolve(code);
   };
 });
+
+export const setDraco = createAction('tuner/SET_DRACO', (resolve) => {
+  return (dracoStringified: string) => {
+    return resolve(dracoStringified);
+  }
+});

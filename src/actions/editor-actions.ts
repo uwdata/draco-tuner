@@ -25,12 +25,12 @@ export const switchEditor = createAction('editor/SWITCH_EDITOR', (resolve) => {
 
 export const setEditorDracoSolutionSet =
   createAction('draco/SET_EDITOR_SOLUTION_SET', (resolve) => {
-    return (sol: SolutionSet) => resolve(sol);
+    return (solution: SolutionSet) => resolve(solution);
   });
 
 export const setInfoPaneDracoSolutionSet =
   createAction('draco/SET_INFO_PANE_SOLUTION_SET', (resolve) => {
-    return (sol: SolutionSet) => resolve(sol);
+    return (solution: SolutionSet) => resolve(solution);
   });
 
 export const setInfoPaneAsp = createAction('editor/SET_INFO_PANE_ASP', (resolve) => {

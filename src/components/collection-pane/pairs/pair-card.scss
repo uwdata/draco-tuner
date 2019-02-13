@@ -2,23 +2,48 @@
 
 .pair {
   @extend %flex-column;
-  width: 100%;
-  height: 200px;
+  width: calc(100% - 24px);
+  margin: 4px 12px 4px 12px;
+  height: 208px;
   transition: height 220ms $standard-ease;
   overflow: hidden;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid $light-grey;
+  border-radius: 8px;
 
   &.collapsed {
     height: 16px;
+
+    .splinter {
+      // border: 1px solid $light-grey;
+    }
   }
 
   &.showInfo {
-    height: 600px;
+    height: 640px;
+
+    .info {
+      // height: 400px;
+    }
   }
 }
 
 .splinter {
+  @extend %flex-row;
   height: 16px;
   flex: 0 0 auto;
+  box-sizing: border-box;
+  // border: 1px 1px 0 1px solid $light-grey;
+  cursor: pointer;
+
+  .vector-unit {
+    height: 100%;
+  }
+
+  &.red {
+    background-color: rgb(255, 215, 215);
+  }
 }
 
 .split {
@@ -41,6 +66,13 @@
     width: 32px;
     height: 100%;
     font-size: 24px;
+    font-weight: 700;
+    color: $medium-grey;
+
+    .swap {
+      font-size: 16px;
+      font-weight: 400;
+    }
   }
   
   .right {
@@ -61,42 +93,62 @@
 }
 
 .pass {
-  background-color: rgb(215, 255, 215);
+  .splinter {
+    background-color: rgb(215, 255, 215);
+  }
 }
 
 .fail {
-  background-color: rgb(255, 215, 215);
+  .splinter {
+    background-color: rgb(255, 215, 215);
+  }
 }
 
 .expand {
+  @extend %flex-row;
+  @extend %in-flex-center-all;
   width: 100%;
-  height: 16px;
+  height: 24px;
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
+  color: $medium-grey;
+
+  &:hover {
+    background-color: rgb(236, 236, 236);
+  }
 }
 
 .info {
   @extend %flex-row;
-  height: 16px;
-
-  &.expanded {
-    height: 400px;
-  }
-
-  .left {
-    @extend %flex-column;
-    align-items: center;
-    width: 50%;
-    height: 100%;
-  }
-  
-  .right {
-    @extend %flex-column;
-    align-items: center;
-    width: 50%;
-    height: 100%
-  }
+  height: 424px;
+  justify-content: center;
+  overflow: auto;
 
   .code {
     color: $medium-grey;
+  }
+}
+
+.diff-table {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 11px;
+  margin-top: 16px;
+
+  border-collapse: collapse;
+
+  th, td {
+    border: 1px solid $light-grey;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    text-align: center;
+    background-color: $light-grey;
+  }
+
+  .cost {
+    font-weight: 700;
   }
 }

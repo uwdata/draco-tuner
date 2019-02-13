@@ -22,7 +22,7 @@ interface StateProps {
 
 interface DispatchProps {
   showInfoPane: (show: boolean) => void;
-  updateDracoEditor: (code: string, sol: SolutionSet) => void;
+  updateDracoEditor: (code: string, solutionOpt: Option<SolutionSet>) => void;
 }
 
 interface Props extends StateProps, DispatchProps {}
@@ -56,7 +56,7 @@ class InfoPane extends React.Component<Props, any> {
             <pre
               styleName="code draco"
               onClick={() => {
-                this.props.updateDracoEditor(this.props.aspOpt.orNull, this.props.dracoSolutionOpt.orNull);
+                this.props.updateDracoEditor(this.props.aspOpt.orNull, this.props.dracoSolutionOpt);
               }}>
               {this.props.aspOpt.orNull}
             </pre>
@@ -157,9 +157,9 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
     showInfoPane: (show: boolean) => {
       dispatch(showInfoPane(show));
     },
-    updateDracoEditor: (code: string, sol: SolutionSet) => {
+    updateDracoEditor: (code: string, solutionOpt: Option<SolutionSet>) => {
       dispatch(updateDracoEditorCode(code));
-      dispatch(setEditorDracoSolutionSet(sol));
+      dispatch(setEditorDracoSolutionSet(solutionOpt.get));
       dispatch(switchEditor('draco'));
     },
   };
