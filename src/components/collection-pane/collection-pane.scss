@@ -3,7 +3,7 @@
 .collection-pane {
   @extend %flex-column;
   @extend %full-width-height;
-  overflow: auto;
+  overflow-y: scroll;
 }
 
 .collection {

@@ -1,6 +1,7 @@
 import { SolutionSet } from 'draco-vis';
 import { createAction } from 'typesafe-actions';
 import { TopLevelSpec } from 'vega-lite';
+import { PairItemId } from '../reducers/collection';
 
 export const updateDracoEditorCode = createAction('editor/UPDATE_DRACO_CODE', (resolve) => {
   return (code: string) => resolve(code);
@@ -48,3 +49,7 @@ export const setInfoPaneVegalite = createAction('editor/SET_INFO_PANE_VEGALITE',
 export const updateEditorPairs = createAction('editor/UPDATE_EDITOR_PAIRS', (resolve) => {
   return (pairs: any[]) => resolve(pairs);
 });
+
+export const bindPairItem = createAction('editor/BIND_PAIR_ITEM', (resolve) => {
+  return (pairItemId: PairItemId) => resolve(pairItemId);
+})

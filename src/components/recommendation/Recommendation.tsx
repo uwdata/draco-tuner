@@ -48,7 +48,6 @@ class Recommendation extends React.Component<RecommendationProps, State> {
       dragging: this.state.dragging,
     });
 
-    console.log(this.props.solutionSetOpt);
     return (
       // <Draggable
       //   onStart={this.handleDragStart}

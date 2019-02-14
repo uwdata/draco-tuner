@@ -4,6 +4,7 @@ import { getType } from 'typesafe-actions';
 import { TopLevelSpec } from 'vega-lite';
 import { EditorAction, editorActions } from '../actions';
 import { PAIR, SCATTER, VL_HISTOGRAM } from '../examples';
+import { PairItemId } from './collection';
 
 export type CodeState = {
   readonly draco: string;
@@ -39,6 +40,7 @@ export type EditorState = {
   readonly draco: DracoState;
   readonly pairs: PairsState;
   readonly infoPane: InfoPaneState;
+  readonly pairItemBindOpt: Option<PairItemId>;
 };
 
 const initialState: EditorState = {
@@ -65,6 +67,7 @@ const initialState: EditorState = {
   pairs: {
     pairs: []
   },
+  pairItemBindOpt: none,
 };
 
 const editor = (state: EditorState = initialState, action: EditorAction) => {
@@ -91,6 +94,8 @@ const editor = (state: EditorState = initialState, action: EditorAction) => {
       return setInfoPaneVegalite(state, action.payload);
     case getType(editorActions.updateEditorPairs):
       return updateEditorPairs(state, action.payload);
+    case getType(editorActions.bindPairItem):
+      return bindPairItem(state, action.payload);
     default:
       return state;
   }
@@ -217,5 +222,12 @@ const updateEditorPairs = (state: EditorState, pairs: any) => {
     pairs: pairsState,
   };
 };
+
+const bindPairItem = (state: EditorState, pairItemId: PairItemId): EditorState => {
+  return {
+    ...state,
+    pairItemBindOpt: some(pairItemId),
+  };
+}
 
 export default editor;

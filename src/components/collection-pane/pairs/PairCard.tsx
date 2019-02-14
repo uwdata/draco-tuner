@@ -6,11 +6,14 @@ import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { none, Option, some } from 'ts-option';
 import { getType } from 'typesafe-actions';
+import { TopLevelFacetedUnitSpec } from 'vega-lite/build/src/spec';
 import { collectionActions, RootAction } from '../../../actions';
+import { deletePair, updatePair } from '../../../actions/collection-actions';
 import { runDraco } from '../../../actions/draco-actions';
+import { bindPairItem, switchEditor, updateVegaLiteEditorCode, updateVegaLiteSpec } from '../../../actions/editor-actions';
 import { addViolationsToMatch, removeViolationsToMatch } from '../../../actions/tuner-actions';
 import { RootState } from '../../../reducers';
-import { Pair, PairItem } from '../../../reducers/collection';
+import { Pair, PairItem, PairItemId } from '../../../reducers/collection';
 import VegaLiteChart from '../../vega-lite-chart/VegaLiteChart';
 import './pair-card.css';
 
@@ -19,8 +22,12 @@ interface StateProps {
 
 interface DispatchProps {
   updatePairItem: (pairItem: PairItem) => void;
+  updatePair: (pair: Pair) => void;
+  deletePair: (pairId: number) => void;
   addViolationsToMatch: (violations: Violation[]) => void;
   removeViolationsToMatch: () => void;
+  editVegaLiteSpec: (vlSpec: TopLevelFacetedUnitSpec) => void;
+  bindPairItem: (pairItemId: PairItemId) => void;
 }
 
 interface Props extends StateProps, DispatchProps {
@@ -61,6 +68,10 @@ class PairCard extends React.Component<Props, State> {
     this.update = this.update.bind(this);
     this.showInfo = this.showInfo.bind(this);
     this.swap = this.swap.bind(this);
+    this.delete = this.delete.bind(this);
+    this.editLeft = this.editLeft.bind(this);
+    this.editRight = this.editRight.bind(this); 
+    this.changeComp = this.changeComp.bind(this);
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -120,8 +131,7 @@ class PairCard extends React.Component<Props, State> {
             { costs[0].isDefined ? <div styleName="cost">{costs[0].get}</div> : null }
           </div>
           <div styleName="comp">
-            {this.props.pair.comp}
-            <button styleName="swap" onClick={this.swap}>swap</button>
+            <button styleName="button" onClick={this.changeComp}>{this.props.pair.comp}</button>
           </div>
           <div styleName="right">
             <div styleName="chart">
@@ -132,6 +142,12 @@ class PairCard extends React.Component<Props, State> {
             </div>
             { costs[1].isDefined ? <div styleName="cost">{costs[1].get}</div> : null }
           </div>
+        </div>
+        <div styleName="options">
+          <button styleName="button" onClick={this.editLeft}>edit left</button>
+          <button styleName="button" onClick={this.swap}>swap</button>
+          <button styleName="button" onClick={this.editRight}>edit right</button>
+          <button styleName="button" onClick={this.delete}>delete</button>
         </div>
         <div>
           <button styleName="expand" onClick={this.showInfo}>
@@ -175,8 +191,34 @@ class PairCard extends React.Component<Props, State> {
     newLeft.id.position = 'left';
     newRight.id.position = 'right';
 
-    this.props.updatePairItem(newLeft);
-    this.props.updatePairItem(newRight);
+    const newPair = {
+      ...this.props.pair,
+      left: newLeft,
+      right: newRight,
+    };
+    this.props.updatePair(newPair);
+  }
+
+  delete() {
+    this.props.deletePair(this.props.pair.id);
+  }
+
+  editLeft() {
+    this.props.editVegaLiteSpec(this.props.pair.left.vlSpec);
+    this.props.bindPairItem(this.props.pair.left.id);
+  }
+
+  editRight() {
+    this.props.editVegaLiteSpec(this.props.pair.right.vlSpec);
+    this.props.bindPairItem(this.props.pair.right.id);
+  }
+
+  changeComp() {
+    const newPair = {
+      ...this.props.pair,
+      comp: this.props.pair.comp === '<' ? '=' : '<',
+    } as Pair;
+    this.props.updatePair(newPair);
   }
 }
 
@@ -260,10 +302,9 @@ const Diff = (props: DiffProps) => {
   return (
     <table styleName="diff-table">
       <tr key="header">
-        <th>cost</th>
-        <th>constraint</th>
         <th>constraint</th>
         <th>cost</th>
+        <th>constraint</th>
       </tr>
       {
         merged.map((_: any, i: number) => {
@@ -290,15 +331,12 @@ const Diff = (props: DiffProps) => {
 
           return (
             <tr key={i}>
+              <td style={leftStyle}> {leftWitnessOpt.orNull}</td>
               <td styleName="cost"
                 style={leftStyle}>
                 {leftCostOpt.orNull}
               </td>
-              <td style={leftStyle}> {leftWitnessOpt.orNull}</td>
               <td style={rightStyle}>{rightWitnessOpt.orNull}</td>
-              <td styleName="cost" style={rightStyle}>
-                {rightCostOpt.orNull}
-              </td>
             </tr>
           );
         })
@@ -346,6 +384,12 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
         ),
       );
     },
+    updatePair: (pair: Pair) => {
+      dispatch(updatePair(pair));
+    },
+    deletePair: (pairId: number) => {
+      dispatch(deletePair(pairId));
+    },
     addViolationsToMatch: (violations: Violation[]) => {
       dispatch(
         addViolationsToMatch(violations),
@@ -354,6 +398,14 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
     removeViolationsToMatch: () => {
       dispatch(removeViolationsToMatch());
     },
+    editVegaLiteSpec: (vlSpec: TopLevelFacetedUnitSpec) => {
+      dispatch(updateVegaLiteEditorCode(JSON.stringify(vlSpec, null, 2)));
+      dispatch(switchEditor('vega-lite'));
+      dispatch(updateVegaLiteSpec());
+    },
+    bindPairItem: (pairItemId: PairItemId) => {
+      dispatch(bindPairItem(pairItemId));
+    }
   };
 };
 

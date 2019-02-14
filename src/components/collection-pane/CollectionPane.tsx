@@ -29,19 +29,18 @@ interface DispatchProps {
 interface Props extends StateProps, DispatchProps {}
 
 interface State {
-  open: boolean[];
+  open: Set<number>;
 }
 
 class CollectionPane extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
 
-    const open = props.collection.pairs.map(() => false);
+    const open = new Set<number>();
     this.state = {
       open,
     };
 
-    this.expandAll = this.expandAll.bind(this);
     this.collapseAll = this.collapseAll.bind(this);
     this.reload = this.reload.bind(this);
     this.save = this.save.bind(this);
@@ -85,7 +84,6 @@ class CollectionPane extends React.Component<Props, State> {
         <div styleName="collection">
           <div styleName="controls">
             <button styleName="button" onClick={this.reload}>reload</button>
-            <button styleName="button" onClick={this.expandAll}>expand all</button>
             <button styleName="button" onClick={this.collapseAll}>collapse all</button>
             <button styleName="button" onClick={this.save}>save</button>
           </div>
@@ -95,7 +93,7 @@ class CollectionPane extends React.Component<Props, State> {
                 vectorsOpt={vectorPairs[i]}
                 diffVectorOpt={diffVectorOpts[i]}
                 colorScale={colorScale}
-                key={i} pair={pair} open={this.state.open[i]}
+                key={i} pair={pair} open={this.state.open.has(pair.id)}
                 expandFunction={this.expand} />
             })
           }
@@ -104,19 +102,18 @@ class CollectionPane extends React.Component<Props, State> {
     );
   }
 
-  expand(pairIndex: number) {
-    const open = this.state.open.slice();
-    open[pairIndex] = !open[pairIndex];
-    this.setState({ open });
-  }
-
-  expandAll() {
-    const open = this.state.open.map(() => true);
+  expand(pairId: number) {
+    const open = new Set(this.state.open);
+    if (open.has(pairId)) {
+      open.delete(pairId);
+    } else {
+      open.add(pairId);
+    }
     this.setState({ open });
   }
 
   collapseAll() {
-    const open = this.state.open.map(() => false);
+    const open = new Set();
     this.setState({ open });
   }
 

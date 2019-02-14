@@ -33,6 +33,8 @@ const collection = (state: CollectionState = initialState, action: CollectionAct
   switch (action.type) {
     case getType(collectionActions.updatePairItem):
       return updatePairItem(state, action.payload);
+    case getType(collectionActions.updatePair):
+      return updatePair(state, action.payload);
     case getType(collectionActions.setDracoConstraintSet):
       return setDracoConstraintSet(state, action.payload);
     case getType(collectionActions.saveCollection):
@@ -41,6 +43,10 @@ const collection = (state: CollectionState = initialState, action: CollectionAct
       return loadCollection(state);
     case getType(collectionActions.addPairs):
       return addPairs(state, action.payload);
+    case getType(collectionActions.deletePair):
+      return deletePair(state, action.payload);
+    case getType(collectionActions.updatePairItemVegaLite):
+      return updatePairItemVegaLite(state, action.payload);
     default:
       return state;
   }
@@ -99,17 +105,31 @@ const addPairs = (state: CollectionState, pairs: Pair[]) => {
   }
 }
 
+const updatePair = (state: CollectionState, pair: Pair) => {
+  const pairs = state.pairs.map(p => {
+    if (p.id === pair.id) { return pair }
+    else { return p }
+  })
+
+  return {
+    ...state,
+    pairs
+  };
+}
+
 export interface PairItemFromWorker extends PairItem {
-  solution: SolutionSet;
+  solution?: SolutionSet;
 }
 
 const updatePairItem = (state: CollectionState, pairItem: PairItemFromWorker) => {
-  pairItem = {
-    ...pairItem,
-    solutionOpt: some(pairItem.solution),
-  };
-
-  delete pairItem.solution;
+  if (pairItem.solution) {
+    pairItem = {
+      ...pairItem,
+      solutionOpt: some(pairItem.solution),
+    };
+  
+    delete pairItem.solution;
+  }
 
   const pairs =
     state.pairs
@@ -142,6 +162,27 @@ const updatePairItem = (state: CollectionState, pairItem: PairItemFromWorker) =>
     pairs,
   };
 };
+
+interface PairItemVegaLiteUpdate {
+  pairItemId: PairItemId;
+  code: string;
+}
+
+const updatePairItemVegaLite = (state: CollectionState, update: PairItemVegaLiteUpdate): CollectionState => {
+  const pair = state.pairs.find(p => p.id === update.pairItemId.pairId);
+  const pairItem = pair[update.pairItemId.position]
+  pairItem.vlSpec = JSON.parse(update.code);
+
+  return updatePairItem(state, pairItem);
+}
+
+const deletePair = (state: CollectionState, pairId: number) => {
+  const pairs = state.pairs.filter((p: Pair) => p.id !== pairId);
+  return {
+    ...state,
+    pairs,
+  };
+}
 
 const Q_Q: Pair[] = [
   {
