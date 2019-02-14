@@ -19,6 +19,10 @@
 .button {
   margin: 4px 24px 4px 24px;
   padding: 4px;
-  background-color: $light-blue;
   border-radius: 4px;
+  font-weight: 400;
+
+  &:hover {
+    background-color: $light-blue;
+  }
 }

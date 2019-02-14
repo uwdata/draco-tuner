@@ -78,6 +78,9 @@ const saveCollection = (state: CollectionState) => {
 const loadCollection = (state: CollectionState) => {
   const storage = window.localStorage;
   const savedState = storage.getItem('draco_tuner/collection');
+  if (!savedState) {
+    return initialState;
+  }
   const parsedState = JSON.parse(savedState, (key, value) => {
     if (key === 'solutionOpt') {
       return option(value);

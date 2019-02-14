@@ -108,11 +108,11 @@ class Editor extends React.Component<EditorProps, State> {
             </div>
           </div>
           <div styleName="container third">
+            <button styleName="button" onClick={this.addPairsToCollection}>add to collection</button>
             <div
               styleName="display"
               style={{ height: this.state.displayHeight }}  // inject height
             >
-              <button onClick={this.addPairsToCollection}>Add to Collection</button>
               <div styleName="pairs">
                 {this.props.pairs.pairs.map((pair: any, i: number) => {
                   return (
