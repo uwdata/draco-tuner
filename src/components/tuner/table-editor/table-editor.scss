@@ -1,0 +1,36 @@
+@import 'base.scss';
+
+.table-editor {
+  @extend %flex-column;
+  @extend %full-width-height;
+
+  overflow-y: scroll;
+}
+
+.table {
+  font-family: 'Roboto Mono', monospace;
+  font-size: 11px;
+  margin-left: 16px;
+  margin-right: 16px;
+  width: calc(100% - 32px);
+
+  border-collapse: collapse;
+
+  td {
+    border: 1px solid $light-grey;
+    padding: 8px;
+    text-align: left;
+  }
+
+  th {
+    font-family: 'Lato', sans-serif;
+    padding: 8px;
+    text-align: left;
+    // font-size: 14px;
+    // background-color: $light-grey;
+  }
+
+  .cost {
+    font-weight: 700;
+  }
+}

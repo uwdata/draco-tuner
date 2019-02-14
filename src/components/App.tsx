@@ -31,7 +31,7 @@ class App extends React.Component<AppProps, State> {
             <Editor />
             <div style={{ width: '100%', height: '100%' }}>
               <InfoPane />
-              <SplitPane split="vertical" primary="second" defaultSize={400}>
+              <SplitPane split="vertical" primary="first" minSize={200} defaultSize="60%">
                 <CollectionPane />
                 <Tuner />
               </SplitPane>

@@ -7,12 +7,16 @@ import { TunerAction, tunerActions } from '../actions';
 export interface TunerState {
   dracoOpt: Option<Draco>;
   code: string;
+  editor: EditorType;
 }
 
 const initialState = {
   dracoOpt: none,
   code: constraints.WEIGHTS,
+  editor: 'table' as EditorType,
 };
+
+export type EditorType = 'table' | 'asp';
 
 const tuner = (state: TunerState = initialState, action: TunerAction): TunerState => {
   switch (action.type) {
@@ -20,6 +24,8 @@ const tuner = (state: TunerState = initialState, action: TunerAction): TunerStat
       return setDraco(state, action.payload);
     case getType(tunerActions.updateEditorCode):
       return updateEditorCode(state, action.payload);
+    case getType(tunerActions.switchEditor):
+      return switchEditor(state, action.payload);
     default:
       return state;
   }
@@ -40,3 +46,10 @@ const updateEditorCode = (state: TunerState, code: string): TunerState => {
     code,
   };
 };
+
+const switchEditor = (state: TunerState, editor: EditorType): TunerState => {
+  return {
+    ...state,
+    editor,
+  }
+}

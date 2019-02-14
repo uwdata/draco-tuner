@@ -4,3 +4,37 @@
   @extend %flex-column;
   @extend %full-width-height;
 }
+
+.panes {
+  @extend %flex-column;
+  position: relative;
+  flex-grow: 1;
+
+  & > * {
+    @extend %flex-column;
+    @extend %full-width-height;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    visibility: hidden;
+    z-index: -1;
+  }
+
+  &.show-first {
+    :first-child {
+      opacity: 1;
+      visibility: visible;
+      z-index: 1;
+    }
+  }
+
+  &.show-second {
+    :nth-child(2) {
+      opacity: 1;
+      visibility: visible;
+      z-index: 1;
+    }
+  }
+}
