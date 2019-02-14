@@ -8,6 +8,7 @@ import { none, Option, some } from 'ts-option';
 import { getType } from 'typesafe-actions';
 import { collectionActions, RootAction } from '../../../actions';
 import { runDraco } from '../../../actions/draco-actions';
+import { addViolationsToMatch, removeViolationsToMatch } from '../../../actions/tuner-actions';
 import { RootState } from '../../../reducers';
 import { Pair, PairItem } from '../../../reducers/collection';
 import VegaLiteChart from '../../vega-lite-chart/VegaLiteChart';
@@ -18,6 +19,8 @@ interface StateProps {
 
 interface DispatchProps {
   updatePairItem: (pairItem: PairItem) => void;
+  addViolationsToMatch: (violations: Violation[]) => void;
+  removeViolationsToMatch: () => void;
 }
 
 interface Props extends StateProps, DispatchProps {
@@ -94,7 +97,17 @@ class PairCard extends React.Component<Props, State> {
           colorScale={this.props.colorScale}
           diffVectorOpt={this.props.diffVectorOpt}
           unitWidth={this.state.unitWidth}
-          onClick={() => this.props.expandFunction(this.props.pair.id)}
+          onClick={() => {
+            if (!this.props.open) {
+              this.props.removeViolationsToMatch()
+              this.props.addViolationsToMatch(this.props.pair.left.solutionOpt.map(_ => _.models[0].violations).orNull)
+              this.props.addViolationsToMatch(this.props.pair.right.solutionOpt.map(_ => _.models[0].violations).orNull)
+            } else {
+              this.props.removeViolationsToMatch()
+            }
+            
+            this.props.expandFunction(this.props.pair.id);
+          }}
         />
         <div styleName="split">
           <div styleName="left">
@@ -162,18 +175,7 @@ class PairCard extends React.Component<Props, State> {
     newLeft.id.position = 'left';
     newRight.id.position = 'right';
 
-    console.log('left');
-    console.log(newLeft);
-    console.log('right');
-    console.log(newRight);
-
-
-    console.log('swapping left');
-    console.log(newLeft);
     this.props.updatePairItem(newLeft);
-
-    console.log('swapping right');
-    console.log(newRight);
     this.props.updatePairItem(newRight);
   }
 }
@@ -343,6 +345,14 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
           pairItem,
         ),
       );
+    },
+    addViolationsToMatch: (violations: Violation[]) => {
+      dispatch(
+        addViolationsToMatch(violations),
+      );
+    },
+    removeViolationsToMatch: () => {
+      dispatch(removeViolationsToMatch());
     },
   };
 };
