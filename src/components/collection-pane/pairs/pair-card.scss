@@ -5,7 +5,7 @@
   width: calc(100% - 24px);
   margin: 4px 12px 4px 12px;
   height: 244px;
-  transition: height 220ms $standard-ease;
+  // transition: height 220ms $standard-ease;
   overflow: hidden;
   background-color: #fff;
   border-radius: 4px;
@@ -79,6 +79,7 @@
       padding: 4px;
       border-radius: 4px;
       font-weight: 400;
+      color: $medium-grey;
 
       &:hover {
         background-color: $light-blue;
@@ -153,6 +154,7 @@
     padding: 4px;
     border-radius: 4px;
     font-weight: 400;
+    color: $light-grey;
 
     &:hover {
       background-color: $light-blue;

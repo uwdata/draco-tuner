@@ -72,6 +72,7 @@ class PairCard extends React.Component<Props, State> {
     this.editLeft = this.editLeft.bind(this);
     this.editRight = this.editRight.bind(this); 
     this.changeComp = this.changeComp.bind(this);
+    this.reload = this.reload.bind(this);
   }
 
   componentDidUpdate(prevProps: Props) {
@@ -89,7 +90,11 @@ class PairCard extends React.Component<Props, State> {
       return pairItem.solutionOpt.isDefined ? some(pairItem.solutionOpt.get.models[0].costs[0]) : none;
     });
 
-    const canComp = costs[0].isDefined && costs[1].isDefined;
+    let canComp = costs[0].isDefined && costs[1].isDefined;
+
+    if (canComp) {
+      if (costs[0].get >= 1000000 || costs[1].get >= 1000000) { canComp = false; }
+    }
 
     const comp = this.props.pair.comp === '<' ?
       (a: number, b: number) => a < b : (a: number, b: number) => a === b;
@@ -105,6 +110,7 @@ class PairCard extends React.Component<Props, State> {
     return (
       <div styleName={className} ref={this.component} >
         <Splinter
+          valid={canComp}
           colorScale={this.props.colorScale}
           diffVectorOpt={this.props.diffVectorOpt}
           unitWidth={this.state.unitWidth}
@@ -128,7 +134,7 @@ class PairCard extends React.Component<Props, State> {
                 renderer="canvas"
                 actions={false}/>
             </div>
-            { costs[0].isDefined ? <div styleName="cost">{costs[0].get}</div> : null }
+            { costs[0].isDefined ? <div styleName="cost">{costs[0].get < 1000000 ? costs[0].get : 'inf'}</div> : null }
           </div>
           <div styleName="comp">
             <button styleName="button" onClick={this.changeComp}>{this.props.pair.comp}</button>
@@ -140,16 +146,17 @@ class PairCard extends React.Component<Props, State> {
                 renderer="canvas"
                 actions={false}/>
             </div>
-            { costs[1].isDefined ? <div styleName="cost">{costs[1].get}</div> : null }
+            { costs[1].isDefined ? <div styleName="cost">{costs[1].get < 1000000 ? costs[1].get : 'inf'}</div> : null }
           </div>
         </div>
         <div styleName="options">
+          <button styleName="button" onClick={this.reload}>reload</button>
           <button styleName="button" onClick={this.editLeft}>edit left</button>
           <button styleName="button" onClick={this.swap}>swap</button>
           <button styleName="button" onClick={this.editRight}>edit right</button>
           <button styleName="button" onClick={this.delete}>delete</button>
         </div>
-        <div>
+        {/* <div>
           <button styleName="expand" onClick={this.showInfo}>
             {this.state.showInfo ? '-' : '+'}
           </button>
@@ -160,9 +167,14 @@ class PairCard extends React.Component<Props, State> {
               getKey={(d: Violation) => d.witness}
               colorScale={this.props.colorScale}/>
           </div>
-        </div>
+        </div> */}
       </div>
     );
+  }
+
+  reload() {
+    this.props.updatePairItem(this.props.pair.left);
+    this.props.updatePairItem(this.props.pair.right);
   }
 
   update() {
@@ -227,10 +239,11 @@ interface SplinterProps {
   colorScale: any;
   unitWidth: number;
   onClick: any;
+  valid: boolean;
 }
 
 const Splinter = (props: SplinterProps) => {
-  if (props.diffVectorOpt.isEmpty) {
+  if (!props.valid || props.diffVectorOpt.isEmpty) {
     return <div styleName="splinter red" onClick={props.onClick}/>
   }
 
@@ -301,46 +314,48 @@ const Diff = (props: DiffProps) => {
 
   return (
     <table styleName="diff-table">
-      <tr key="header">
-        <th>constraint</th>
-        <th>cost</th>
-        <th>constraint</th>
-      </tr>
-      {
-        merged.map((_: any, i: number) => {
-          const leftCostOpt = leftSorted[i].map((_: Violation) => _.weight);
-          const leftWitnessOpt = leftSorted[i].map(_ => props.getKey(_));
-          const rightWitnessOpt = rightSorted[i].map(_ => props.getKey(_));
-          const rightCostOpt = rightSorted[i].map((_: Violation) => _.weight);
+      <tbody>
+        <tr key="header">
+          <th>constraint</th>
+          <th>cost</th>
+          <th>constraint</th>
+        </tr>
+        {
+          merged.map((_: any, i: number) => {
+            const leftCostOpt = leftSorted[i].map((_: Violation) => _.weight);
+            const leftWitnessOpt = leftSorted[i].map(_ => props.getKey(_));
+            const rightWitnessOpt = rightSorted[i].map(_ => props.getKey(_));
+            const rightCostOpt = rightSorted[i].map((_: Violation) => _.weight);
 
-          let leftColor = leftCostOpt.match({
-            some: n => n === 0 ? '#fff' : props.colorScale(-n),
-            none: () => '#fff'
-          });
-          let rightColor = rightCostOpt.match({
-            some: n => n === 0 ? '#fff' : props.colorScale(n),
-            none: () => '#fff'
-          });
+            let leftColor = leftCostOpt.match({
+              some: n => n === 0 ? '#fff' : props.colorScale(-n),
+              none: () => '#fff'
+            });
+            let rightColor = rightCostOpt.match({
+              some: n => n === 0 ? '#fff' : props.colorScale(n),
+              none: () => '#fff'
+            });
 
-          leftColor = leftCostOpt.isEmpty ? rightColor : leftColor;
-          rightColor = rightCostOpt.isEmpty ? leftColor : rightColor;
+            leftColor = leftCostOpt.isEmpty ? rightColor : leftColor;
+            rightColor = rightCostOpt.isEmpty ? leftColor : rightColor;
 
 
-          const leftStyle = { backgroundColor: leftColor };
-          const rightStyle = { backgroundColor: rightColor };
+            const leftStyle = { backgroundColor: leftColor };
+            const rightStyle = { backgroundColor: rightColor };
 
-          return (
-            <tr key={i}>
-              <td style={leftStyle}> {leftWitnessOpt.orNull}</td>
-              <td styleName="cost"
-                style={leftStyle}>
-                {leftCostOpt.orNull}
-              </td>
-              <td style={rightStyle}>{rightWitnessOpt.orNull}</td>
-            </tr>
-          );
-        })
-      }
+            return (
+              <tr key={i}>
+                <td style={leftStyle}> {leftWitnessOpt.orNull}</td>
+                <td styleName="cost"
+                  style={leftStyle}>
+                  {leftCostOpt.orNull}
+                </td>
+                <td style={rightStyle}>{rightWitnessOpt.orNull}</td>
+              </tr>
+            );
+          })
+        }
+      </tbody>
     </table>
   );
 }

@@ -49,7 +49,7 @@ class InfoPane extends React.Component<Props, any> {
         </div>
         <div styleName="content">
           <div styleName="column">
-            <h4>{`Cost: ${this.props.costOpt.orNull}`}</h4>
+            <h4>{`Cost: ${this.props.costOpt.orNull >= 1000000 ? 'inf' : this.props.costOpt.orNull }`}</h4>
             <h4>Violations</h4>
             <ViolationTable violations={this.props.violationsOpt} />
             <h4>Draco Spec</h4>
@@ -113,7 +113,7 @@ export class ViolationTable extends React.Component<ViolationTableProps, any> {
 
               return (
                 <tr key={i} styleName="table-row">
-                  <td>{row.weight}</td>
+                  <td>{typeof row.weight === 'undefined' ? 'inf' : row.weight}</td>
                   <td
                     data-tip={tooltipContents}
                     data-html={true}

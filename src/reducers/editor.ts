@@ -1,5 +1,5 @@
 import Draco, { SolutionSet } from 'draco-vis'; // tslint:disable-line
-import { none, Option, some } from "ts-option";
+import { none, Option, option, some } from "ts-option";
 import { getType } from 'typesafe-actions';
 import { TopLevelSpec } from 'vega-lite';
 import { EditorAction, editorActions } from '../actions';
@@ -155,7 +155,7 @@ const updateVegaLiteSpec = (state: EditorState): EditorState => {
 const setEditorDracoSolutionSet = (state: EditorState, solution: SolutionSet): EditorState => {
   const draco = {
     ...state.draco,
-    solutionSetOpt: some(solution),
+    solutionSetOpt: option(solution),
   };
 
   return {
@@ -167,7 +167,7 @@ const setEditorDracoSolutionSet = (state: EditorState, solution: SolutionSet): E
 const setInfoPaneDracoSolutionSet = (state: EditorState, solution: SolutionSet): EditorState => {
   const infoPane = {
     ...state.infoPane,
-    dracoSpecOpt: some(solution),
+    dracoSpecOpt: option(solution),
   };
 
   return {

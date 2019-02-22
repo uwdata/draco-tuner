@@ -100,9 +100,15 @@ class FlexObj {
 function generatePairs(opt: PairOpt) {
   const result = [];
 
-  for (const baseSpec of opt.baseSpecs) {
-    const pair = createPair(baseSpec, opt);
-    result.push(pair);
+  if (opt.list) {
+    for (const pair of opt.list) {
+      result.push([pair.left, pair.right]);
+    }
+  } else {
+    for (const baseSpec of opt.baseSpecs) {
+      const pair = createPair(baseSpec, opt);
+      result.push(pair);
+    }
   }
 
   return result;
@@ -156,6 +162,7 @@ function fillSpec(baseSpec: any, opt: PairOpt) {
 interface PairOpt {
   autoSpec?: AutoSpecType;
   baseSpecs?: any[];
+  list?: any[];
   transformations: Transformation[];
   modifications: Modification[];
 }
@@ -240,6 +247,10 @@ function transform(type: TransformType, a: any, b: any) {
       break;
   }
  
+}
+
+function fromList(list: any[]) {
+  options.list = list;
 }
 
 function modification(key: string, value: any) {

@@ -54,6 +54,32 @@ const collection = (state: CollectionState = initialState, action: CollectionAct
 
 export default collection;
 
+export const stringifyCollection = (collection: CollectionState): string => {
+  const stringifiedState = JSON.stringify(collection, (key, value) => {
+    if (key === 'solutionOpt') {
+      return value.orNull;
+    } else if (key === 'dracoConstraintSetOpt') {
+      return null;
+    }
+    return value;
+  });
+
+  return stringifiedState;
+}
+
+export const decodeCollection = (collection: string): CollectionState => {
+  const parsedState = JSON.parse(collection, (key, value) => {
+    if (key === 'solutionOpt') {
+      return option(value);
+    } else if (key === 'dracoConstraintSetOpt') {
+      return option(value);
+    }
+    return value;
+  });
+
+  return parsedState;
+}
+
 const setDracoConstraintSet = (state: CollectionState, constraintSet: ConstraintSet) => {
   return {
     ...state,
@@ -63,14 +89,7 @@ const setDracoConstraintSet = (state: CollectionState, constraintSet: Constraint
 
 const saveCollection = (state: CollectionState) => {
   const storage = window.localStorage;
-  const stringifiedState = JSON.stringify(state, (key, value) => {
-    if (key === 'solutionOpt') {
-      return value.orNull;
-    } else if (key === 'dracoConstraintSetOpt') {
-      return null;
-    }
-    return value;
-  });
+  const stringifiedState = stringifyCollection(state);
   storage.setItem('draco_tuner/collection', stringifiedState);
   return state;
 }
@@ -81,14 +100,7 @@ const loadCollection = (state: CollectionState) => {
   if (!savedState) {
     return initialState;
   }
-  const parsedState = JSON.parse(savedState, (key, value) => {
-    if (key === 'solutionOpt') {
-      return option(value);
-    } else if (key === 'dracoConstraintSetOpt') {
-      return option(value);
-    }
-    return value;
-  });
+  const parsedState = decodeCollection(savedState);
   return parsedState;
 }
 
@@ -125,10 +137,10 @@ export interface PairItemFromWorker extends PairItem {
 }
 
 const updatePairItem = (state: CollectionState, pairItem: PairItemFromWorker) => {
-  if (pairItem.solution) {
+  if (typeof pairItem.solution !== 'undefined') {
     pairItem = {
       ...pairItem,
-      solutionOpt: some(pairItem.solution),
+      solutionOpt: option(pairItem.solution),
     };
   
     delete pairItem.solution;

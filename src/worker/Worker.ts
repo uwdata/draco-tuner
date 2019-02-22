@@ -1,7 +1,7 @@
 import Draco, { Options } from 'draco-vis'; // tslint:disable-line
 import { getType } from 'typesafe-actions';
 import { vega } from 'vega-embed';
-import { dracoActions } from '../actions';
+import { collectionActions, dracoActions } from '../actions';
 import { DracoWorkerEvent } from './worker-actions';
 
 const cars = require('../data/cars.json');
@@ -18,7 +18,7 @@ const dracoOptions: Options = {
   models: 7,
 };
 
-const draco = new Draco('static', (status) => {});
+const draco = new Draco((status) => {}, 'static');
 let prevProgram = '';
 let dataInfo = {
   url: null,
@@ -56,6 +56,16 @@ ctx.onmessage = ({ data: action }: DracoWorkerEvent) => {
         type: action.payload.destActionType,
         payload: draco.getConstraintSet()
       });
+      break;
+    case getType(dracoActions.setConstraintSet):
+      draco.setConstraintSet(action.payload.constraintSet);
+      ctx.postMessage({
+        type: getType(collectionActions.setDracoConstraintSet),
+        payload: draco.getConstraintSet()
+      });
+      break;
+    case getType(dracoActions.toggleHardConstraints):
+      draco.toggleHard(action.payload.off);
       break;
     default:
   }
