@@ -60,6 +60,10 @@ class CollectionPane extends React.Component<Props, State> {
   }
 
   render() {
+    if (typeof this.props.collection.pairs === 'undefined') {
+      return null;
+    }
+
     const vectorPairs = this.props.collection.pairs.map((pair) => {
       return this.getVectorsFromPair(pair);
     });

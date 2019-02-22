@@ -22,6 +22,10 @@ interface Props extends StateProps, DispatchProps {
 
 class TableEditor extends React.Component<Props, any> {
   render() {
+    if (typeof this.props.constraintSetOpt === 'undefined') {
+      return null;
+    }
+
     let violationsToMatch = this.props.violationsToMatch.filter(_ => _ !== null);
     if (violationsToMatch.length > 0 && this.props.constraintSetOpt.isDefined) {
 

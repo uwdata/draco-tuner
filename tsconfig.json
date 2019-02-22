@@ -15,7 +15,8 @@
     "strictNullChecks": false,
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
   },
   "files": [
     "src/index.tsx"
