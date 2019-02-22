@@ -42,7 +42,7 @@ class TableEditor extends React.Component<Props, any> {
 
       // set violations to global props
       const constraintsToMatch: { [s: string]: Constraint } =
-        this.props.constraintSetOpt.get.soft.reduce((dict: { [s: string]: Constraint }, c) => {
+        this.props.constraintSetOpt.get.soft.concat(this.props.constraintSetOpt.get.hard).reduce((dict: { [s: string]: Constraint }, c) => {
           if (namesToMatch.hasOwnProperty(c.name)) {
             dict[c.name] = c;
           }
