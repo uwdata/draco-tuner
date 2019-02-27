@@ -1,4 +1,5 @@
 import { Constraint, ConstraintSet, Violation } from 'draco-vis';
+import * as _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
@@ -20,6 +21,10 @@ interface DispatchProps {
 interface Props extends StateProps, DispatchProps {
 }
 
+interface ViolationCount extends Violation {
+  count: number;
+}
+
 class TableEditor extends React.Component<Props, any> {
   render() {
     if (typeof this.props.constraintSetOpt === 'undefined') {
@@ -28,26 +33,54 @@ class TableEditor extends React.Component<Props, any> {
 
     let violationsToMatch = this.props.violationsToMatch.filter(_ => _ !== null);
     if (violationsToMatch.length > 0 && this.props.constraintSetOpt.isDefined) {
-
-      const namesToMatch: { [s: string]: Violation } =
-        violationsToMatch.reduce((dict: { [s: string]: Violation }, violations) => {
-          violations.forEach(c => dict[c.name] = c);
-          return dict;
-        }, {});
-
-      const namesList = [];
-      for (const name in namesToMatch) {
-        namesList.push(name);
-      }
-
-      // set violations to global props
-      const constraintsToMatch: { [s: string]: Constraint } =
-        this.props.constraintSetOpt.get.soft.concat(this.props.constraintSetOpt.get.hard).reduce((dict: { [s: string]: Constraint }, c) => {
-          if (namesToMatch.hasOwnProperty(c.name)) {
-            dict[c.name] = c;
+      const violationsToMatchMaps: { [s: string]: ViolationCount }[] = violationsToMatch
+        .map(violations => violations.reduce((dict, curr) => {
+          if (!dict.hasOwnProperty(curr.name)) {
+            dict[curr.name] = {...curr, count: 0 }
           }
+          dict[curr.name].count += 1;
+
           return dict;
-        }, {});
+        }, {} as { [s: string]: ViolationCount }));
+
+      console.log(violationsToMatchMaps);
+
+      const allConstraints = this.props.constraintSetOpt.get.soft.concat(this.props.constraintSetOpt.get.hard)
+      const sameCountsAndConstraints = allConstraints.map(c => {
+        const countSame = violationsToMatchMaps.reduce((count, vs, i) => {
+          const exp = Math.pow(-1, i);
+          count += vs.hasOwnProperty(c.name) ? vs[c.name].count * exp : 0;
+          return count;
+        }, 0);
+
+        if (countSame !== 0) {
+          let count;
+          if (countSame < 0) {
+            count = countSame * 10000;
+          } else {
+            count = -countSame;
+          }
+          return [count, c]
+        }
+        const counted: number = 0.001 * violationsToMatchMaps.reduce((curr, vs) => {
+          if (vs.hasOwnProperty(c.name)) {
+            return curr + vs[c.name].count;
+          }
+          return curr;
+        }, 0);
+
+        if (counted !== 0) {
+          return [-counted, c];
+        }
+
+        return [Number.POSITIVE_INFINITY, c];
+      });
+
+      const constraintsOrdered = _.sortBy(sameCountsAndConstraints,
+        ([countA, cA])  => {
+          return countA as number;
+        })
+        .map(([count, c]) => c) as Constraint[];
       
       return (
         <div styleName="table-editor">
@@ -57,17 +90,17 @@ class TableEditor extends React.Component<Props, any> {
                 <th key="constraint">constraint</th>
                 <th key="cost">cost</th>
                 {violationsToMatch.map((violations, i) => {
-                  return <th key={i}>{i}</th>
+                  return <th key={i}>{i === 0 ? 'left' : 'right'}</th>
                 })}
               </tr>
               {
-                namesList.map((name, i) => {
-                  const c = constraintsToMatch[name];
+                constraintsOrdered.map((c, i) => {
                   return (
                     <tr key={i}>
                       <td key="name">{c.name}</td>
                       <td key="weight">
-                      <input pattern="[0-9]*"
+                      <input styleName="cost-input"
+                          pattern="[0-9]*"
                           value={typeof c.weight !== 'undefined' ? c.weight : 'inf'}
                           onChange={(event) => {
                             let value;
@@ -82,7 +115,10 @@ class TableEditor extends React.Component<Props, any> {
                         />
                       </td>
                       {violationsToMatch.map((violations, i) => {
-                        const numViolations = violations.filter(d => d.name === name).length;
+                        let numViolations = 0;
+                        if (violationsToMatchMaps[i].hasOwnProperty(c.name)) {
+                          numViolations = violationsToMatchMaps[i][c.name].count;
+                        }
                         return <td key={i}>{numViolations}</td>
                       })}
                     </tr>
@@ -110,7 +146,8 @@ class TableEditor extends React.Component<Props, any> {
                     <tr key={c.name}>
                       <td key="name">{c.name}</td>
                       <td key="weight">
-                        <input pattern="[0-9]*"
+                        <input styleName="cost-input"
+                          pattern="[0-9]*"
                           value={typeof c.weight !== 'undefined' ? c.weight : 'inf'}
                           onChange={(event) => {
                             let value;

@@ -13,11 +13,12 @@ import { runDraco } from '../../../actions/draco-actions';
 import { bindPairItem, switchEditor, updateVegaLiteEditorCode, updateVegaLiteSpec } from '../../../actions/editor-actions';
 import { addViolationsToMatch, removeViolationsToMatch } from '../../../actions/tuner-actions';
 import { RootState } from '../../../reducers';
-import { Pair, PairItem, PairItemId } from '../../../reducers/collection';
+import { ConstraintSetMap, Pair, PairItem, PairItemId } from '../../../reducers/collection';
 import VegaLiteChart from '../../vega-lite-chart/VegaLiteChart';
 import './pair-card.css';
 
 interface StateProps {
+  constraintSetMapOpt: Option<ConstraintSetMap>;
 }
 
 interface DispatchProps {
@@ -86,14 +87,48 @@ class PairCard extends React.Component<Props, State> {
   }
 
   render() {
-    const costs = [this.props.pair.left, this.props.pair.right].map((pairItem) => {
-      return pairItem.solutionOpt.isDefined ? some(pairItem.solutionOpt.get.models[0].costs[0]) : none;
-    });
+    let leftCost;
+    if (this.props.pair.left.solutionOpt.isDefined && this.props.constraintSetMapOpt.isDefined) {
+      const hardConstraints = this.props.constraintSetMapOpt.get.hard;
+      const softConstraints = this.props.constraintSetMapOpt.get.soft;
 
-    let canComp = costs[0].isDefined && costs[1].isDefined;
+      leftCost =
+        this.props.pair.left.solutionOpt.get.models[0].violations
+          .map(v => {
+            if (hardConstraints.hasOwnProperty(v.name)) {
+              return hardConstraints[v.name];
+            } else if (softConstraints.hasOwnProperty(v.name)) {
+              return softConstraints[v.name];
+            }
+          })
+          .reduce((sum, c) => {
+            return sum + c.weight;
+          }, 0);   
+    }
+
+    let rightCost;
+    if (this.props.pair.right.solutionOpt.isDefined && this.props.constraintSetMapOpt.isDefined) {
+      const hardConstraints = this.props.constraintSetMapOpt.get.hard;
+      const softConstraints = this.props.constraintSetMapOpt.get.soft;
+
+      rightCost =
+        this.props.pair.right.solutionOpt.get.models[0].violations
+          .map(v => {
+            if (hardConstraints.hasOwnProperty(v.name)) {
+              return hardConstraints[v.name];
+            } else if (softConstraints.hasOwnProperty(v.name)) {
+              return softConstraints[v.name];
+            }
+          })
+          .reduce((sum, c) => {
+            return sum + c.weight;
+          }, 0);   
+    }
+
+    let canComp = typeof leftCost !== 'undefined' && typeof rightCost !== 'undefined';
 
     if (canComp) {
-      if (costs[0].get >= 1000000 || costs[1].get >= 1000000) { canComp = false; }
+      if (leftCost >= 1000000 || rightCost >= 1000000) { canComp = false; }
     }
 
     const comp = this.props.pair.comp === '<' ?
@@ -103,8 +138,8 @@ class PairCard extends React.Component<Props, State> {
       pair: true,
       collapsed: !this.props.open,
       showInfo: this.state.showInfo && this.props.open,
-      pass: canComp && comp(costs[0].get, costs[1].get),
-      fail: canComp && !comp(costs[0].get, costs[1].get),
+      pass: canComp && comp(leftCost, rightCost),
+      fail: canComp && !comp(leftCost, rightCost),
     });
 
     return (
@@ -134,7 +169,7 @@ class PairCard extends React.Component<Props, State> {
                 renderer="canvas"
                 actions={false}/>
             </div>
-            { costs[0].isDefined ? <div styleName="cost">{costs[0].get < 1000000 ? costs[0].get : 'inf'}</div> : null }
+            { typeof leftCost !== 'undefined' ? <div styleName="cost">{leftCost < 1000000 ? leftCost: 'inf'}</div> : null }
           </div>
           <div styleName="comp">
             <button styleName="button" onClick={this.changeComp}>{this.props.pair.comp}</button>
@@ -146,7 +181,7 @@ class PairCard extends React.Component<Props, State> {
                 renderer="canvas"
                 actions={false}/>
             </div>
-            { costs[1].isDefined ? <div styleName="cost">{costs[1].get < 1000000 ? costs[1].get : 'inf'}</div> : null }
+            { typeof rightCost !== 'undefined' ? <div styleName="cost">{rightCost < 1000000 ? rightCost: 'inf'}</div> : null }
           </div>
         </div>
         <div styleName="options">
@@ -385,7 +420,9 @@ function merge(a: string[], b: string[]) {
 }
 
 const mapStateToProps = (state: RootState): StateProps => {
-  return {};
+  return {
+    constraintSetMapOpt: state.collection.dracoConstraintSetMapOpt
+  };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {

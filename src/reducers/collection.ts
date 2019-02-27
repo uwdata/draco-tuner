@@ -1,13 +1,19 @@
 
-import { ConstraintSet, SolutionSet } from 'draco-vis';
+import { Constraint, ConstraintSet, SolutionSet } from 'draco-vis';
 import { none, Option, option, some } from 'ts-option';
 import { getType } from 'typesafe-actions';
 import { TopLevelFacetedUnitSpec } from 'vega-lite/build/src/spec';
 import { CollectionAction, collectionActions } from '../actions';
 import DEFAULT_COLLECTION from '../default_collection.json';
 
+export interface ConstraintSetMap {
+  soft: { [s: string] : Constraint };
+  hard: { [s: string] : Constraint };
+}
+
 export interface CollectionState {
   dracoConstraintSetOpt: Option<ConstraintSet>;
+  dracoConstraintSetMapOpt: Option<ConstraintSetMap>;
   pairs: Pair[];
 }
 
@@ -59,7 +65,7 @@ export const stringifyCollection = (collection: CollectionState): string => {
   const stringifiedState = JSON.stringify(collection, (key, value) => {
     if (key === 'solutionOpt') {
       return value.orNull;
-    } else if (key === 'dracoConstraintSetOpt') {
+    } else if (key === 'dracoConstraintSetOpt' || key === 'dracoContraintSetMapOpt') {
       return null;
     }
     return value;
@@ -72,12 +78,15 @@ export const decodeCollection = (collection: string): CollectionState => {
   const parsedState = JSON.parse(collection, (key, value) => {
     if (key === 'solutionOpt') {
       return option(value);
-    } else if (key === 'dracoConstraintSetOpt') {
+    } else if (key === 'dracoConstraintSetOpt' || key === 'dracoConstraintSetMapOpt') {
       return option(value);
     }
     return value;
   });
 
+  if (!parsedState.hasOwnProperty('dracoConstraintSetMapOpt')) {
+    parsedState.dracoConstraintSetMapOpt = none;
+  }
   return parsedState;
 }
 
@@ -85,19 +94,47 @@ const setDracoConstraintSet = (state: CollectionState, constraintSet: Constraint
   return {
     ...state,
     dracoConstraintSetOpt: some(constraintSet),
+    dracoConstraintSetMapOpt: some(constraintSet2constraintSetMap(constraintSet))
   };
+}
+
+function constraintSet2constraintSetMap(constraintSet: ConstraintSet): ConstraintSetMap {
+  const result: ConstraintSetMap = {
+    hard: {},
+    soft: {},
+  };
+
+  for (const constraint of constraintSet.hard) {
+    result.hard[constraint.name] = constraint;
+  }
+
+  for (const constraint of constraintSet.soft) {
+    result.soft[constraint.name] = constraint;
+  }
+
+  return result;
 }
 
 const saveCollection = (state: CollectionState) => {
   const storage = window.localStorage;
   const stringifiedState = stringifyCollection(state);
-  storage.setItem('draco_tuner/collection_v0.0.1', stringifiedState);
+
+  fetch(
+    'http://127.0.0.1:5000/collection',
+    {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'applcation/json' },
+      body: stringifiedState
+    }
+  )
+
   return state;
 }
 
 const loadCollection = (state: CollectionState) => {
   const storage = window.localStorage;
-  const savedState = storage.getItem('draco_tuner/collection_v0.0.1');
+  const savedState = storage.getItem('draco_tuner/collection_v0.0.3');
   if (!savedState) {
     const initial = decodeCollection(JSON.stringify(DEFAULT_COLLECTION));
     console.log(initial);
@@ -561,6 +598,7 @@ const N_N: Pair[] = [
 
 const X_Y: CollectionState = {
   dracoConstraintSetOpt: none,
+  dracoConstraintSetMapOpt: none,
   pairs: [
     ...Q_Q,
     ...Q_O,
