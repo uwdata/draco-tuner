@@ -38,3 +38,32 @@
     }
   }
 }
+
+.asp-editor {
+  @extend %flex-column;
+  @extend %full-width-height;
+
+  .selector {
+    @extend %flex-row;
+    justify-content: space-evenly;
+    align-items: baseline;
+    height: 36px;
+    width: 100%;
+  }
+
+  .button {
+    margin: 4px 24px 4px 24px;
+    padding: 4px;
+    border-radius: 4px;
+    font-weight: 400;
+  
+    &.on {
+      background-color: $light-red;
+    }
+  
+    &:hover {
+      background-color: $light-blue;
+    }
+  }
+  
+}

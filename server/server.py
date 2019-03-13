@@ -1,3 +1,4 @@
+import json
 import os
 import sqlite3
 
@@ -14,22 +15,36 @@ global_state = {
 }
 
 def get_db():
+  db = global_state["db"]
+  if db is None:
+    print("connect to db")
+    global_state["db"] = sqlite3.connect(DATABASE)
     db = global_state["db"]
-    if db is None:
-        print("connect to db")
-        global_state["db"] = sqlite3.connect(DATABASE)
-        db = global_state["db"]
-    return db
+  return db
 
-@app.route('/collection', methods=['GET'])
-def get_collection():
+def get_state(name):
   db = get_db()
   c = db.cursor()
 
-  c.execute('''SELECT json FROM collection WHERE id=0''')
+  statement = '''SELECT json FROM state WHERE name=?'''
+  c.execute(statement, (name,))
 
-  content = c.fetchall()
+  content = c.fetchall()[0][0]
 
+  return content
+
+def set_state(name, json):
+  db = get_db()
+  c = db.cursor()
+  # statement = '''INSERT INTO state VALUES ('collection', ?)'''
+  statement = '''UPDATE state SET json=? WHERE name=?'''
+  c.execute(statement, (json,name))
+
+  db.commit()
+
+@app.route('/collection', methods=['GET'])
+def get_collection():
+  content = get_state('collection')
   return content
 
 
@@ -38,17 +53,24 @@ def save_collection():
   if not request:
     abort(400)
 
-  db = get_db()
-  c = db.cursor()
-  statement = 'UPDATE collection SET json=? WHERE id=0'
-  print('request')
-  print(request.json)
-  c.execute(statement, (request.json['collection'],))
+  set_state('collection', json.dumps(request.json))
 
-  db.commit()
-
-  print('done')
   return 'success'
 
+@app.route('/constraints', methods=['GET'])
+def get_constraints():
+  content = get_state('constraints')
+  return content
+
+@app.route('/constraints', methods=['POST'])
+def save_constraints():
+  if not request:
+    abort(400)
+
+  set_state('constraints', json.dumps(request.json))
+
+  return 'success'
+
+
 if __name__ == '__main__':
-  app.run(debug=True, host='0.0.0.0', threaded=False, processes=1)
+  app.run(debug=True, host='127.0.0.1', threaded=False, processes=1)

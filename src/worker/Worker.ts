@@ -101,7 +101,13 @@ const solveFunction = (program: string, destActionType: string, draco: Draco, op
 };
 
 const getSolutionAndSend = (program, options, destActionType, draco: Draco, opt?: any) => {
-  const solution = draco.solve(program, options);
+  let newOptions;
+  if (destActionType === getType(collectionActions.updatePairItem)) {
+    newOptions = {...options, weights: [{name: 'max_extra_encs', value: 0 }]}
+  } else {
+    newOptions = options;
+  }
+  const solution = draco.solve(program, newOptions);
   console.debug(`worker posting to: ${destActionType}`);
 
   if (opt) {

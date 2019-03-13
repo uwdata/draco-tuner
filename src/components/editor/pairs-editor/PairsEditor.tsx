@@ -123,8 +123,8 @@ function createPair(baseSpec: any, opt: PairOpt) {
       case 'swap':
         swap(two, transform.akey, transform.bkey);
         break;
-      case 'add':
-        add(two, transform.key, transform.value);
+      case 'set':
+        set(two, transform.key, transform.value);
         break;
     }
   }
@@ -132,7 +132,7 @@ function createPair(baseSpec: any, opt: PairOpt) {
   return [one.getObj(), two.getObj()];
 }
 
-function add(spec: FlexObj, key: string, value: any) {
+function set(spec: FlexObj, key: string, value: any) {
   spec.set(key, value);
 }
 
@@ -169,10 +169,10 @@ interface PairOpt {
 
 type AutoSpecType = 'data';
 
-type Transformation = SwapTransformation | AddTransformation;
+type Transformation = SwapTransformation | SetTransformation;
 
-interface AddTransformation {
-  type: 'add';
+interface SetTransformation {
+  type: 'set';
   key: string;
   value: any;
 }
@@ -183,7 +183,7 @@ interface SwapTransformation {
   bkey: string;
 }
 
-type TransformType = 'swap' | 'add';
+type TransformType = 'swap' | 'set';
 
 interface Modification {
   key: string;
@@ -238,7 +238,7 @@ function transform(type: TransformType, a: any, b: any) {
         bkey: b
       });
       break;
-    case 'add':
+    case 'set':
       options.transformations.push({
         type,
         key: a,

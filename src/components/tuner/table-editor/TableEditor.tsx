@@ -43,8 +43,6 @@ class TableEditor extends React.Component<Props, any> {
           return dict;
         }, {} as { [s: string]: ViolationCount }));
 
-      console.log(violationsToMatchMaps);
-
       const allConstraints = this.props.constraintSetOpt.get.soft.concat(this.props.constraintSetOpt.get.hard)
       const sameCountsAndConstraints = allConstraints.map(c => {
         const countSame = violationsToMatchMaps.reduce((count, vs, i) => {
@@ -93,11 +91,16 @@ class TableEditor extends React.Component<Props, any> {
                   return <th key={i}>{i === 0 ? 'left' : 'right'}</th>
                 })}
               </tr>
+              {/* <tr>
+                <td styleName="add-constraint" colSpan={4}>
+                  +
+                </td>
+              </tr> */}
               {
                 constraintsOrdered.map((c, i) => {
                   return (
                     <tr key={i}>
-                      <td key="name">{c.name}</td>
+                      <td styleName="name" key="name">{c.name}</td>
                       <td key="weight">
                       <input styleName="cost-input"
                           pattern="[0-9]*"
@@ -138,13 +141,18 @@ class TableEditor extends React.Component<Props, any> {
                 <th key="constraint">constraint</th>
                 <th key="cost">cost</th>
               </tr>
+              {/* <tr>
+                <td  styleName="add-constraint" colSpan={2}>
+                  +
+                </td>
+              </tr> */}
               {
                 this.props.constraintSetOpt.isEmpty ?
                 null :
                 this.props.constraintSetOpt.get.soft.map((c) => {
                   return (
                     <tr key={c.name}>
-                      <td key="name">{c.name}</td>
+                      <td styleName="name" key="name">{c.name}</td>
                       <td key="weight">
                         <input styleName="cost-input"
                           pattern="[0-9]*"

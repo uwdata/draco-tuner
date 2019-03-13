@@ -1,9 +1,9 @@
 import { ConstraintSet } from 'draco-vis';
 import { createAction } from 'typesafe-actions';
-import { Pair, PairItemFromWorker, PairItemId } from '../reducers/collection';
+import { CollectionState, Pair, PairItemFromWorker, PairItemId } from '../reducers/collection';
 
 export const addPair = createAction('collection/ADD_PAIR', (resolve) => {
-  return (pair: Pair) => {
+  return (pair?: Pair) => {
     return resolve(pair);
   };
 });
@@ -27,7 +27,7 @@ export const setDracoConstraintSet = createAction('collection/SET_DRACO_CONSTRAI
 });
 
 export const loadCollection = createAction('collection/LOAD', (resolve) => {
-  return () => { return resolve(); }
+  return (collection: CollectionState) => { return resolve(collection); }
 });
 
 export const saveCollection = createAction('collection/SAVE', (resolve) => {
@@ -42,4 +42,4 @@ export const addPairs = createAction('collection/ADD_PAIRs', (resolve) => {
 
 export const deletePair = createAction('collection/DELETE_PAIR', (resolve) => {
   return (id: number) => resolve(id);
-})
+});

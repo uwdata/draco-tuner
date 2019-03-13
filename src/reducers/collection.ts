@@ -4,7 +4,6 @@ import { none, Option, option, some } from 'ts-option';
 import { getType } from 'typesafe-actions';
 import { TopLevelFacetedUnitSpec } from 'vega-lite/build/src/spec';
 import { CollectionAction, collectionActions } from '../actions';
-import DEFAULT_COLLECTION from '../default_collection.json';
 
 export interface ConstraintSetMap {
   soft: { [s: string] : Constraint };
@@ -47,19 +46,56 @@ const collection = (state: CollectionState = initialState, action: CollectionAct
     case getType(collectionActions.saveCollection):
       return saveCollection(state);
     case getType(collectionActions.loadCollection):
-      return loadCollection(state);
+      return loadCollection(state, action.payload);
     case getType(collectionActions.addPairs):
       return addPairs(state, action.payload);
     case getType(collectionActions.deletePair):
       return deletePair(state, action.payload);
     case getType(collectionActions.updatePairItemVegaLite):
       return updatePairItemVegaLite(state, action.payload);
+    case getType(collectionActions.addPair):
+      return addPair(state, action.payload);
     default:
       return state;
   }
 };
 
 export default collection;
+
+const addPair = (state: CollectionState, pair: Pair): CollectionState => {
+  if (typeof pair === 'undefined') {
+    pair = {
+      id: 0,
+      title: 'hello',
+      comp: '<',
+      left: { solutionOpt: none,
+        id: {
+          pairId: 0,
+          position: 'left' as 'left',
+        },
+        vlSpec: {
+          data: { url : 'cars.json' },
+        } as TopLevelFacetedUnitSpec,
+      },
+      right: { solutionOpt: none,
+        id: {
+          pairId: 0,
+          position: 'right' as 'right',
+        },
+        vlSpec: {
+          data: { url : 'cars.json' },
+        } as TopLevelFacetedUnitSpec,
+      },
+    };    
+  }
+  const nextId = state.pairs[state.pairs.length - 1].id + 1;
+  pair.id = nextId;
+
+  return {
+    ...state,
+    pairs: state.pairs.concat([pair])
+  };
+}
 
 export const stringifyCollection = (collection: CollectionState): string => {
   const stringifiedState = JSON.stringify(collection, (key, value) => {
@@ -79,7 +115,7 @@ export const decodeCollection = (collection: string): CollectionState => {
     if (key === 'solutionOpt') {
       return option(value);
     } else if (key === 'dracoConstraintSetOpt' || key === 'dracoConstraintSetMapOpt') {
-      return option(value);
+      return none;
     }
     return value;
   });
@@ -116,7 +152,6 @@ function constraintSet2constraintSetMap(constraintSet: ConstraintSet): Constrain
 }
 
 const saveCollection = (state: CollectionState) => {
-  const storage = window.localStorage;
   const stringifiedState = stringifyCollection(state);
 
   fetch(
@@ -124,28 +159,34 @@ const saveCollection = (state: CollectionState) => {
     {
       method: 'POST',
       mode: 'cors',
-      headers: { 'Content-Type': 'applcation/json' },
+      headers: { 'Content-Type': 'application/json' },
       body: stringifiedState
     }
-  )
+  );
+
+  if (state.dracoConstraintSetOpt.isDefined) {
+    const stringifiedConstraints = JSON.stringify(state.dracoConstraintSetOpt.get);
+    fetch(
+      'http://127.0.0.1:5000/constraints',
+      {
+        method: 'POST',
+        mode: 'cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: stringifiedConstraints
+      }
+    );
+  }
 
   return state;
 }
 
-const loadCollection = (state: CollectionState) => {
-  const storage = window.localStorage;
-  const savedState = storage.getItem('draco_tuner/collection_v0.0.3');
-  if (!savedState) {
-    const initial = decodeCollection(JSON.stringify(DEFAULT_COLLECTION));
-    console.log(initial);
-    return initial;
-  }
-  const parsedState = decodeCollection(savedState);
+const loadCollection = (state: CollectionState, collection: CollectionState) => {
+  const parsedState = decodeCollection(JSON.stringify(collection));
   return parsedState;
 }
 
 const addPairs = (state: CollectionState, pairs: Pair[]) => {
-  const nextId = state.pairs.length;
+  const nextId = state.pairs[state.pairs.length - 1].id + 1;
 
   pairs.forEach((pair, i) => {
     pair.id = i + nextId;
@@ -238,6 +279,31 @@ const deletePair = (state: CollectionState, pairId: number) => {
     pairs,
   };
 }
+
+
+const EMPTY_PAIR: Pair = {
+  id: 0,
+  title: 'hello',
+  comp: '<',
+  left: { solutionOpt: none,
+    id: {
+      pairId: 0,
+      position: 'left' as 'left',
+    },
+    vlSpec: {
+      data: { url : 'cars.json' },
+    } as TopLevelFacetedUnitSpec,
+  },
+  right: { solutionOpt: none,
+    id: {
+      pairId: 0,
+      position: 'right' as 'right',
+    },
+    vlSpec: {
+      data: { url : 'cars.json' },
+    } as TopLevelFacetedUnitSpec,
+  },
+};
 
 const Q_Q: Pair[] = [
   {

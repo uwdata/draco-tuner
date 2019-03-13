@@ -9,8 +9,8 @@ import { Dispatch } from 'redux';
 import { none, Option, some } from 'ts-option';
 import { getType } from 'typesafe-actions';
 import { collectionActions, RootAction } from '../../actions';
-import { loadCollection, saveCollection } from '../../actions/collection-actions';
-import { getConstraintSet, runDraco, toggleHardConstraints } from '../../actions/draco-actions';
+import { addPair, loadCollection, saveCollection } from '../../actions/collection-actions';
+import { getConstraintSet, runDraco, setConstraintSet, toggleHardConstraints } from '../../actions/draco-actions';
 import { RootState } from '../../reducers';
 import { CollectionState, Pair, PairItem, stringifyCollection } from '../../reducers/collection';
 import './collection-pane.css';
@@ -27,6 +27,7 @@ interface DispatchProps {
   loadCollection: () => void;
   saveCollection: () => void;
   toggleHardConstraints: (off: boolean) => void;
+  addEmptyPair: () => void;
 }
 
 interface Props extends StateProps, DispatchProps {}
@@ -52,6 +53,8 @@ class CollectionPane extends React.Component<Props, State> {
     this.expand = this.expand.bind(this);
     this.download = this.download.bind(this);
     this.toggleHard = this.toggleHard.bind(this);
+    this.addEmptyPair = this.addEmptyPair.bind(this);
+    this.expandAll = this.expandAll.bind(this);
   }
 
   componentDidMount() {
@@ -94,8 +97,10 @@ class CollectionPane extends React.Component<Props, State> {
       <div styleName="collection-pane">
         <div styleName="collection">
           <div styleName="controls">
+            <button styleName="button" onClick={this.addEmptyPair}>add</button>
             <button styleName="button" onClick={this.reload}>reload</button>
             <button styleName="button" onClick={this.collapseAll}>collapse all</button>
+            <button styleName="button" onClick={this.expandAll}>expand all</button>
             <button styleName="button" onClick={this.save}>save</button>
             <button styleName="button" onClick={this.download}>download</button>
             <button styleName={classnames({ button: true, on: !this.state.hardOff })} onClick={this.toggleHard}>hard</button>
@@ -103,6 +108,7 @@ class CollectionPane extends React.Component<Props, State> {
           {
             this.props.collection.pairs.map((pair, i) => {
               return <PairCard
+                number={i}
                 vectorsOpt={vectorPairs[i]}
                 diffVectorOpt={diffVectorOpts[i]}
                 colorScale={colorScale}
@@ -113,6 +119,19 @@ class CollectionPane extends React.Component<Props, State> {
         </div>
       </div>
     );
+  }
+
+  expandAll() {
+    const open = new Set();
+    for (const pair of this.props.collection.pairs) {
+      open.add(pair.id);
+    }
+
+    this.setState({ open });
+  }
+
+  addEmptyPair() {
+    this.props.addEmptyPair();
   }
 
   download() {
@@ -223,13 +242,21 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
       );
     },
     loadCollection: () => {
-      dispatch(loadCollection());
+      fetch('http://127.0.0.1:5000/collection')
+        .then(response => response.json())
+        .then(json => dispatch(loadCollection(json)));
+      fetch('http://127.0.0.1:5000/constraints')
+        .then(response => response.json())
+        .then(json => dispatch(setConstraintSet(json)));
     },
     saveCollection: () => {
       dispatch(saveCollection());
     },
     toggleHardConstraints: (off: boolean) => {
       dispatch(toggleHardConstraints(off));
+    },
+    addEmptyPair: () => {
+      dispatch(addPair());
     }
   };
 };

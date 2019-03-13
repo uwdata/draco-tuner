@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { RootAction } from '../../../actions';
-import { updateDracoAsp } from '../../../actions/draco-actions';
 import { updateEditorCode } from '../../../actions/tuner-actions'; // tslint:disable-line
 import { RootState } from '../../../reducers';
 import BaseEditor, { BaseDispatchProps, BaseStateProps } from '../../editor/base-editor/BaseEditor';
@@ -54,7 +53,6 @@ const mapDispatchToProps = (dispatch: Dispatch<RootAction>): DispatchProps => {
   return {
     onEditorCodeChange: (code: string) => {
       dispatch(updateEditorCode(code));
-      dispatch(updateDracoAsp({ WEIGHTS: code }));
     },
   };
 };

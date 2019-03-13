@@ -5,7 +5,7 @@
   width: calc(100% - 24px);
   margin: 4px 12px 4px 12px;
   height: 244px;
-  // transition: height 220ms $standard-ease;
+  transition: height 220ms $standard-ease;
   overflow: hidden;
   background-color: #fff;
   border-radius: 4px;
@@ -37,12 +37,28 @@
   // border: 1px 1px 0 1px solid $light-grey;
   cursor: pointer;
 
+  .id {
+    @extend %flex-row;
+    align-items: center;
+    width: 32px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    font-size: 10px;
+    padding: 0 4px 0 4px;
+  }
+
   .vector-unit {
+    flex-grow: 1;
+    flex-shrink: 1;
     height: 100%;
   }
 
   &.red {
-    background-color: rgb(255, 215, 215);
+    background-color: $light-red;
+  }
+
+  &.green {
+    background-color: $light-green;
   }
 }
 
@@ -101,18 +117,6 @@
   
   .chart {
     height: calc(100% - 36px);
-  }
-}
-
-.pass {
-  .splinter {
-    background-color: rgb(215, 255, 215);
-  }
-}
-
-.fail {
-  .splinter {
-    background-color: rgb(255, 215, 215);
   }
 }
 

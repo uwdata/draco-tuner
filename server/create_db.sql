@@ -1,0 +1,4 @@
+CREATE TABLE state (
+  name VARCHAR PRIMARY KEY,
+  json VARCHAR
+);

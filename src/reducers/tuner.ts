@@ -1,4 +1,3 @@
-import { constraints } from 'draco-core';
 import Draco, { Violation } from 'draco-vis';
 import { none, Option, some } from 'ts-option';
 import { getType } from 'typesafe-actions';
@@ -7,13 +6,15 @@ import { TunerAction, tunerActions } from '../actions';
 export interface TunerState {
   dracoOpt: Option<Draco>;
   code: string;
+  file: string;
   editor: EditorType;
   violationsToMatch: Violation[][];
 }
 
 const initialState = {
   dracoOpt: none,
-  code: constraints.WEIGHTS,
+  code: '',
+  file: 'weights',
   editor: 'table' as EditorType,
   violationsToMatch: [] as Violation[][],
 };
@@ -32,12 +33,21 @@ const tuner = (state: TunerState = initialState, action: TunerAction): TunerStat
       return addViolationsToMatch(state, action.payload);
     case getType(tunerActions.removeViolationsToMatch):
       return removeViolationsToMatch(state);
+    case getType(tunerActions.switchFile):
+      return switchFile(state, action.payload);
     default:
       return state;
   }
 };
 
 export default tuner;
+
+const switchFile = (state: TunerState, file: string): TunerState => {
+  return {
+    ...state,
+    file,
+  }
+}
 
 const setDraco = (state: TunerState, dracoStringified: string): TunerState => {
   return {

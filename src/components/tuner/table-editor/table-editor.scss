@@ -16,18 +16,22 @@
 
   border-collapse: collapse;
 
+  .add-constraint {
+    text-align: center;
+  }
+
   td {
     border: 1px solid $light-grey;
     padding: 8px;
     text-align: left;
+    max-width: 128px;
+    overflow-x: auto;
   }
 
   th {
     font-family: 'Lato', sans-serif;
     padding: 8px;
     text-align: left;
-    // font-size: 14px;
-    // background-color: $light-grey;
   }
 
   .cost {

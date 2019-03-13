@@ -11,9 +11,9 @@
 
 .controls {
   @extend %flex-row;
+  flex-wrap: wrap;
   justify-content: space-evenly;
   width: 100%;
-  height: 36px;
 }
 
 .button {

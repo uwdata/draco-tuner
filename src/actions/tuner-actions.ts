@@ -25,3 +25,7 @@ export const addViolationsToMatch = createAction('tuner/ADD_VIOLATIONS_TO_MATCH'
 export const removeViolationsToMatch = createAction('tuner/REMOVE_VIOLATIONS_TO_MATCH', (resolve) => {
   return () => resolve();
 });
+
+export const switchFile = createAction('tuner/SWITCH_FILE', (resolve) => {
+  return (file: string) => resolve(file);
+});

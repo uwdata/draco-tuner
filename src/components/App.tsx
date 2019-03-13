@@ -27,7 +27,7 @@ class App extends React.Component<AppProps, State> {
           <Navbar />
         </div>
         <div styleName="tuner" id="tuner">
-          <SplitPane split="vertical" defaultSize={400} minSize={400} maxSize={600}>
+          <SplitPane split="vertical" defaultSize={400} maxSize={600}>
             <Editor />
             <div style={{ width: '100%', height: '100%' }}>
               <InfoPane />

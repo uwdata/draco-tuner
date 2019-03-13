@@ -32,6 +32,7 @@ interface DispatchProps {
 }
 
 interface Props extends StateProps, DispatchProps {
+  number: number;
   pair: Pair;
   open: boolean;
   vectorsOpt: Option<Vector[]>;
@@ -102,6 +103,9 @@ class PairCard extends React.Component<Props, State> {
             }
           })
           .reduce((sum, c) => {
+            if (typeof c.weight === 'undefined') {
+              return sum + 1000000;
+            }
             return sum + c.weight;
           }, 0);   
     }
@@ -121,6 +125,9 @@ class PairCard extends React.Component<Props, State> {
             }
           })
           .reduce((sum, c) => {
+            if (typeof c.weight === 'undefined') {
+              return sum + 1000000;
+            }
             return sum + c.weight;
           }, 0);   
     }
@@ -134,18 +141,23 @@ class PairCard extends React.Component<Props, State> {
     const comp = this.props.pair.comp === '<' ?
       (a: number, b: number) => a < b : (a: number, b: number) => a === b;
 
+    const pass = canComp && comp(leftCost, rightCost);
+    const invalid = !canComp;
+    const invalidPass = !canComp && (typeof leftCost !== 'undefined' && leftCost < 1000000 && this.props.pair.comp === '<');
     const className = classnames({
       pair: true,
       collapsed: !this.props.open,
       showInfo: this.state.showInfo && this.props.open,
-      pass: canComp && comp(leftCost, rightCost),
-      fail: canComp && !comp(leftCost, rightCost),
+      pass: pass,
     });
 
     return (
       <div styleName={className} ref={this.component} >
         <Splinter
-          valid={canComp}
+          id={this.props.number}
+          invalid={invalid}
+          invalidPass={invalidPass}
+          pass={pass}
           colorScale={this.props.colorScale}
           diffVectorOpt={this.props.diffVectorOpt}
           unitWidth={this.state.unitWidth}
@@ -270,25 +282,35 @@ class PairCard extends React.Component<Props, State> {
 }
 
 interface SplinterProps {
+  id: number;
   diffVectorOpt: Option<number[]>;
   colorScale: any;
   unitWidth: number;
   onClick: any;
-  valid: boolean;
+  pass: boolean;
+  invalidPass: boolean;
+  invalid: boolean;
 }
 
 const Splinter = (props: SplinterProps) => {
-  if (!props.valid || props.diffVectorOpt.isEmpty) {
-    return <div styleName="splinter red" onClick={props.onClick}/>
+  if (props.invalid) {
+  const color = props.invalidPass ? 'green' : 'red';
+    return (
+      <div styleName={`splinter ${color}`} onClick={props.onClick}>
+        <div styleName="id">{props.id}</div>
+      </div>
+    );
   }
 
+  const color = props.pass ? 'green' : 'red';
   return (
-    <div styleName="splinter" onClick={props.onClick}>
+    <div styleName={`splinter ${color}`} onClick={props.onClick}>
+      <div styleName="id">{props.id}</div>
       {
         props.diffVectorOpt.get.map((n: number, i: number) => {
           const color = n === 0 ? '#fff' : props.colorScale(2 * -n);
           return (
-            <div key={i} styleName="vector-unit" style={{ 'backgroundColor': color, 'width': props.unitWidth }} />
+            <div key={i} styleName="vector-unit" style={{ 'backgroundColor': color }} />
           )
         })
       }
