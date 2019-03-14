@@ -63,6 +63,7 @@ class CollectionPane extends React.Component<Props, State> {
   }
 
   render() {
+    console.log('render collection');
     if (typeof this.props.collection.pairs === 'undefined') {
       return null;
     }

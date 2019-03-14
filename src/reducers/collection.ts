@@ -29,6 +29,7 @@ export interface PairItem {
 
 export interface Pair {
   id: number;
+  fingerprint: number;
   title: string;
   left: PairItem;
   right: PairItem;
@@ -66,6 +67,7 @@ const addPair = (state: CollectionState, pair: Pair): CollectionState => {
   if (typeof pair === 'undefined') {
     pair = {
       id: 0,
+      fingerprint: getNewRandom(0),
       title: 'hello',
       comp: '<',
       left: { solutionOpt: none,
@@ -151,6 +153,15 @@ function constraintSet2constraintSetMap(constraintSet: ConstraintSet): Constrain
   return result;
 }
 
+function getNewRandom(old: number) {
+  let newNum = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+  while (newNum === old) {
+    newNum = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER);
+  }
+
+  return newNum;
+}
+
 const saveCollection = (state: CollectionState) => {
   const stringifiedState = stringifyCollection(state);
 
@@ -176,7 +187,6 @@ const saveCollection = (state: CollectionState) => {
       }
     );
   }
-
   return state;
 }
 
@@ -190,6 +200,7 @@ const addPairs = (state: CollectionState, pairs: Pair[]) => {
 
   pairs.forEach((pair, i) => {
     pair.id = i + nextId;
+    pair.fingerprint = getNewRandom(0);
     pair.left.id.pairId = i + nextId;
     pair.right.id.pairId = i + nextId;
   });
@@ -203,8 +214,12 @@ const addPairs = (state: CollectionState, pairs: Pair[]) => {
 
 const updatePair = (state: CollectionState, pair: Pair) => {
   const pairs = state.pairs.map(p => {
-    if (p.id === pair.id) { return pair }
-    else { return p }
+    if (p.id === pair.id) {
+      pair.fingerprint = getNewRandom(p.fingerprint);
+      return pair;
+    } else {
+      return p;
+    }
   })
 
   return {
@@ -231,6 +246,7 @@ const updatePairItem = (state: CollectionState, pairItem: PairItemFromWorker) =>
     state.pairs
       .map((pair: Pair) => {
         if (pair.id === pairItem.id.pairId) {
+          pair.fingerprint = getNewRandom(pair.fingerprint);
           if (pairItem.id.position === 'left') {
             return {
               ...pair,
@@ -281,405 +297,410 @@ const deletePair = (state: CollectionState, pairId: number) => {
 }
 
 
-const EMPTY_PAIR: Pair = {
-  id: 0,
-  title: 'hello',
-  comp: '<',
-  left: { solutionOpt: none,
-    id: {
-      pairId: 0,
-      position: 'left' as 'left',
-    },
-    vlSpec: {
-      data: { url : 'cars.json' },
-    } as TopLevelFacetedUnitSpec,
-  },
-  right: { solutionOpt: none,
-    id: {
-      pairId: 0,
-      position: 'right' as 'right',
-    },
-    vlSpec: {
-      data: { url : 'cars.json' },
-    } as TopLevelFacetedUnitSpec,
-  },
-};
+// const EMPTY_PAIR: Pair = {
+//   id: 0,
+//   title: 'hello',
+//   comp: '<',
+//   left: { solutionOpt: none,
+//     id: {
+//       pairId: 0,
+//       position: 'left' as 'left',
+//     },
+//     vlSpec: {
+//       data: { url : 'cars.json' },
+//     } as TopLevelFacetedUnitSpec,
+//   },
+//   right: { solutionOpt: none,
+//     id: {
+//       pairId: 0,
+//       position: 'right' as 'right',
+//     },
+//     vlSpec: {
+//       data: { url : 'cars.json' },
+//     } as TopLevelFacetedUnitSpec,
+//   },
+// };
 
-const Q_Q: Pair[] = [
-  {
-    id: 0,
-    title: 'hello',
-    comp: '=',
-    left: { solutionOpt: none,
-      id: {
-        pairId: 0,
-        position: 'left' as 'left',
-      },
-      vlSpec: {
-        data: { url : 'cars.json' },
-        mark: 'point',
-        encoding: {
-          x: {
-            field: 'horsepower',
-            type: 'quantitative',
-          },
-          y: {
-            field: 'acceleration',
-            type: 'quantitative',
-          },
-        },
-      } as TopLevelFacetedUnitSpec,
-    },
-    right: { solutionOpt: none,
-      id: {
-        pairId: 0,
-        position: 'right' as 'right',
-      },
-      vlSpec: {
-        data: { url : 'cars.json' },
-        mark: 'point',
-        encoding: {
-          y: {
-            field: 'horsepower',
-            type: 'quantitative',
-          },
-          x: {
-            field: 'acceleration',
-            type: 'quantitative',
-          },
-        },
-      } as TopLevelFacetedUnitSpec,
-    },
-  },
-];
+// const Q_Q: Pair[] = [
+//   {
+//     id: 0,
+//     title: 'hello',
+//     comp: '=',
+//     left: { solutionOpt: none,
+//       id: {
+//         pairId: 0,
+//         position: 'left' as 'left',
+//       },
+//       vlSpec: {
+//         data: { url : 'cars.json' },
+//         mark: 'point',
+//         encoding: {
+//           x: {
+//             field: 'horsepower',
+//             type: 'quantitative',
+//           },
+//           y: {
+//             field: 'acceleration',
+//             type: 'quantitative',
+//           },
+//         },
+//       } as TopLevelFacetedUnitSpec,
+//     },
+//     right: { solutionOpt: none,
+//       id: {
+//         pairId: 0,
+//         position: 'right' as 'right',
+//       },
+//       vlSpec: {
+//         data: { url : 'cars.json' },
+//         mark: 'point',
+//         encoding: {
+//           y: {
+//             field: 'horsepower',
+//             type: 'quantitative',
+//           },
+//           x: {
+//             field: 'acceleration',
+//             type: 'quantitative',
+//           },
+//         },
+//       } as TopLevelFacetedUnitSpec,
+//     },
+//   },
+// ];
 
-const Q_O: Pair[] = [
-  {
-    id: 1,
-    title: 'hello',
-    comp: '<',
-    left: { solutionOpt: none,
-      id: {
-        pairId: 1,
-        position: 'left' as 'left',
-      },
-      vlSpec: {
-        data: { url : 'cars.json' },
-        mark: 'bar',
-        encoding: {
-          x: {
-            bin: true,
-            field: 'horsepower',
-            type: 'quantitative',
-          },
-          y: {
-            aggregate: 'count',
-            type: 'quantitative',
-          },
-        },
-      } as TopLevelFacetedUnitSpec,
-    },
-    right: { solutionOpt: none,
-      id: {
-        pairId: 1,
-        position: 'right' as 'right',
-      },
-      vlSpec: {
-        data: { url : 'cars.json' },
-        mark: 'bar',
-        encoding: {
-          y: {
-            bin: true,
-            field: 'horsepower',
-            type: 'quantitative',
-          },
-          x: {
-            aggregate: 'count',
-            type: 'quantitative',
-          },
-        },
-      } as TopLevelFacetedUnitSpec,
-    },
-  },
-  {
-    id: 2,
-    title: 'hello',
-    comp: '<',
-    left: { solutionOpt: none,
-      id: {
-        pairId: 2,
-        position: 'left' as 'left',
-      },
-      vlSpec: {
-        data: { url : 'cars.json' },
-        mark: 'bar',
-        encoding: {
-          y: {
-            field: 'cylinders',
-            type: 'ordinal',
-          },
-          x: {
-            field: 'horsepower',
-            type: 'quantitative',
-            aggregate: 'mean',
-          },
-        },
-      } as TopLevelFacetedUnitSpec,
-    },
-    right: { solutionOpt: none,
-      id: {
-        pairId: 2,
-        position: 'right' as 'right',
-      },
-      vlSpec: {
-        data: { url : 'cars.json' },
-        mark: 'bar',
-        encoding: {
-          x: {
-            field: 'cylinders',
-            type: 'ordinal',
-          },
-          y: {
-            field: 'horsepower',
-            type: 'quantitative',
-            aggregate: 'mean',
-          },
-        },
-      } as TopLevelFacetedUnitSpec,
-    },
-  },
-];
+// const Q_O: Pair[] = [
+//   {
+//     id: 1,
+//     title: 'hello',
+//     comp: '<',
+//     left: { solutionOpt: none,
+//       id: {
+//         pairId: 1,
+//         position: 'left' as 'left',
+//       },
+//       vlSpec: {
+//         data: { url : 'cars.json' },
+//         mark: 'bar',
+//         encoding: {
+//           x: {
+//             bin: true,
+//             field: 'horsepower',
+//             type: 'quantitative',
+//           },
+//           y: {
+//             aggregate: 'count',
+//             type: 'quantitative',
+//           },
+//         },
+//       } as TopLevelFacetedUnitSpec,
+//     },
+//     right: { solutionOpt: none,
+//       id: {
+//         pairId: 1,
+//         position: 'right' as 'right',
+//       },
+//       vlSpec: {
+//         data: { url : 'cars.json' },
+//         mark: 'bar',
+//         encoding: {
+//           y: {
+//             bin: true,
+//             field: 'horsepower',
+//             type: 'quantitative',
+//           },
+//           x: {
+//             aggregate: 'count',
+//             type: 'quantitative',
+//           },
+//         },
+//       } as TopLevelFacetedUnitSpec,
+//     },
+//   },
+//   {
+//     id: 2,
+//     title: 'hello',
+//     comp: '<',
+//     left: { solutionOpt: none,
+//       id: {
+//         pairId: 2,
+//         position: 'left' as 'left',
+//       },
+//       vlSpec: {
+//         data: { url : 'cars.json' },
+//         mark: 'bar',
+//         encoding: {
+//           y: {
+//             field: 'cylinders',
+//             type: 'ordinal',
+//           },
+//           x: {
+//             field: 'horsepower',
+//             type: 'quantitative',
+//             aggregate: 'mean',
+//           },
+//         },
+//       } as TopLevelFacetedUnitSpec,
+//     },
+//     right: { solutionOpt: none,
+//       id: {
+//         pairId: 2,
+//         position: 'right' as 'right',
+//       },
+//       vlSpec: {
+//         data: { url : 'cars.json' },
+//         mark: 'bar',
+//         encoding: {
+//           x: {
+//             field: 'cylinders',
+//             type: 'ordinal',
+//           },
+//           y: {
+//             field: 'horsepower',
+//             type: 'quantitative',
+//             aggregate: 'mean',
+//           },
+//         },
+//       } as TopLevelFacetedUnitSpec,
+//     },
+//   },
+// ];
 
-const Q_N: Pair[] = [
-  {
-    id: 0,
-    title: 'hello',
-    comp: '<',
-    left: { solutionOpt: none,
-      id: {
-        pairId: 0,
-        position: 'left' as 'left',
-      },
-      vlSpec: {
-        data: { url : 'cars.json' },
-        mark: 'bar',
-        encoding: {
-          y: {
-            field: 'origin',
-            type: 'nominal',
-          },
-          x: {
-            field: 'horsepower',
-            type: 'quantitative',
-            aggregate: 'mean',
-          },
-        },
-      } as TopLevelFacetedUnitSpec,
-    },
-    right: { solutionOpt: none,
-      id: {
-        pairId: 0,
-        position: 'right' as 'right',
-      },
-      vlSpec: {
-        data: { url : 'cars.json' },
-        mark: 'bar',
-        encoding: {
-          x: {
-            field: 'origin',
-            type: 'nominal',
-          },
-          y: {
-            field: 'horsepower',
-            type: 'quantitative',
-            aggregate: 'mean',
-          },
-        },
-      } as TopLevelFacetedUnitSpec,
-    },
-  },
-];
+// const Q_N: Pair[] = [
+//   {
+//     id: 0,
+//     title: 'hello',
+//     comp: '<',
+//     left: { solutionOpt: none,
+//       id: {
+//         pairId: 0,
+//         position: 'left' as 'left',
+//       },
+//       vlSpec: {
+//         data: { url : 'cars.json' },
+//         mark: 'bar',
+//         encoding: {
+//           y: {
+//             field: 'origin',
+//             type: 'nominal',
+//           },
+//           x: {
+//             field: 'horsepower',
+//             type: 'quantitative',
+//             aggregate: 'mean',
+//           },
+//         },
+//       } as TopLevelFacetedUnitSpec,
+//     },
+//     right: { solutionOpt: none,
+//       id: {
+//         pairId: 0,
+//         position: 'right' as 'right',
+//       },
+//       vlSpec: {
+//         data: { url : 'cars.json' },
+//         mark: 'bar',
+//         encoding: {
+//           x: {
+//             field: 'origin',
+//             type: 'nominal',
+//           },
+//           y: {
+//             field: 'horsepower',
+//             type: 'quantitative',
+//             aggregate: 'mean',
+//           },
+//         },
+//       } as TopLevelFacetedUnitSpec,
+//     },
+//   },
+// ];
 
-const O_O: Pair[] = [
-  {
-    id: 0,
-    title: 'hello',
-    comp: '<',
-    left: { solutionOpt: none,
-      id: {
-        pairId: 0,
-        position: 'left' as 'left',
-      },
-      vlSpec: {
-        data: { url : 'cars.json' },
-        mark: 'point',
-        encoding: {
-          y: {
-            field: 'cylinders',
-            type: 'ordinal',
-          },
-          x: {
-            field: 'horsepower',
-            type: 'quantitative',
-            bin: true,
-          },
-          size: {
-            type: 'quantitative',
-            aggregate: 'count',
-          },
-        },
-      } as TopLevelFacetedUnitSpec,
-    },
-    right: { solutionOpt: none,
-      id: {
-        pairId: 0,
-        position: 'right' as 'right',
-      },
-      vlSpec: {
-        data: { url : 'cars.json' },
-        mark: 'point',
-        encoding: {
-          x: {
-            field: 'cylinders',
-            type: 'ordinal',
-          },
-          y: {
-            field: 'horsepower',
-            type: 'quantitative',
-            bin: true,
-          },
-          size: {
-            type: 'quantitative',
-            aggregate: 'count',
-          },
-        },
-      } as TopLevelFacetedUnitSpec,
-    },
-  },
-];
+// const O_O: Pair[] = [
+//   {
+//     id: 0,
+//     title: 'hello',
+//     comp: '<',
+//     left: { solutionOpt: none,
+//       id: {
+//         pairId: 0,
+//         position: 'left' as 'left',
+//       },
+//       vlSpec: {
+//         data: { url : 'cars.json' },
+//         mark: 'point',
+//         encoding: {
+//           y: {
+//             field: 'cylinders',
+//             type: 'ordinal',
+//           },
+//           x: {
+//             field: 'horsepower',
+//             type: 'quantitative',
+//             bin: true,
+//           },
+//           size: {
+//             type: 'quantitative',
+//             aggregate: 'count',
+//           },
+//         },
+//       } as TopLevelFacetedUnitSpec,
+//     },
+//     right: { solutionOpt: none,
+//       id: {
+//         pairId: 0,
+//         position: 'right' as 'right',
+//       },
+//       vlSpec: {
+//         data: { url : 'cars.json' },
+//         mark: 'point',
+//         encoding: {
+//           x: {
+//             field: 'cylinders',
+//             type: 'ordinal',
+//           },
+//           y: {
+//             field: 'horsepower',
+//             type: 'quantitative',
+//             bin: true,
+//           },
+//           size: {
+//             type: 'quantitative',
+//             aggregate: 'count',
+//           },
+//         },
+//       } as TopLevelFacetedUnitSpec,
+//     },
+//   },
+// ];
 
-const O_N: Pair[] = [
-  {
-    id: 0,
-    title: 'hello',
-    comp: '=',
-    left: { solutionOpt: none,
-      id: {
-        pairId: 0,
-        position: 'left' as 'left',
-      },
-      vlSpec: {
-        data: { url : 'cars.json' },
-        mark: 'point',
-        encoding: {
-          x: {
-            field: 'cylinders',
-            type: 'ordinal',
-          },
-          y: {
-            field: 'origin',
-            type: 'nominal',
-          },
-          size: {
-            type: 'quantitative',
-            aggregate: 'count',
-          },
-        },
-      } as TopLevelFacetedUnitSpec,
-    },
-    right: { solutionOpt: none,
-      id: {
-        pairId: 0,
-        position: 'right' as 'right',
-      },
-      vlSpec: {
-        data: { url : 'cars.json' },
-        mark: 'point',
-        encoding: {
-          y: {
-            field: 'cylinders',
-            type: 'ordinal',
-          },
-          x: {
-            field: 'origin',
-            type: 'nominal',
-          },
-          size: {
-            type: 'quantitative',
-            aggregate: 'count',
-          },
-        },
-      } as TopLevelFacetedUnitSpec,
-    },
-  },
-];
+// const O_N: Pair[] = [
+//   {
+//     id: 0,
+//     title: 'hello',
+//     comp: '=',
+//     left: { solutionOpt: none,
+//       id: {
+//         pairId: 0,
+//         position: 'left' as 'left',
+//       },
+//       vlSpec: {
+//         data: { url : 'cars.json' },
+//         mark: 'point',
+//         encoding: {
+//           x: {
+//             field: 'cylinders',
+//             type: 'ordinal',
+//           },
+//           y: {
+//             field: 'origin',
+//             type: 'nominal',
+//           },
+//           size: {
+//             type: 'quantitative',
+//             aggregate: 'count',
+//           },
+//         },
+//       } as TopLevelFacetedUnitSpec,
+//     },
+//     right: { solutionOpt: none,
+//       id: {
+//         pairId: 0,
+//         position: 'right' as 'right',
+//       },
+//       vlSpec: {
+//         data: { url : 'cars.json' },
+//         mark: 'point',
+//         encoding: {
+//           y: {
+//             field: 'cylinders',
+//             type: 'ordinal',
+//           },
+//           x: {
+//             field: 'origin',
+//             type: 'nominal',
+//           },
+//           size: {
+//             type: 'quantitative',
+//             aggregate: 'count',
+//           },
+//         },
+//       } as TopLevelFacetedUnitSpec,
+//     },
+//   },
+// ];
 
-const N_N: Pair[] = [
-  {
-    id: 0,
-    title: 'hello',
-    comp: '<',
-    left: { solutionOpt: none,
-      id: {
-        pairId: 0,
-        position: 'left' as 'left',
-      },
-      vlSpec: {
-        data: { url : 'cars.json' },
-        mark: 'point',
-        encoding: {
-          y: {
-            field: 'name',
-            type: 'nominal',
-          },
-          x: {
-            field: 'origin',
-            type: 'nominal',
-          },
-        },
-      } as TopLevelFacetedUnitSpec,
-    },
-    right: { solutionOpt: none,
-      id: {
-        pairId: 0,
-        position: 'right' as 'right',
-      },
-      vlSpec: {
-        data: { url : 'cars.json' },
-        mark: 'point',
-        encoding: {
-          x: {
-            field: 'name',
-            type: 'nominal',
-          },
-          y: {
-            field: 'origin',
-            type: 'nominal',
-          },
-        },
-      } as TopLevelFacetedUnitSpec,
-    },
-  },
-];
+// const N_N: Pair[] = [
+//   {
+//     id: 0,
+//     title: 'hello',
+//     comp: '<',
+//     left: { solutionOpt: none,
+//       id: {
+//         pairId: 0,
+//         position: 'left' as 'left',
+//       },
+//       vlSpec: {
+//         data: { url : 'cars.json' },
+//         mark: 'point',
+//         encoding: {
+//           y: {
+//             field: 'name',
+//             type: 'nominal',
+//           },
+//           x: {
+//             field: 'origin',
+//             type: 'nominal',
+//           },
+//         },
+//       } as TopLevelFacetedUnitSpec,
+//     },
+//     right: { solutionOpt: none,
+//       id: {
+//         pairId: 0,
+//         position: 'right' as 'right',
+//       },
+//       vlSpec: {
+//         data: { url : 'cars.json' },
+//         mark: 'point',
+//         encoding: {
+//           x: {
+//             field: 'name',
+//             type: 'nominal',
+//           },
+//           y: {
+//             field: 'origin',
+//             type: 'nominal',
+//           },
+//         },
+//       } as TopLevelFacetedUnitSpec,
+//     },
+//   },
+// ];
 
-const X_Y: CollectionState = {
+// const X_Y: CollectionState = {
+//   dracoConstraintSetOpt: none,
+//   dracoConstraintSetMapOpt: none,
+//   pairs: [
+//     ...Q_Q,
+//     ...Q_O,
+//     ...Q_N,
+//     ...O_O,
+//     ...O_N,
+//     ...N_N,
+//   ],
+// };
+
+// const initialState = X_Y;
+
+// for (let i = 0; i < initialState.pairs.length; i += 1) {
+//   initialState.pairs[i].id = i;
+//   initialState.pairs[i].left.id.pairId = i;
+//   initialState.pairs[i].right.id.pairId = i;
+// }
+
+const initialState: CollectionState = {
   dracoConstraintSetOpt: none,
   dracoConstraintSetMapOpt: none,
-  pairs: [
-    ...Q_Q,
-    ...Q_O,
-    ...Q_N,
-    ...O_O,
-    ...O_N,
-    ...N_N,
-  ],
+  pairs: []
 };
-
-const initialState = X_Y;
-
-for (let i = 0; i < initialState.pairs.length; i += 1) {
-  initialState.pairs[i].id = i;
-  initialState.pairs[i].left.id.pairId = i;
-  initialState.pairs[i].right.id.pairId = i;
-}
-

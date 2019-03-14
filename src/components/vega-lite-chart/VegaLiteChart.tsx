@@ -41,7 +41,7 @@ interface State {}
  * A Visualization component accepts a `vlSpec` as a prop
  * and renders the resulting svg.
  */
-class VegaLiteChart extends React.Component<Props, State> {
+class VegaLiteChart extends React.PureComponent<Props, State> {
   constructor(props: Props) {
     super(props);
 

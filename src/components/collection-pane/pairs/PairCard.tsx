@@ -87,7 +87,52 @@ class PairCard extends React.Component<Props, State> {
     }
   }
 
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
+    // console.log(nextProps);
+    // console.log(this.props);
+
+    // if (this.props.pair.id === 118 ) {
+    //   console.log(JSON.stringify(this.props));
+    //   console.log(JSON.stringify(nextProps));
+    //   console.log(this.props === nextProps);
+    // }
+    return JSON.stringify(this.props) !== JSON.stringify(nextProps) || this.state !== nextState;
+    return this.props !== nextProps || this.state !== nextState;
+    if (nextProps === this.props) {
+      if (nextProps.pair.fingerprint !== this.props.pair.fingerprint) {
+        return true;
+      }
+
+      if (nextProps.open !== this.props.open) {
+        return true;
+      }
+
+      if (nextProps.vectorsOpt !== this.props.vectorsOpt) {
+        return true;
+      }
+
+      if (nextProps.diffVectorOpt !== this.props.diffVectorOpt) {
+        return true;
+      }
+
+      if (nextProps.constraintSetMapOpt !== this.props.constraintSetMapOpt) {
+        return true;
+      }
+
+      if (nextProps.colorScale !== this.props.colorScale) {
+        return true;
+      }
+    }
+
+    if (this.state !== nextState) {
+      return true;
+    }
+    
+    return false;
+  }
+
   render() {
+    console.log('render');
     let leftCost;
     if (this.props.pair.left.solutionOpt.isDefined && this.props.constraintSetMapOpt.isDefined) {
       const hardConstraints = this.props.constraintSetMapOpt.get.hard;
