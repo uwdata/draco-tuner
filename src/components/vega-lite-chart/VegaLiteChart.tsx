@@ -53,10 +53,8 @@ class VegaLiteChart extends React.PureComponent<Props, State> {
     this.updateView(this.props.vlSpec);
   }
 
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.vlSpec !== this.props.vlSpec) {
-      this.updateView(nextProps.vlSpec);
-    }
+  componentDidUpdate(prevProps: Props) {
+    this.updateView(this.props.vlSpec);
   }
 
   render() {
@@ -81,6 +79,7 @@ class VegaLiteChart extends React.PureComponent<Props, State> {
    * @param {Object} vlSpec The Vega-Lite spec to use.
    */
   updateView(vlSpec: TopLevelSpec) {
+    console.debug('updating vegalitechart');
     if (!vlSpec) {
       console.warn('no spec passed to viz view');
       return;
@@ -103,10 +102,10 @@ class VegaLiteChart extends React.PureComponent<Props, State> {
 
     const opt: EmbedOptions = {
       loader,
-      renderer: this.props.renderer,
+      renderer: typeof this.props.renderer === 'undefined' ? 'canvas' : this.props.renderer,
       mode: 'vega-lite',
       defaultStyle: true,
-      actions: typeof this.props.actions === 'undefined' ? true : this.props.actions,
+      actions: typeof this.props.actions === 'undefined' ? false : this.props.actions,
     };
 
     // @ts-ignore
@@ -116,7 +115,6 @@ class VegaLiteChart extends React.PureComponent<Props, State> {
   handleClick() {
     const asp = vl2asp(this.props.vlSpec as TopLevelFacetedUnitSpec);
     const program = `${asp.join('\n')}\n`;
-    console.debug(program);
     this.props.setInfoPaneVegalite(this.props.vlSpec);
     this.props.setInfoPaneAsp(program);
     this.props.runDraco(program);
