@@ -1,8 +1,8 @@
 import { createReducer } from 'redux-starter-kit';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
 
-const initialState: Pair[] = [
-  {
+const initialState: { [n: number]: Pair } = {
+  0: {
     id: 1,
     comp: '<',
     left: {
@@ -40,7 +40,7 @@ const initialState: Pair[] = [
       },
     },
   },
-  {
+  1: {
     id: 2,
     comp: '<',
     left: {
@@ -78,7 +78,7 @@ const initialState: Pair[] = [
       },
     },
   },
-];
+};
 
 
 const pairsReducer = createReducer(initialState, {
