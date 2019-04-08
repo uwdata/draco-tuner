@@ -18,3 +18,8 @@ declare module "redux-worker-middleware" {
   const createWorkerMiddleware: any;
   export default createWorkerMiddleware;
 }
+
+declare module "react-vega-lite" {
+  const VegaLite: any;
+  export default VegaLite;
+}

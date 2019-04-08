@@ -1,13 +1,24 @@
-import { combineReducers } from 'redux';
+import reduceReducers from 'reduce-reducers';
+import { AnyAction, combineReducers, Reducer } from 'redux';
 import { StateType } from 'typesafe-actions';
-import collection from './collection';
-import editor from './editor';
-import tuner from './tuner';
+import dracoReducer from './draco-reducer';
+import pairsReducer from './pairs-reducer';
 
-export const rootReducer = combineReducers({
-  editor,
-  collection,
-  tuner,
+const combinedReducers = combineReducers({
+  pairs: pairsReducer,
+  draco: dracoReducer,
 });
 
-export type RootState = StateType<typeof rootReducer>;
+type CombinedState = StateType<typeof combinedReducers>;
+
+const crossSliceReducer = (state: CombinedState, action: AnyAction) => {
+  switch(action.type) {
+    default:
+      return state;
+  }
+}
+
+export const rootReducer = reduceReducers(combinedReducers, crossSliceReducer as Reducer);
+
+export type RootState = CombinedState;
+

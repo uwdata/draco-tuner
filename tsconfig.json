@@ -16,6 +16,7 @@
     "jsx": "preserve",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "rootDirs": ["src", "stories"],
     "resolveJsonModule": true,
   },
   "files": [
