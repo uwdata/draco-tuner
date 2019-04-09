@@ -1,3 +1,4 @@
+import { createReducer } from "redux-starter-kit";
 import { getType } from "typesafe-actions";
 import { PairCollectionAction, pairCollectionActions } from '../actions';
 import { SpecDictionary, SpecObject } from '../model';
@@ -89,25 +90,18 @@ const initialState: PairCollectionStore = {
 };
 
 // @ts-ignore
-const pairsCollectionReducer = (state: PairCollectionStore = initialState, action: PairCollectionAction) => {
-  switch (action.type) {
-    case getType(pairCollectionActions.reloadPairsEnd):
-      return reloadPairsEnd(state, action);
-    default:
-      return state;
+const pairsCollectionReducer = createReducer(initialState, {
+  [getType(pairCollectionActions.reloadPairsEnd)]: (state: PairCollectionStore, action: PairCollectionAction) => {
+    return reloadPairsEnd(state, action);
   }
-}
+});
 
 export default pairsCollectionReducer;
 
 function reloadPairsEnd(state: PairCollectionStore, action: PairCollectionAction) {
   const specDict = action.payload;
   const pairsDictionary = SpecDictionary.toPairsDictionary(specDict, state.pairs);
-  
-  return {
-    ...state,
-    pairs: pairsDictionary
-  };
+  state.pairs = pairsDictionary;
 }
 
 export interface Pair {
