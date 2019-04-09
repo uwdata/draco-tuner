@@ -18,7 +18,10 @@ export class Spec {
   static dracoSolve = (spec: SpecObject, draco: Draco, opt?: Options): SpecObject => {
     const result = _.clone(spec);
     const sol = draco.solve(Spec.toAspString(spec), opt);
-    result.sol = DracoSolution.fromSolutionSet(sol);
+
+    if (sol) {
+      result.sol = DracoSolution.fromSolutionSet(sol);
+    }
     return result;
   };
 
