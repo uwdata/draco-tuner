@@ -5,7 +5,8 @@
   width: 100%;
   border: 1px solid $light-grey;
   height: 16px;
-
+  flex-shrink: 0;
+  
   &.open {
     height: 320px;
   }
@@ -26,13 +27,15 @@
   .item {
     @extend %flex-column;
     height: 100%;
-    flex-grow: 1;
+    width: calc(50% - 24px);
     align-items: center;
   }
   
   .comparator {
+    @extend %flex-row;
     width: 24px;
     height: 24px;
+    justify-content: center;
   }
   
   .splinter {

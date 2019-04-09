@@ -60,4 +60,4 @@ basespec({
     encoding: {
         x: n1, y: o1
     }
-});`
+});`;

@@ -7,7 +7,7 @@ import './pair-card.css';
 export interface PairCardStoreProps {
   left?: PairCardItem;
   right?: PairCardItem;
-  comparator: string;
+  comparator?: string;
   diffVector?: number[];
   pass?: boolean;
 }

@@ -2,8 +2,16 @@ import * as React from 'react';
 import { PairCardContainer } from '../../containers';
 import './pair-collection.css';
 
-export interface PairCollectionProps {
-  pairIds: number[];
+export interface PairCollectionStoreProps {
+  pairIds: number[];  
+}
+
+export interface PairCollectionDispatchProps {
+  reloadPairs: () => void;
+}
+
+export interface PairCollectionProps
+  extends PairCollectionStoreProps, PairCollectionDispatchProps {
 }
 
 export interface PairCollectionState {}
@@ -20,7 +28,12 @@ export default class PairCollection
 
     return (
       <div styleName="pair-collection">
-        { pairCards }
+        <div styleName="controls">
+          <button onClick={this.props.reloadPairs}>reload</button>
+        </div>
+        <div styleName="view">
+          { pairCards }
+        </div>
       </div>
     )
   }

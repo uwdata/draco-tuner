@@ -1,4 +1,3 @@
-import PairCardContainer from './PairCardContainer';
+import PairCardContainer from "./PairCardContainer";
 
 export { PairCardContainer };
-

@@ -14,7 +14,7 @@ const createStoreWithMiddleware = applyMiddleware(
   reduxThunk,
 )(createStore);
 
-const store = createStoreWithMiddleware(
+export const store = createStoreWithMiddleware(
   rootReducer,
 );
 

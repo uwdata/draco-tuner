@@ -4,4 +4,18 @@
   @extend %flex-column;
   width: 100%;
   height: 100%;
+
+  .controls {
+    @extend %flex-row;
+    justify-content: space-evenly;
+    width: 100%;
+    height: 32px;
+  }
+
+  .view {
+    @extend %flex-column;
+    width: 100%;
+    height: calc(100% - 32px);  // minus controls
+    overflow: auto;
+  }
 }
