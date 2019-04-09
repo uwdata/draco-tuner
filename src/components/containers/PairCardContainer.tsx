@@ -11,8 +11,8 @@ function mapStateToProps(rootState: RootState, props: PairCardProps): PairCardSt
   return {
     left,
     right,
-    comparator
-  }
+    comparator,
+  };
 }
 
 export default connect(

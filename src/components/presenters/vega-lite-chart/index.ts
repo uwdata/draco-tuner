@@ -1,3 +1,3 @@
-import VegaLiteChart from "./VegaLiteChart";
+import VegaLiteChart from './VegaLiteChart';
 
 export default VegaLiteChart;

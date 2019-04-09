@@ -1,4 +1,4 @@
-import { DracoAction } from "../actions";
+import { DracoAction } from '../actions';
 
 export interface DracoWorkerAction {
   type: string;

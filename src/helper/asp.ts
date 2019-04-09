@@ -38,11 +38,11 @@ export function getDataUrlFromAsp(lines: string[]): string | null {
     });
 
   if (dataUrls.length > 1) {
-    throw Error("More than one data source specified");
+    throw Error('More than one data source specified');
   }
 
   if (dataUrls.length === 0) {
-    throw Error("No data source specified");
+    throw Error('No data source specified');
   }
 
   return dataUrls[0];

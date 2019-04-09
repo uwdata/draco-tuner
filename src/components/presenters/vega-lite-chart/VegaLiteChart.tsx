@@ -35,17 +35,13 @@ class VegaLiteChart extends React.PureComponent<Props, State> {
       // @ts-ignore
       if (datasets.hasOwnProperty(this.props.spec.data.url)) {
         // @ts-ignore
-        data = { 'values': datasets[this.props.spec.data.url] };
+        data = { values: datasets[this.props.spec.data.url] };
       }
     }
 
     return (
       <div styleName="vega-lite-chart">
-        <VegaLite
-          spec={this.props.spec}
-          data={data}
-          renderer="canvas"
-          style={{ "height": "100%", "maxWidth": "100%"}} />
+        <VegaLite spec={this.props.spec} data={data} renderer="canvas" style={{ height: '100%', maxWidth: '100%' }} />
       </div>
     );
   }

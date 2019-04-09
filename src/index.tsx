@@ -9,14 +9,9 @@ import App from './components/App';
 import './index.global.css';
 import { rootReducer } from './reducers';
 
-const createStoreWithMiddleware = applyMiddleware(
-  reduxWorkerMiddleware(new Worker()),
-  reduxThunk,
-)(createStore);
+const createStoreWithMiddleware = applyMiddleware(reduxWorkerMiddleware(new Worker()), reduxThunk)(createStore);
 
-export const store = createStoreWithMiddleware(
-  rootReducer,
-);
+export const store = createStoreWithMiddleware(rootReducer);
 
 // @ts-ignore
 window.store = store;
@@ -25,5 +20,5 @@ render(
   <Provider store={store}>
     <App />
   </Provider>,
-  document.getElementById('root') as HTMLElement,
+  document.getElementById('root') as HTMLElement
 );

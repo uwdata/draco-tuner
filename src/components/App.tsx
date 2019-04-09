@@ -11,12 +11,8 @@ interface State {}
 
 export default class App extends React.Component<AppProps, State> {
   render() {
-    return (
-      <div styleName="app" id="app">
-      </div>
-    );
+    return <div styleName="app" id="app" />;
   }
 
-  componentDidMount() {
-  }
+  componentDidMount() {}
 }

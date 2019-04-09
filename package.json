@@ -10,7 +10,8 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "clean": "find . -name \"src/**/*.css\" -type f -delete && rm -r dist",
-    "lint": "tslint -c tslint.json 'src/**/*.tsx'",
+    "format": "tslint -p . --fix && prettier --write '{src,test}/**/*.{ts,tsx}'",
+    "lint": "tslint -p . && prettier --list-different '{src,test}/**/*.{ts,tsx}'",
     "storybook": "start-storybook"
   },
   "dependencies": {
@@ -94,6 +95,7 @@
     "ts-loader": "^5.2.1",
     "tslint": "^5.11.0",
     "tslint-config-airbnb": "^5.11.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.1.1",
     "url-loader": "^1.0.1",
     "webpack": "^4.16.2",

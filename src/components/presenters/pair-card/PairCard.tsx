@@ -17,9 +17,7 @@ export interface PairCardProps extends PairCardStoreProps {
   open: boolean;
 }
 
-export interface PairCardState {
-
-}
+export interface PairCardState {}
 
 export interface PairCardItem {
   vlSpec: TopLevelUnitSpec;
@@ -37,15 +35,13 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
         <div styleName="info">
           <div styleName="charts">
             <div styleName="item">
-              <VegaLiteChart spec={this.props.left.vlSpec}/>
-              <div style={{ paddingTop: "16px" }}>{ this.props.left.cost }</div>
+              <VegaLiteChart spec={this.props.left.vlSpec} />
+              <div style={{ paddingTop: '16px' }}>{this.props.left.cost}</div>
             </div>
-            <div styleName="comparator">
-              {this.props.comparator}
-            </div>
+            <div styleName="comparator">{this.props.comparator}</div>
             <div styleName="item">
-              <VegaLiteChart spec={this.props.right.vlSpec}/>
-              <div style={{ paddingTop: "16px" }}>{ this.props.right.cost }</div>
+              <VegaLiteChart spec={this.props.right.vlSpec} />
+              <div style={{ paddingTop: '16px' }}>{this.props.right.cost}</div>
             </div>
           </div>
         </div>
@@ -54,10 +50,10 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
 
     return (
       <div styleName={classnames(style)}>
-        <Splinter pass={this.props.pass} vector={this.props.diffVector}/>
+        <Splinter pass={this.props.pass} vector={this.props.diffVector} />
         {populated}
       </div>
-    )
+    );
   }
 }
 
@@ -69,31 +65,31 @@ interface SplinterProps {
 interface SplinterState {}
 
 class Splinter extends React.PureComponent<SplinterProps, SplinterState> {
-  static Blue = '#75a8f9';
-  static Red = '#f97486';
-  static White = '#fff';
-  static Green = '#c9ffcc';
+  static BLUE = '#75a8f9';
+  static RED = '#f97486';
+  static WHITE = '#fff';
+  static GREEN = '#c9ffcc';
 
   render() {
     let diffViz;
 
     if (this.props.vector) {
       diffViz = this.props.vector.map((val, i) => {
-        const color = val === -1 ? Splinter.Blue : val === 1 ? Splinter.Red : Splinter.White;
-        return <div key={i} styleName="cell" style={{ "backgroundColor": color }}/>;
+        const color = val === -1 ? Splinter.BLUE : val === 1 ? Splinter.RED : Splinter.WHITE;
+        return <div key={i} styleName="cell" style={{ backgroundColor: color }} />;
       });
     }
 
-    let splinterColor = Splinter.White;
+    let splinterColor = Splinter.WHITE;
     if (typeof this.props.pass !== 'undefined') {
-      splinterColor = this.props.pass ? Splinter.Green : Splinter.Red;
+      splinterColor = this.props.pass ? Splinter.GREEN : Splinter.RED;
     }
     return (
-      <div styleName="splinter" style={{ 'backgroundColor': splinterColor }} >
-        { diffViz }
+      <div styleName="splinter" style={{ backgroundColor: splinterColor }}>
+        {diffViz}
       </div>
-    )
+    );
   }
 }
 
-export default PairCard
+export default PairCard;
