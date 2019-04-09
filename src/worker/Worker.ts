@@ -1,35 +1,50 @@
-import Draco, { Options } from 'draco-vis'; // tslint:disable-line
-import { vega } from 'vega-embed';
-
-const cars = require('../data/cars.json');
-const barley = require('../data/barley.json');
-
-export const datasets = {
-  'cars.json': cars,
-  'barley.json': barley,
-};
+import Draco, { Options } from "draco-vis"; // tslint:disable-line
+import { getType } from "typesafe-actions";
+import { DracoWorkerAction, dracoWorkerActions, pairCollectionActions } from "../actions";
+import { Spec, SpecDictionary } from "../model";
+import { DracoWorkerEvent } from "./worker-event";
 
 const ctx: Worker = self as any;
+
+const data = require('../data/cars.json');
 
 const dracoOptions: Options = {
   models: 7,
 };
 
-const draco = new Draco(status => {}, 'static');
-let prevProgram = '';
-let dataInfo = {
-  url: null,
-  data: null,
-};
+const draco = new Draco('static', status => console.debug);
 
-const loader = vega.loader();
-const originalHttp = loader.http;
-loader.http = (url, options) => {
-  console.debug('Request for', url);
-
-  if (url in datasets) {
-    // @ts-ignore
-    return datasets[url];
+ctx.onmessage = ({ data: action }: DracoWorkerEvent) => {
+  if (!draco.initialized) {
+    draco.init().then(() => handleAction(action));
+    draco.prepareData(data);
+  } else {
+    handleAction(action);
   }
-  return originalHttp.bind(loader)(url, options);
-};
+}
+
+function handleAction(action: DracoWorkerAction) {
+  switch (action.type) {
+    case getType(dracoWorkerActions.reloadPairsBegin):
+      const solvedSpecDict = solveSpecs(action.payload);
+      ctx.postMessage({
+        type: getType(pairCollectionActions.reloadPairsEnd),
+        payload: solvedSpecDict
+      });
+      break;
+    default:
+  }
+}
+
+
+function solveSpecs(specDict: SpecDictionary): SpecDictionary {
+  const result: SpecDictionary = {};
+  for (const id of Object.keys(specDict)) {
+    const spec = specDict[id];
+    const newOptions = {...dracoOptions, models: 1, weights: [{name: 'max_extra_encs', value: 0 }]}
+    const solvedSpec = Spec.dracoSolve(spec, draco, newOptions);
+    result[id] = solvedSpec;
+  }
+
+  return result;
+}

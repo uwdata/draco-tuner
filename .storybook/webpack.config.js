@@ -1,7 +1,9 @@
 const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = ({ config, mode }) => {
+  config.output['globalObject'] = 'this';
   config.module.rules = config.module.rules.filter(
     rule => rule.test.toString() !== '/\\.css$/'
   );
@@ -13,6 +15,13 @@ module.exports = ({ config, mode }) => {
       presets: [['react-app', { flow: false, typescript: true }]],
     },
   });
+
+  config.module.rules.push(
+    {
+      test: /\.worker\.js$/,
+      use: { loader: 'worker-loader' }
+    },
+  );
 
   config.module.rules.push(
     // local css loading
@@ -70,6 +79,12 @@ module.exports = ({ config, mode }) => {
       chunkFilename: "[id].css"
     })
   );
+
+  config.plugins.push(
+    new CopyWebpackPlugin([
+      { from: path.resolve(__dirname, "../node_modules/wasm-clingo/clingo.wasm"), to: "static/clingo.wasm" }
+    ]),
+  )
 
   config.resolve.extensions.push('.ts', '.tsx', '.js', '.json');
   return config;

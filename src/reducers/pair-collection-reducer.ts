@@ -1,15 +1,16 @@
-import { createReducer } from 'redux-starter-kit';
-import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
+import { getType } from "typesafe-actions";
+import { PairCollectionAction, pairCollectionActions } from '../actions';
+import { SpecDictionary, SpecObject } from '../model';
 
-type PairsDictionary = { [n: number]: Pair };
+export type PairsDictionary = { [id: string]: Pair };
 
-interface PairCollectionStore {
+export interface PairCollectionStore {
   pairs: PairsDictionary;
 }
 const initialState: PairCollectionStore = {
   pairs: {
-    0: {
-      id: 1,
+    '0': {
+      id: 0,
       comp: '<',
       left: {
         vlSpec: {
@@ -46,8 +47,8 @@ const initialState: PairCollectionStore = {
         },
       },
     },
-    1: {
-      id: 2,
+    '1': {
+      id: 1,
       comp: '<',
       left: {
         vlSpec: {
@@ -87,17 +88,31 @@ const initialState: PairCollectionStore = {
   },
 };
 
-const pairsCollectionReducer = createReducer(initialState, {});
+// @ts-ignore
+const pairsCollectionReducer = (state: PairCollectionStore = initialState, action: PairCollectionAction) => {
+  switch (action.type) {
+    case getType(pairCollectionActions.reloadPairsEnd):
+      return reloadPairsEnd(state, action);
+    default:
+      return state;
+  }
+}
 
 export default pairsCollectionReducer;
+
+function reloadPairsEnd(state: PairCollectionStore, action: PairCollectionAction) {
+  const specDict = action.payload;
+  const pairsDictionary = SpecDictionary.toPairsDictionary(specDict, state.pairs);
+  
+  return {
+    ...state,
+    pairs: pairsDictionary
+  };
+}
 
 export interface Pair {
   id: number;
   comp: string;
-  left: PairItem;
-  right: PairItem;
-}
-
-export interface PairItem {
-  vlSpec: TopLevelUnitSpec;
+  left: SpecObject;
+  right: SpecObject;
 }
