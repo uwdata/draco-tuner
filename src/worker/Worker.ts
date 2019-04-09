@@ -1,8 +1,8 @@
-import Draco, { Options } from "draco-vis"; // tslint:disable-line
-import { getType } from "typesafe-actions";
-import { DracoWorkerAction, dracoWorkerActions, pairCollectionActions } from "../actions";
-import { Spec, SpecDictionary } from "../model";
-import { DracoWorkerEvent } from "./worker-event";
+import Draco, { Options } from 'draco-vis'; // tslint:disable-line
+import { getType } from 'typesafe-actions';
+import { DracoWorkerAction, dracoWorkerActions, pairCollectionActions } from '../actions';
+import { Spec, SpecDictionary } from '../model';
+import { DracoWorkerEvent } from './worker-event';
 
 const ctx: Worker = self as any;
 
@@ -21,7 +21,7 @@ ctx.onmessage = ({ data: action }: DracoWorkerEvent) => {
   } else {
     handleAction(action);
   }
-}
+};
 
 function handleAction(action: DracoWorkerAction) {
   switch (action.type) {
@@ -29,19 +29,18 @@ function handleAction(action: DracoWorkerAction) {
       const solvedSpecDict = solveSpecs(action.payload);
       ctx.postMessage({
         type: getType(pairCollectionActions.reloadPairsEnd),
-        payload: solvedSpecDict
+        payload: solvedSpecDict,
       });
       break;
     default:
   }
 }
 
-
 function solveSpecs(specDict: SpecDictionary): SpecDictionary {
   const result: SpecDictionary = {};
   for (const id of Object.keys(specDict)) {
     const spec = specDict[id];
-    const newOptions = {...dracoOptions, models: 1, weights: [{name: 'max_extra_encs', value: 0 }]}
+    const newOptions = { ...dracoOptions, models: 1, weights: [{ name: 'max_extra_encs', value: 0 }] };
     const solvedSpec = Spec.dracoSolve(spec, draco, newOptions);
     result[id] = solvedSpec;
   }

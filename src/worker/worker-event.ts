@@ -1,4 +1,4 @@
-import { DracoWorkerAction } from "../actions";
+import { DracoWorkerAction } from '../actions';
 
 export interface DracoWorkerEvent extends MessageEvent {
   data: DracoWorkerAction;

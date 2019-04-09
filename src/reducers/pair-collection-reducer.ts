@@ -1,5 +1,5 @@
-import { createReducer } from "redux-starter-kit";
-import { getType } from "typesafe-actions";
+import { createReducer } from 'redux-starter-kit';
+import { getType } from 'typesafe-actions';
 import { PairCollectionAction, pairCollectionActions } from '../actions';
 import { SpecDictionary, SpecObject } from '../model';
 
@@ -93,7 +93,7 @@ const initialState: PairCollectionStore = {
 const pairsCollectionReducer = createReducer(initialState, {
   [getType(pairCollectionActions.reloadPairsEnd)]: (state: PairCollectionStore, action: PairCollectionAction) => {
     return reloadPairsEnd(state, action);
-  }
+  },
 });
 
 export default pairsCollectionReducer;

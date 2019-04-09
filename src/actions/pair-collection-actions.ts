@@ -14,4 +14,4 @@ export const reloadPairsThunk = (): ThunkAction<void, {}, {}, AnyAction> => {
 
 export const reloadPairsEnd = createAction('pairs-collection/RELOAD_PAIRS_END', action => {
   return (specDict: SpecDictionaryObject) => action(specDict);
-})
+});
