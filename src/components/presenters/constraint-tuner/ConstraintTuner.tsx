@@ -74,8 +74,8 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
       }
 
       const styleNames = classnames({
-        'focused': focused && (hasLeftFocus || hasRightFocus),
-        'unfocused': !focused && (hasLeftFocus || hasRightFocus)
+        focused: focused && (hasLeftFocus || hasRightFocus),
+        unfocused: !focused && (hasLeftFocus || hasRightFocus),
       });
 
       return (

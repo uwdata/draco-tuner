@@ -12,8 +12,8 @@ import { rootReducer } from './reducers';
 
 const createStoreWithMiddleware = applyMiddleware(
   reduxWorkerMiddleware(new Worker()),
-  reduxThunk,
-// @ts-ignore
+  reduxThunk
+  // @ts-ignore
 )(createStore);
 
 export const store = createStoreWithMiddleware(rootReducer);
@@ -21,7 +21,7 @@ export const store = createStoreWithMiddleware(rootReducer);
 export const withReduxSettings = {
   Provider,
   store,
-}
+};
 
 // @ts-ignore
 window.store = store;

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import SplitPane from "react-split-pane";
+import SplitPane from 'react-split-pane';
 import './app.css';
 import { ConstraintTunerContainer, PairCollectionContainer } from './containers';
 import Navbar from './presenters/navbar';

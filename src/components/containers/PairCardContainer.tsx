@@ -46,7 +46,7 @@ function mapStateToProps(rootState: RootState, props: PairCardOwnProps): PairCar
     right,
     comparator,
     pass,
-    focused
+    focused,
   };
 }
 

@@ -16,7 +16,7 @@ const initialState: PairCollectionStore = {
 };
 
 // @ts-ignore
-const pairsCollectionReducer = createReducer<PairCollectionStore,PairCollectionAction>(initialState, {
+const pairsCollectionReducer = createReducer<PairCollectionStore, PairCollectionAction>(initialState, {
   [getType(pairCollectionActions.setPairs)]: (
     state: PairCollectionStore,
     action: ActionType<typeof pairCollectionActions.setPairs>
