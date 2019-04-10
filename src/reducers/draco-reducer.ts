@@ -7,6 +7,7 @@ import { ConstraintMap, ConstraintMapObject } from '../model/index';
 
 interface DracoStore {
   constraintMap: ConstraintMapObject;
+  finishedRunIds: Set<number>;
 }
 
 // Get constraint set (for now we grab from the draco-vis module).
@@ -19,6 +20,7 @@ const constraintMap: ConstraintMapObject = ConstraintMap.fromConstraintList(allC
 
 const initialState = {
   constraintMap,
+  finishedRunIds: new Set(),
 };
 
 // @ts-ignore

@@ -27,3 +27,5 @@ export const withReduxSettings = {
 }
 
 export const withReduxDecorator = withRedux(addons)(withReduxSettings);
+
+(window as any).runId = 0;

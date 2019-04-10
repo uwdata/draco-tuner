@@ -34,7 +34,7 @@ const pairsCollectionReducer = createReducer<PairCollectionStore, PairCollection
 export default pairsCollectionReducer;
 
 function setPairs(state: PairCollectionStore, action: ActionType<typeof pairCollectionActions.setPairs>) {
-  const specDict = action.payload;
+  const specDict = action.payload.specDict;
   const pairsDictionary = SpecDictionary.toPairsDictionary(specDict, state.pairs);
   state.pairs = pairsDictionary;
 }

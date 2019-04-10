@@ -5,15 +5,15 @@ import { SpecDictionaryObject } from '../model';
 import { RootState } from '../reducers';
 import { reloadPairsBegin } from './draco-worker-actions';
 
-export const reloadPairsThunk = (): ThunkAction<void, {}, {}, AnyAction> => {
+export const reloadPairsThunk = (runId: number): ThunkAction<void, {}, {}, AnyAction> => {
   return (dispatch: ThunkDispatch<{}, {}, AnyAction>, getState: () => RootState) => {
     const pairs = getState().pairCollection.pairs;
-    dispatch(reloadPairsBegin(pairs));
+    dispatch(reloadPairsBegin(pairs, runId));
   };
 };
 
 export const setPairs = createAction('pairs-collection/SET_PAIRS', action => {
-  return (specDict: SpecDictionaryObject) => action(specDict);
+  return (specDict: SpecDictionaryObject, runId: number) => action({ specDict, runId });
 });
 
 export const toggleFocusPair = createAction('pair-collection/TOGGLE_FOCUS_PAIR', action => {

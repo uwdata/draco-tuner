@@ -61,6 +61,10 @@
     margin-top: 16px;
   }
   
+  .button-container {
+    @extend %button-container;
+  }
+  
   .comparator {
     @extend %flex-row;
     width: 24px;

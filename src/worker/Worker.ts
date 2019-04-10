@@ -28,10 +28,13 @@ function handleAction(action: DracoWorkerAction) {
     case getType(dracoWorkerActions.reloadPairsBegin):
     case getType(dracoWorkerActions.solvePairsBegin):
       {
-        const solvedSpecDict = solveSpecs(action.payload);
+        const solvedSpecDict = solveSpecs(action.payload.specDict);
         ctx.postMessage({
           type: getType(pairCollectionActions.setPairs),
-          payload: solvedSpecDict,
+          payload: {
+            specDict: solvedSpecDict,
+            runId: action.payload.runId,
+          },
         });
       }
       break;

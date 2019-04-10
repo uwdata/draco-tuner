@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import _ from 'lodash';
 import * as React from 'react';
 import { PairCardContainer } from '../../containers';
@@ -5,10 +6,11 @@ import './pair-collection.css';
 
 export interface PairCollectionStoreProps {
   pairIds: string[];
+  finishedRunIds: Set<number>;
 }
 
 export interface PairCollectionDispatchProps {
-  reloadPairs: () => void;
+  reloadPairs: (runId: number) => void;
   clearFocusPair: () => void;
 }
 
@@ -21,6 +23,7 @@ export interface PairCollectionProps
 
 export interface PairCollectionState {
   selectedPairs: Set<string>;
+  runId?: number;
 }
 
 export default class PairCollection extends React.PureComponent<PairCollectionProps, PairCollectionState> {
@@ -46,31 +49,54 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
       );
     });
 
+    const reloadButtonStyle = classnames({
+      reloading: !_.isUndefined(this.state.runId) && !this.props.finishedRunIds.has(this.state.runId),
+    });
+
     return (
       <div styleName="pair-collection">
         <div styleName="controls">
-          <button onClick={this.props.reloadPairs}>reload</button>
-          <button
-            onClick={() => {
-              const selectedPairs = this.props.pairIds.reduce((set, id) => {
-                set.add(id);
-                return set;
-              }, new Set<string>());
+          <div styleName="button-container">
+            <button
+              styleName={reloadButtonStyle}
+              onClick={() => {
+                const runId = (window as any).runId;
+                (window as any).runId += 1;
 
-              this.setState({ selectedPairs });
-            }}
-          >
-            expand all
-          </button>
-          <button
-            onClick={() => {
-              const selectedPairs = new Set();
-              this.setState({ selectedPairs });
-              this.props.clearFocusPair();
-            }}
-          >
-            collapse all
-          </button>
+                this.setState({
+                  runId,
+                });
+                this.props.reloadPairs(runId);
+              }}
+            >
+              reload
+            </button>
+          </div>
+          <div styleName="button-container">
+            <button
+              onClick={() => {
+                const selectedPairs = this.props.pairIds.reduce((set, id) => {
+                  set.add(id);
+                  return set;
+                }, new Set<string>());
+
+                this.setState({ selectedPairs });
+              }}
+            >
+              expand all
+            </button>
+          </div>
+          <div styleName="button-container">
+            <button
+              onClick={() => {
+                const selectedPairs = new Set();
+                this.setState({ selectedPairs });
+                // this.props.clearFocusPair();
+              }}
+            >
+              collapse all
+            </button>
+          </div>
         </div>
         <div styleName="view">{pairCards}</div>
       </div>

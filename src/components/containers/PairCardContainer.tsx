@@ -40,20 +40,21 @@ function mapStateToProps(rootState: RootState, props: PairCardOwnProps): PairCar
   }
 
   const focused = rootState.pairCollection.focusPair === props.id;
-
+  const finishedRunIds = rootState.draco.finishedRunIds;
   return {
     left,
     right,
     comparator,
     pass,
     focused,
+    finishedRunIds,
   };
 }
 
 function mapDispatchToProps(dispatch: Dispatch, props: PairCardOwnProps) {
   return {
-    solvePair: (pair: Pair) => {
-      dispatch(solvePairsBegin([pair]));
+    solvePair: (pair: Pair, runId: number) => {
+      dispatch(solvePairsBegin([pair], runId));
     },
     toggleFocusPair: (id: string, on: boolean) => {
       dispatch(toggleFocusPair(id, on));

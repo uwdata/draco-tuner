@@ -5,18 +5,8 @@
   width: 100%;
   height: 100%;
 
-  button {
-    border: 2px solid $light-grey;
-    border-radius: 8px;
-    padding: 0 8px 0 8px;
-    margin: 8px;
-    color: $medium-grey;
-    font-weight: 400;
-
-    &:hover {
-      background-color: $light-grey;
-      color: #fff;
-    }
+  .button-container {
+    @extend %button-container;
   }
 
   .controls {
@@ -32,4 +22,14 @@
     height: calc(100% - 32px);  // minus controls
     overflow: auto;
   }
+
+  @keyframes loading-animation {
+    0% {
+
+    }
+    100% {
+
+    }
+  }
+
 }

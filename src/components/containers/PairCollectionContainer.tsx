@@ -11,8 +11,10 @@ import PairCollection, {
 
 function mapStateToProps(rootState: RootState, props: PairCollectionOwnProps) {
   const pairIds = Object.keys(rootState.pairCollection.pairs);
+  const finishedRunIds = rootState.draco.finishedRunIds;
   return {
     pairIds,
+    finishedRunIds,
   };
 }
 
@@ -21,7 +23,7 @@ function mapDispatchToProps(
   props: PairCollectionOwnProps
 ): PairCollectionDispatchProps {
   return {
-    reloadPairs: () => dispatch(reloadPairsThunk()),
+    reloadPairs: (runId: number) => dispatch(reloadPairsThunk(runId)),
     clearFocusPair: () => dispatch(toggleFocusPair(null, false)),
   };
 }

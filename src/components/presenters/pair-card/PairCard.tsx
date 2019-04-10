@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import _ from 'lodash';
 import * as React from 'react';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
 import { Pair } from '../../../reducers/pair-collection-reducer';
@@ -12,10 +13,11 @@ export interface PairCardStoreProps {
   diffVector?: number[];
   pass?: boolean;
   focused?: boolean;
+  finishedRunIds?: Set<number>;
 }
 
 export interface PairCardDispatchProps {
-  solvePair?: (pair: Pair) => void;
+  solvePair?: (pair: Pair, runId: number) => void;
   toggleFocusPair?: (id: string, on: boolean) => void;
 }
 
@@ -27,7 +29,9 @@ export interface PairCardOwnProps {
 
 export interface PairCardProps extends PairCardStoreProps, PairCardDispatchProps, PairCardOwnProps {}
 
-export interface PairCardState {}
+export interface PairCardState {
+  runId?: number;
+}
 
 export interface PairCardItem {
   vlSpec: TopLevelUnitSpec;
@@ -35,12 +39,17 @@ export interface PairCardItem {
 }
 
 class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
+  constructor(props: PairCardProps) {
+    super(props);
+
+    this.state = {};
+  }
+
   render() {
     let populated;
     const style: any = { 'pair-card': true };
     if (this.props.open) {
       style['open'] = true;
-
       populated = (
         <div styleName="info">
           <div styleName="charts">
@@ -59,24 +68,34 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
             </div>
           </div>
           <div styleName="controls">
-            <button
-              onClick={() => {
-                const pair: Pair = {
-                  id: +this.props.id,
-                  comparator: this.props.comparator,
-                  left: {
-                    vlSpec: this.props.left.vlSpec,
-                  },
-                  right: {
-                    vlSpec: this.props.right.vlSpec,
-                  },
-                };
+            <div styleName="button-container">
+              <button
+                styleName={classnames({
+                  reloading: !_.isUndefined(this.state.runId) && !this.props.finishedRunIds.has(this.state.runId),
+                })}
+                onClick={() => {
+                  const pair: Pair = {
+                    id: +this.props.id,
+                    comparator: this.props.comparator,
+                    left: {
+                      vlSpec: this.props.left.vlSpec,
+                    },
+                    right: {
+                      vlSpec: this.props.right.vlSpec,
+                    },
+                  };
 
-                this.props.solvePair(pair);
-              }}
-            >
-              reload
-            </button>
+                  const runId = (window as any).runId;
+                  (window as any).runId += 1;
+                  this.setState({
+                    runId,
+                  });
+                  this.props.solvePair(pair, runId);
+                }}
+              >
+                reload
+              </button>
+            </div>
           </div>
         </div>
       );

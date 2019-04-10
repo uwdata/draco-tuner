@@ -1,6 +1,8 @@
+import _ from 'lodash';
 import reduceReducers from 'reduce-reducers';
-import { AnyAction, combineReducers, Reducer } from 'redux';
-import { StateType } from 'typesafe-actions';
+import { combineReducers, Reducer } from 'redux';
+import { getType, StateType } from 'typesafe-actions';
+import { pairCollectionActions, RootAction } from '../actions/index';
 import dracoReducer from './draco-reducer';
 import pairCollectionReducer from './pair-collection-reducer';
 
@@ -11,8 +13,20 @@ const combinedReducers = combineReducers({
 
 type CombinedState = StateType<typeof combinedReducers>;
 
-const crossSliceReducer = (state: CombinedState, action: AnyAction) => {
+const crossSliceReducer = (state: CombinedState, action: RootAction) => {
   switch (action.type) {
+    case getType(pairCollectionActions.setPairs):
+      const finishedRunIds = _.clone(state.draco.finishedRunIds);
+      finishedRunIds.add(action.payload.runId);
+      const draco = {
+        ...state.draco,
+        finishedRunIds,
+      };
+
+      return {
+        ...state,
+        draco,
+      };
     default:
       return state;
   }
