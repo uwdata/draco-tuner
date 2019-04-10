@@ -10,17 +10,22 @@ export interface ConstraintTunerDispatchProps {
   updateConstraints: (constraints: Constraint[]) => void;
 }
 
-export interface ConstraintTunerProps extends ConstraintTunerStoreProps, ConstraintTunerDispatchProps {}
+export interface ConstraintTunerOwnProps {}
+
+export interface ConstraintTunerProps
+  extends ConstraintTunerStoreProps,
+    ConstraintTunerDispatchProps,
+    ConstraintTunerOwnProps {}
 
 export interface ConstraintTunerState {
   constraints: Constraint[];
   updateQueued?: number;
-};
+}
 
 export default class ConstraintTuner extends React.PureComponent<ConstraintTunerProps, ConstraintTunerState> {
   static DEBOUNCE_DURATION = 500;
 
-  constructor(props) {
+  constructor(props: ConstraintTunerProps) {
     super(props);
 
     this.state = {
@@ -34,10 +39,10 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
     if (state.updateQueued) {
       return state;
     }
-    
+
     return {
       ...state,
-      constraints: props.constraints
+      constraints: props.constraints,
     };
   }
 
@@ -52,28 +57,31 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
         <tr key={constraint.name}>
           <td>{constraint.name}</td>
           <td>
-            <input type="number"
-            value={constraint.weight}
-            onChange={(event) => {
-              const newConstraint: Constraint = {
-                ...constraint,
-                weight: +event.target.value
-              };
+            <input
+              styleName="cost-input"
+              type="number"
+              value={constraint.weight}
+              onChange={event => {
+                const newConstraint: Constraint = {
+                  ...constraint,
+                  weight: +event.target.value,
+                };
 
-              const newConstraints = this.state.constraints.map((c, i) => {
-                return i === index ? newConstraint : c;
-              });
+                const newConstraints = this.state.constraints.map((c, i) => {
+                  return i === index ? newConstraint : c;
+                });
 
-              window.clearTimeout(this.state.updateQueued);
-              const updateQueued = window.setTimeout(this.updateStore, ConstraintTuner.DEBOUNCE_DURATION);
-              this.setState({
-                updateQueued,
-                constraints: newConstraints,
-              });
-            }}/>
+                window.clearTimeout(this.state.updateQueued);
+                const updateQueued = window.setTimeout(this.updateStore, ConstraintTuner.DEBOUNCE_DURATION);
+                this.setState({
+                  updateQueued,
+                  constraints: newConstraints,
+                });
+              }}
+            />
           </td>
         </tr>
-      )
+      );
     });
 
     return (
@@ -83,9 +91,9 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
             <th>name</th>
             <th>cost</th>
           </tr>
-          { constraintRows }
+          {constraintRows}
         </table>
       </div>
-    )
+    );
   }
 }

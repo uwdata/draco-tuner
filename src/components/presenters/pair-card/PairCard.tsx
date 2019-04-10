@@ -1,4 +1,4 @@
-import * as classnames from 'classnames';
+import classnames from 'classnames';
 import * as React from 'react';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
 import VegaLiteChart from '../vega-lite-chart';
@@ -11,11 +11,14 @@ export interface PairCardStoreProps {
   diffVector?: number[];
   pass?: boolean;
 }
+export interface PairCardDispatchProps {}
 
-export interface PairCardProps extends PairCardStoreProps {
+export interface PairCardOwnProps {
   id?: number;
   open: boolean;
 }
+
+export interface PairCardProps extends PairCardStoreProps, PairCardDispatchProps, PairCardOwnProps {}
 
 export interface PairCardState {}
 
@@ -27,7 +30,7 @@ export interface PairCardItem {
 class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
   render() {
     let populated;
-    const style = { 'pair-card': true };
+    const style: any = { 'pair-card': true };
     if (this.props.open) {
       style['open'] = true;
 

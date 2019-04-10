@@ -1,9 +1,10 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
 import { RootState } from '../../reducers';
-import PairCard, { PairCardProps, PairCardStoreProps } from '../presenters/pair-card';
+import PairCard, { PairCardDispatchProps, PairCardOwnProps, PairCardStoreProps } from '../presenters/pair-card';
 
-function mapStateToProps(rootState: RootState, props: PairCardProps): PairCardStoreProps {
+function mapStateToProps(rootState: RootState, props: PairCardOwnProps): PairCardStoreProps {
   const pair = rootState.pairCollection.pairs[props.id];
   const [left, right] = [pair.left, pair.right].map(pairItem => {
     let cost;
@@ -18,10 +19,10 @@ function mapStateToProps(rootState: RootState, props: PairCardProps): PairCardSt
     return {
       cost,
       vlSpec: pairItem.vlSpec,
-    }
+    };
   });
   const comparator = pair.comp;
-  
+
   let pass;
   if (!_.isUndefined(left.cost) && _.isUndefined(right.cost)) {
     pass = true;
@@ -37,11 +38,15 @@ function mapStateToProps(rootState: RootState, props: PairCardProps): PairCardSt
     left,
     right,
     comparator,
-    pass
+    pass,
   };
 }
 
-export default connect(
+function mapDispatchToProps(dispatch: Dispatch, props: PairCardOwnProps) {
+  return {};
+}
+
+export default connect<PairCardStoreProps, PairCardDispatchProps, PairCardOwnProps>(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(PairCard);

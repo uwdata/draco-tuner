@@ -10,7 +10,12 @@ export interface PairCollectionDispatchProps {
   reloadPairs: () => void;
 }
 
-export interface PairCollectionProps extends PairCollectionStoreProps, PairCollectionDispatchProps {}
+export interface PairCollectionOwnProps {}
+
+export interface PairCollectionProps
+  extends PairCollectionStoreProps,
+    PairCollectionDispatchProps,
+    PairCollectionOwnProps {}
 
 export interface PairCollectionState {}
 

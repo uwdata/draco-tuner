@@ -1,5 +1,7 @@
 import * as React from 'react';
 import './app.css';
+import ConstraintTunerContainer from './containers/ConstraintTunerContainer';
+import PairCollectionContainer from './containers/PairCollectionContainer';
 
 interface StateProps {}
 
@@ -9,9 +11,14 @@ interface AppProps extends StateProps, DispatchProps {}
 
 interface State {}
 
-export default class App extends React.Component<AppProps, State> {
+export default class App extends React.PureComponent<AppProps, State> {
   render() {
-    return <div styleName="app" id="app" />;
+    return (
+      <div styleName="app" id="app">
+        <PairCollectionContainer />
+        <ConstraintTunerContainer />
+      </div>
+    );
   }
 
   componentDidMount() {}

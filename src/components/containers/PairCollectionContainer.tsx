@@ -5,10 +5,11 @@ import { reloadPairsThunk } from '../../actions/pair-collection-actions';
 import { RootState } from '../../reducers';
 import PairCollection, {
   PairCollectionDispatchProps,
-  PairCollectionProps,
+  PairCollectionOwnProps,
+  PairCollectionStoreProps,
 } from '../presenters/pair-collection/PairCollection';
 
-function mapStateToProps(rootState: RootState, props: PairCollectionProps) {
+function mapStateToProps(rootState: RootState, props: PairCollectionOwnProps) {
   const pairIds = Object.keys(rootState.pairCollection.pairs).map(pairId => +pairId);
   return {
     pairIds,
@@ -17,14 +18,14 @@ function mapStateToProps(rootState: RootState, props: PairCollectionProps) {
 
 function mapDispatchToProps(
   dispatch: ThunkDispatch<{}, {}, AnyAction>,
-  props: PairCollectionProps
+  props: PairCollectionOwnProps
 ): PairCollectionDispatchProps {
   return {
     reloadPairs: () => dispatch(reloadPairsThunk()),
   };
 }
 
-export default connect(
+export default connect<PairCollectionStoreProps, PairCollectionDispatchProps, PairCollectionOwnProps>(
   mapStateToProps,
   mapDispatchToProps
 )(PairCollection);

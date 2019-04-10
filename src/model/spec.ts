@@ -38,22 +38,24 @@ export class Spec {
 
 export class DracoSolution {
   static fromSolutionSet = (sol: SolutionSet) => {
-    const violations = sol.models[0].violations.reduce((dict, v) => {
-      if (!dict.hasOwnProperty(v.name)) {
-        dict[v.name] = [];
-      }
+    const violations = sol.models[0].violations.reduce(
+      (dict, v) => {
+        if (!dict.hasOwnProperty(v.name)) {
+          dict[v.name] = [];
+        }
 
-      dict[v.name].push(v);
-      return dict;
-    }, {} as ViolationMap);
+        dict[v.name].push(v);
+        return dict;
+      },
+      {} as ViolationMap
+    );
 
     return {
       violations,
-      facts: sol.models[0].facts
-    }
-  }
+      facts: sol.models[0].facts,
+    };
+  };
 }
-
 
 export function aspToString(asp: string[]): string {
   const result = asp.join('\n');
