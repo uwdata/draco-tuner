@@ -87,7 +87,6 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
         styleName={classnames(style)}
         style={{
           borderColor: this.props.focused ? Splinter.BLUE : this.props.pass ? Splinter.GREEN : Splinter.RED,
-          backgroundColor: this.props.focused ? Splinter.LIGHTBLUE : undefined,
         }}
       >
         <Splinter
