@@ -11,6 +11,7 @@
   border-radius: 4px;
   transition: height 220ms $standard-ease;
   overflow: hidden;
+  user-select: none;
 
   &:first-child {
     margin-top: 12px;
@@ -65,6 +66,9 @@
     width: 24px;
     height: 24px;
     justify-content: center;
+    font-weight: 400;
+    font-size: 24px;
+    color: $medium-grey;
   }
   
   .splinter {

@@ -15,6 +15,7 @@ export interface PairCardStoreProps {
 
 export interface PairCardDispatchProps {
   solvePair: (pair: Pair) => void;
+  toggleFocusPair: (id: string) => void;
 }
 
 export interface PairCardOwnProps {
@@ -63,15 +64,16 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
                   id: +this.props.id,
                   comparator: this.props.comparator,
                   left: {
-                    vlSpec: this.props.left.vlSpec
+                    vlSpec: this.props.left.vlSpec,
                   },
                   right: {
-                    vlSpec: this.props.right.vlSpec
-                  }
+                    vlSpec: this.props.right.vlSpec,
+                  },
                 };
 
                 this.props.solvePair(pair);
-              }}>
+              }}
+            >
               reload
             </button>
           </div>
@@ -82,7 +84,10 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
     return (
       <div styleName={classnames(style)} style={{ borderColor: this.props.pass ? Splinter.GREEN : Splinter.RED }}>
         <Splinter
-          onClick={() => this.props.selectPair(this.props.id)}
+          onClick={() => {
+            this.props.selectPair(this.props.id);
+            this.props.toggleFocusPair(this.props.id);
+          }}
           pass={this.props.pass}
           vector={this.props.diffVector}
         />
@@ -121,11 +126,7 @@ class Splinter extends React.PureComponent<SplinterProps, SplinterState> {
       splinterColor = this.props.pass ? Splinter.GREEN : Splinter.RED;
     }
     return (
-      <div
-        styleName="splinter"
-        style={{ backgroundColor: splinterColor }}
-        onClick={this.props.onClick}
-      >
+      <div styleName="splinter" style={{ backgroundColor: splinterColor }} onClick={this.props.onClick}>
         {diffViz}
       </div>
     );

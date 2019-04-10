@@ -37,7 +37,7 @@ export class SpecDictionary {
     }
 
     return specDict;
-  }
+  };
 }
 
 function setPath(obj: any, path: string, val: any): void {

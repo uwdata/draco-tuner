@@ -15,3 +15,7 @@ export const reloadPairsThunk = (): ThunkAction<void, {}, {}, AnyAction> => {
 export const setPairs = createAction('pairs-collection/SET_PAIRS', action => {
   return (specDict: SpecDictionaryObject) => action(specDict);
 });
+
+export const toggleFocusPair = createAction('pair-collection/TOGGLE_FOCUS_PAIR', action => {
+  return (id: string) => action(id);
+});

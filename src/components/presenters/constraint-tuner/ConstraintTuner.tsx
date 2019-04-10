@@ -1,9 +1,12 @@
 import { Constraint } from 'draco-vis';
+import _ from 'lodash';
 import * as React from 'react';
 import './constraint-tuner.css';
 
 export interface ConstraintTunerStoreProps {
   constraints: Constraint[];
+  focusLeftViolationCounts?: number[];
+  focusRightViolationCounts?: number[];
 }
 
 export interface ConstraintTunerDispatchProps {
@@ -52,9 +55,29 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
   }
 
   render() {
+    const hasLeftFocus = !_.isUndefined(this.props.focusLeftViolationCounts);
+    const hasRightFocus = !_.isUndefined(this.props.focusRightViolationCounts);
+
     const constraintRows = this.state.constraints.map((constraint, index) => {
+      let focused = true;
+      if (hasLeftFocus) {
+        if (this.props.focusLeftViolationCounts[index] === 0) {
+          focused = false;
+        }
+      }
+
+      if (hasRightFocus) {
+        if (this.props.focusRightViolationCounts[index] > 0) {
+          focused = true;
+        }
+      }
+
+      let style;
+      if (!focused) {
+        style = { filter: 'brightness(90%)' };
+      }
       return (
-        <tr key={constraint.name}>
+        <tr key={constraint.name} style={style}>
           <td>{constraint.name}</td>
           <td>
             <input
@@ -80,6 +103,8 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
               }}
             />
           </td>
+          {hasLeftFocus ? <td>{this.props.focusLeftViolationCounts[index]}</td> : null}
+          {hasRightFocus ? <td>{this.props.focusRightViolationCounts[index]}</td> : null}
         </tr>
       );
     });
@@ -90,6 +115,8 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
           <tr key="header">
             <th>name</th>
             <th>cost</th>
+            {hasLeftFocus ? <th>left</th> : null}
+            {hasRightFocus ? <th>right</th> : null}
           </tr>
           {constraintRows}
         </table>

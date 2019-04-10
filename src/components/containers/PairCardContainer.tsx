@@ -2,6 +2,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { solvePairsBegin } from '../../actions/draco-worker-actions';
+import { toggleFocusPair } from '../../actions/pair-collection-actions';
 import { RootState } from '../../reducers';
 import { Pair } from '../../reducers/pair-collection-reducer';
 import PairCard, { PairCardDispatchProps, PairCardOwnProps, PairCardStoreProps } from '../presenters/pair-card';
@@ -50,7 +51,10 @@ function mapDispatchToProps(dispatch: Dispatch, props: PairCardOwnProps) {
   return {
     solvePair: (pair: Pair) => {
       dispatch(solvePairsBegin([pair]));
-    }
+    },
+    toggleFocusPair: (id: string) => {
+      dispatch(toggleFocusPair(id));
+    },
   };
 }
 

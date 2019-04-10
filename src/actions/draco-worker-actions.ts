@@ -13,5 +13,5 @@ export const solvePairsBegin = createAction('draco-worker/SOLVE_PAIRS_BEGIN', ac
   return (pairs: Pair[]) => {
     const specDict = SpecDictionary.fromPairs(pairs);
     return action(specDict, { WebWorker: true });
-  }
-})
+  };
+});

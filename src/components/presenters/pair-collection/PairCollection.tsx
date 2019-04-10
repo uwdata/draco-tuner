@@ -32,13 +32,14 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
 
     this.toggleSelectedPairs = this.toggleSelectedPairs.bind(this);
   }
-  
+
   render() {
     const pairCards = this.props.pairIds.map((id, i) => {
       return (
         <PairCardContainer
           key={i}
-          id={id} open={this.state.selectedPairs.has(id)}
+          id={id}
+          open={this.state.selectedPairs.has(id)}
           selectPair={(id: string) => this.toggleSelectedPairs([id])}
         />
       );
@@ -48,18 +49,26 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
       <div styleName="pair-collection">
         <div styleName="controls">
           <button onClick={this.props.reloadPairs}>reload</button>
-          <button onClick={() => {
-            const selectedPairs = this.props.pairIds.reduce((set, id) => {
-              set.add(id);
-              return set;
-            }, new Set<string>());
+          <button
+            onClick={() => {
+              const selectedPairs = this.props.pairIds.reduce((set, id) => {
+                set.add(id);
+                return set;
+              }, new Set<string>());
 
-            this.setState({ selectedPairs });
-          }}>expand all</button>
-          <button onClick={() => {
-            const selectedPairs = new Set();
-            this.setState({ selectedPairs });
-          }}>collapse all</button>
+              this.setState({ selectedPairs });
+            }}
+          >
+            expand all
+          </button>
+          <button
+            onClick={() => {
+              const selectedPairs = new Set();
+              this.setState({ selectedPairs });
+            }}
+          >
+            collapse all
+          </button>
         </div>
         <div styleName="view">{pairCards}</div>
       </div>
