@@ -14,8 +14,9 @@ export interface PairCardStoreProps {
 export interface PairCardDispatchProps {}
 
 export interface PairCardOwnProps {
-  id?: number;
   open: boolean;
+  id?: string;
+  selectPair?: (id: string) => void;
 }
 
 export interface PairCardProps extends PairCardStoreProps, PairCardDispatchProps, PairCardOwnProps {}
@@ -52,8 +53,12 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
     }
 
     return (
-      <div styleName={classnames(style)}>
-        <Splinter pass={this.props.pass} vector={this.props.diffVector} />
+      <div styleName={classnames(style)} style={{ borderColor: this.props.pass ? Splinter.GREEN : Splinter.RED }}>
+        <Splinter
+          onClick={() => this.props.selectPair(this.props.id)}
+          pass={this.props.pass}
+          vector={this.props.diffVector}
+        />
         {populated}
       </div>
     );
@@ -61,6 +66,7 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
 }
 
 interface SplinterProps {
+  onClick: (...args: any[]) => void;
   vector?: number[];
   pass?: boolean;
 }
@@ -71,7 +77,7 @@ class Splinter extends React.PureComponent<SplinterProps, SplinterState> {
   static BLUE = '#75a8f9';
   static RED = '#f97486';
   static WHITE = '#fff';
-  static GREEN = '#c9ffcc';
+  static GREEN = '#aff7b3';
 
   render() {
     let diffViz;
@@ -88,7 +94,11 @@ class Splinter extends React.PureComponent<SplinterProps, SplinterState> {
       splinterColor = this.props.pass ? Splinter.GREEN : Splinter.RED;
     }
     return (
-      <div styleName="splinter" style={{ backgroundColor: splinterColor }}>
+      <div
+        styleName="splinter"
+        style={{ backgroundColor: splinterColor }}
+        onClick={this.props.onClick}
+      >
         {diffViz}
       </div>
     );

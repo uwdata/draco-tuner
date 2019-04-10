@@ -3,14 +3,10 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { reloadPairsThunk } from '../../actions/pair-collection-actions';
 import { RootState } from '../../reducers';
-import PairCollection, {
-  PairCollectionDispatchProps,
-  PairCollectionOwnProps,
-  PairCollectionStoreProps,
-} from '../presenters/pair-collection/PairCollection';
+import PairCollection, { PairCollectionDispatchProps, PairCollectionOwnProps, PairCollectionStoreProps } from '../presenters/pair-collection/PairCollection';
 
 function mapStateToProps(rootState: RootState, props: PairCollectionOwnProps) {
-  const pairIds = Object.keys(rootState.pairCollection.pairs).map(pairId => +pairId);
+  const pairIds = Object.keys(rootState.pairCollection.pairs);
   return {
     pairIds,
   };

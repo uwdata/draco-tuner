@@ -32,6 +32,8 @@ function mapStateToProps(rootState: RootState, props: PairCardOwnProps): PairCar
     } else {
       pass = left.cost === right.cost;
     }
+  } else {
+    pass = false;
   }
 
   return {

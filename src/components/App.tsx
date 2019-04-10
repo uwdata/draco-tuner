@@ -21,7 +21,6 @@ export default class App extends React.PureComponent<AppProps, State> {
             <div style={{ width: '100%', height: '100%' }}>
               <SplitPane split="vertical" primary="first" minSize={200} defaultSize="60%">
                 <PairCollectionContainer />
-                      
                 <ConstraintTunerContainer />
               </SplitPane>
             </div>
