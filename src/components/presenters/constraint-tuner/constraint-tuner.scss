@@ -1,0 +1,7 @@
+@import 'base.scss';
+
+.constraint-tuner {
+  @extend %flex-column;
+  height: 100%;
+  width: 100%;
+}
