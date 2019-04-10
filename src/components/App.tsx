@@ -1,7 +1,6 @@
 import * as React from 'react';
 import './app.css';
-import ConstraintTunerContainer from './containers/ConstraintTunerContainer';
-import PairCollectionContainer from './containers/PairCollectionContainer';
+import { ConstraintTunerContainer, PairCollectionContainer } from './containers';
 
 interface StateProps {}
 
