@@ -23,7 +23,7 @@ export interface ConstraintTunerState {
 }
 
 export default class ConstraintTuner extends React.PureComponent<ConstraintTunerProps, ConstraintTunerState> {
-  static DEBOUNCE_DURATION = 500;
+  static DEBOUNCE_DURATION = 100;
 
   constructor(props: ConstraintTunerProps) {
     super(props);

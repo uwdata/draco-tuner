@@ -21,7 +21,7 @@ function mapStateToProps(rootState: RootState, props: PairCardOwnProps): PairCar
       vlSpec: pairItem.vlSpec,
     };
   });
-  const comparator = pair.comp;
+  const comparator = pair.comparator;
 
   let pass;
   if (!_.isUndefined(left.cost) && _.isUndefined(right.cost)) {

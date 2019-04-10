@@ -1,6 +1,7 @@
 import { createReducer } from 'redux-starter-kit';
 import { getType } from 'typesafe-actions';
 import { PairCollectionAction, pairCollectionActions } from '../actions';
+import { EXAMPLE_PAIRS } from '../examples/pairs';
 import { SpecDictionary, SpecObject } from '../model';
 
 export type PairsDictionary = { [id: string]: Pair };
@@ -9,84 +10,7 @@ export interface PairCollectionStore {
   pairs: PairsDictionary;
 }
 const initialState: PairCollectionStore = {
-  pairs: {
-    '0': {
-      id: 0,
-      comp: '<',
-      left: {
-        vlSpec: {
-          data: { url: 'cars.json' },
-          mark: 'bar',
-          encoding: {
-            x: {
-              bin: true,
-              field: 'horsepower',
-              type: 'quantitative',
-            },
-            y: {
-              aggregate: 'count',
-              type: 'quantitative',
-            },
-          },
-        },
-      },
-      right: {
-        vlSpec: {
-          data: { url: 'cars.json' },
-          mark: 'bar',
-          encoding: {
-            y: {
-              bin: true,
-              field: 'horsepower',
-              type: 'quantitative',
-            },
-            x: {
-              aggregate: 'count',
-              type: 'quantitative',
-            },
-          },
-        },
-      },
-    },
-    '1': {
-      id: 1,
-      comp: '<',
-      left: {
-        vlSpec: {
-          data: { url: 'cars.json' },
-          mark: 'bar',
-          encoding: {
-            y: {
-              field: 'cylinders',
-              type: 'ordinal',
-            },
-            x: {
-              field: 'horsepower',
-              type: 'quantitative',
-              aggregate: 'mean',
-            },
-          },
-        },
-      },
-      right: {
-        vlSpec: {
-          data: { url: 'cars.json' },
-          mark: 'bar',
-          encoding: {
-            x: {
-              field: 'cylinders',
-              type: 'ordinal',
-            },
-            y: {
-              field: 'horsepower',
-              type: 'quantitative',
-              aggregate: 'mean',
-            },
-          },
-        },
-      },
-    },
-  },
+  pairs: EXAMPLE_PAIRS
 };
 
 // @ts-ignore
@@ -106,7 +30,7 @@ function reloadPairsEnd(state: PairCollectionStore, action: PairCollectionAction
 
 export interface Pair {
   id: number;
-  comp: string;
+  comparator: string;
   left: SpecObject;
   right: SpecObject;
 }
