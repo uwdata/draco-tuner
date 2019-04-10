@@ -11,11 +11,12 @@ export interface PairCardStoreProps {
   comparator?: string;
   diffVector?: number[];
   pass?: boolean;
+  focused?: boolean;
 }
 
 export interface PairCardDispatchProps {
-  solvePair: (pair: Pair) => void;
-  toggleFocusPair: (id: string) => void;
+  solvePair?: (pair: Pair) => void;
+  toggleFocusPair?: (id: string, on: boolean) => void;
 }
 
 export interface PairCardOwnProps {
@@ -82,11 +83,16 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
     }
 
     return (
-      <div styleName={classnames(style)} style={{ borderColor: this.props.pass ? Splinter.GREEN : Splinter.RED }}>
+      <div styleName={classnames(style)} style={
+        {
+          borderColor: this.props.focused ? Splinter.BLUE : this.props.pass ? Splinter.GREEN : Splinter.RED,
+          backgroundColor: this.props.focused ? Splinter.LIGHTBLUE : undefined
+        }
+      }>
         <Splinter
           onClick={() => {
             this.props.selectPair(this.props.id);
-            this.props.toggleFocusPair(this.props.id);
+            this.props.toggleFocusPair(this.props.id, !this.props.open);
           }}
           pass={this.props.pass}
           vector={this.props.diffVector}
@@ -105,11 +111,13 @@ interface SplinterProps {
 
 interface SplinterState {}
 
-class Splinter extends React.PureComponent<SplinterProps, SplinterState> {
+export class Splinter extends React.PureComponent<SplinterProps, SplinterState> {
   static BLUE = '#75a8f9';
   static RED = '#f97486';
   static WHITE = '#fff';
   static GREEN = '#aff7b3';
+  static ORANGE = '#ffcd51';
+  static LIGHTBLUE = '#eaf4ff';
 
   render() {
     let diffViz;

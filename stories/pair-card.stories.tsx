@@ -46,5 +46,5 @@ storiesOf('PairCard/PairCard', module)
 
 storiesOf('PairCard/PairCardContainer', module)
   .addDecorator(withReduxDecorator)
-  .add('default', () => <PairCardContainer id={0} open={true}/>)
+  .add('default', () => <PairCardContainer id="0" open={true}/>)
   

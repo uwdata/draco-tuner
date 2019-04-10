@@ -1,6 +1,6 @@
 import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType } from 'typesafe-actions';
-import { pairCollectionActions } from '../actions';
+import { PairCollectionAction, pairCollectionActions } from '../actions';
 import { EXAMPLE_PAIRS } from '../examples/pairs';
 import { SpecDictionary, SpecObject } from '../model';
 
@@ -16,7 +16,7 @@ const initialState: PairCollectionStore = {
 };
 
 // @ts-ignore
-const pairsCollectionReducer = createReducer<PairCollectionStore>(initialState, {
+const pairsCollectionReducer = createReducer<PairCollectionStore,PairCollectionAction>(initialState, {
   [getType(pairCollectionActions.setPairs)]: (
     state: PairCollectionStore,
     action: ActionType<typeof pairCollectionActions.setPairs>
@@ -40,10 +40,10 @@ function setPairs(state: PairCollectionStore, action: ActionType<typeof pairColl
 }
 
 function toggleFocusPair(state: PairCollectionStore, action: ActionType<typeof pairCollectionActions.toggleFocusPair>) {
-  if (state.focusPair === `${action.payload}`) {
+  if (action.payload.id === null || !action.payload.on) {
     state.focusPair = undefined;
   } else {
-    state.focusPair = `${action.payload}`;
+    state.focusPair = `${action.payload.id}`;
   }
 }
 

@@ -21,7 +21,8 @@ const initialState = {
   constraintMap,
 };
 
-const dracoReducer = createReducer(initialState, {
+// @ts-ignore
+const dracoReducer = createReducer<DracoStore,DracoAction>(initialState, {
   [getType(dracoActions.setConstraintMap)]: (state: DracoStore, action: DracoAction) => {
     state.constraintMap = action.payload;
   },

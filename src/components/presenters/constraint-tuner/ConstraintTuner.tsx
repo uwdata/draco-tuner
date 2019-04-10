@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import { Constraint } from 'draco-vis';
 import _ from 'lodash';
 import * as React from 'react';
@@ -72,12 +73,13 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
         }
       }
 
-      let style;
-      if (!focused) {
-        style = { filter: 'brightness(90%)' };
-      }
+      const styleNames = classnames({
+        'focused': focused && (hasLeftFocus || hasRightFocus),
+        'unfocused': !focused && (hasLeftFocus || hasRightFocus)
+      });
+
       return (
-        <tr key={constraint.name} style={style}>
+        <tr key={constraint.name} styleName={styleNames}>
           <td>{constraint.name}</td>
           <td>
             <input

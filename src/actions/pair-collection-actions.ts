@@ -17,5 +17,5 @@ export const setPairs = createAction('pairs-collection/SET_PAIRS', action => {
 });
 
 export const toggleFocusPair = createAction('pair-collection/TOGGLE_FOCUS_PAIR', action => {
-  return (id: string) => action(id);
+  return (id: string, on: boolean) => action({ id, on });
 });

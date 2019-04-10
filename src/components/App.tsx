@@ -1,7 +1,8 @@
 import * as React from 'react';
-import SplitPane from 'react-split-pane';
+import SplitPane from "react-split-pane";
 import './app.css';
 import { ConstraintTunerContainer, PairCollectionContainer } from './containers';
+import Navbar from './presenters/navbar';
 
 interface StateProps {}
 
@@ -15,6 +16,9 @@ export default class App extends React.PureComponent<AppProps, State> {
   render() {
     return (
       <div styleName="app" id="app">
+        <div styleName="navbar">
+          <Navbar />
+        </div>
         <div styleName="tuner" id="tuner">
           <SplitPane split="vertical" defaultSize={0} maxSize={600}>
             <div />

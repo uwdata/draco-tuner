@@ -20,8 +20,21 @@
     text-align: center;
   }
 
+  tr.focused {
+    td, input {
+      background-color: $light-blue !important;
+      border-color: $medium-blue !important;
+    }
+  }
+
+  tr.unfocused {
+    td, input {
+      background-color: #fff;
+    }
+  }
+
   td {
-    border: 1px solid $light-grey;
+    border: 2px solid $light-grey;
     padding: 8px;
     text-align: left;
     max-width: 128px;
@@ -33,6 +46,10 @@
     font-family: 'Lato', sans-serif;
     padding: 8px;
     text-align: left;
+  }
+
+  input {
+    border: 1px solid $light-grey;
   }
 
   .cost {

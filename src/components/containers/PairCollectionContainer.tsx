@@ -1,13 +1,9 @@
 import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { reloadPairsThunk } from '../../actions/pair-collection-actions';
+import { reloadPairsThunk, toggleFocusPair } from '../../actions/pair-collection-actions';
 import { RootState } from '../../reducers';
-import PairCollection, {
-  PairCollectionDispatchProps,
-  PairCollectionOwnProps,
-  PairCollectionStoreProps,
-} from '../presenters/pair-collection/PairCollection';
+import PairCollection, { PairCollectionDispatchProps, PairCollectionOwnProps, PairCollectionStoreProps } from '../presenters/pair-collection/PairCollection';
 
 function mapStateToProps(rootState: RootState, props: PairCollectionOwnProps) {
   const pairIds = Object.keys(rootState.pairCollection.pairs);
@@ -22,6 +18,7 @@ function mapDispatchToProps(
 ): PairCollectionDispatchProps {
   return {
     reloadPairs: () => dispatch(reloadPairsThunk()),
+    clearFocusPair: () => dispatch(toggleFocusPair(null, false)),
   };
 }
 

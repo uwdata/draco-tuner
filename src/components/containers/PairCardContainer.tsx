@@ -39,11 +39,14 @@ function mapStateToProps(rootState: RootState, props: PairCardOwnProps): PairCar
     pass = false;
   }
 
+  const focused = rootState.pairCollection.focusPair === props.id;
+
   return {
     left,
     right,
     comparator,
     pass,
+    focused
   };
 }
 
@@ -52,8 +55,8 @@ function mapDispatchToProps(dispatch: Dispatch, props: PairCardOwnProps) {
     solvePair: (pair: Pair) => {
       dispatch(solvePairsBegin([pair]));
     },
-    toggleFocusPair: (id: string) => {
-      dispatch(toggleFocusPair(id));
+    toggleFocusPair: (id: string, on: boolean) => {
+      dispatch(toggleFocusPair(id, on));
     },
   };
 }

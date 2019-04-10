@@ -9,6 +9,7 @@ export interface PairCollectionStoreProps {
 
 export interface PairCollectionDispatchProps {
   reloadPairs: () => void;
+  clearFocusPair: () => void;
 }
 
 export interface PairCollectionOwnProps {}
@@ -65,6 +66,7 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
             onClick={() => {
               const selectedPairs = new Set();
               this.setState({ selectedPairs });
+              this.props.clearFocusPair();
             }}
           >
             collapse all
