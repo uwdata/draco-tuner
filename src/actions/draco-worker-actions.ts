@@ -1,6 +1,6 @@
 import { createAction } from 'typesafe-actions';
 import { SpecDictionary } from '../model';
-import { PairsDictionary } from '../reducers/pair-collection-reducer';
+import { Pair, PairsDictionary } from '../reducers/pair-collection-reducer';
 
 export const reloadPairsBegin = createAction('draco-worker/RELOAD_PAIRS_BEGIN', action => {
   return (pairs: PairsDictionary) => {
@@ -8,3 +8,10 @@ export const reloadPairsBegin = createAction('draco-worker/RELOAD_PAIRS_BEGIN', 
     return action(specDict, { WebWorker: true });
   };
 });
+
+export const solvePairsBegin = createAction('draco-worker/SOLVE_PAIRS_BEGIN', action => {
+  return (pairs: Pair[]) => {
+    const specDict = SpecDictionary.fromPairs(pairs);
+    return action(specDict, { WebWorker: true });
+  }
+})

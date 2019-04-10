@@ -26,11 +26,14 @@ ctx.onmessage = ({ data: action }: DracoWorkerEvent) => {
 function handleAction(action: DracoWorkerAction) {
   switch (action.type) {
     case getType(dracoWorkerActions.reloadPairsBegin):
-      const solvedSpecDict = solveSpecs(action.payload);
-      ctx.postMessage({
-        type: getType(pairCollectionActions.reloadPairsEnd),
-        payload: solvedSpecDict,
-      });
+    case getType(dracoWorkerActions.solvePairsBegin):
+      {
+        const solvedSpecDict = solveSpecs(action.payload);
+        ctx.postMessage({
+          type: getType(pairCollectionActions.setPairs),
+          payload: solvedSpecDict,
+        });
+      }
       break;
     default:
   }

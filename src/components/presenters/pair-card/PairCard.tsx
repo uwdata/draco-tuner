@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import * as React from 'react';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
+import { Pair } from '../../../reducers/pair-collection-reducer';
 import VegaLiteChart from '../vega-lite-chart';
 import './pair-card.css';
 
@@ -11,7 +12,10 @@ export interface PairCardStoreProps {
   diffVector?: number[];
   pass?: boolean;
 }
-export interface PairCardDispatchProps {}
+
+export interface PairCardDispatchProps {
+  solvePair: (pair: Pair) => void;
+}
 
 export interface PairCardOwnProps {
   open: boolean;
@@ -39,14 +43,37 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
         <div styleName="info">
           <div styleName="charts">
             <div styleName="item">
-              <VegaLiteChart spec={this.props.left.vlSpec} />
+              <div styleName="chart-container">
+                <VegaLiteChart spec={this.props.left.vlSpec} />
+              </div>
               <div style={{ paddingTop: '16px' }}>{this.props.left.cost}</div>
             </div>
             <div styleName="comparator">{this.props.comparator}</div>
             <div styleName="item">
-              <VegaLiteChart spec={this.props.right.vlSpec} />
+              <div styleName="chart-container">
+                <VegaLiteChart spec={this.props.right.vlSpec} />
+              </div>
               <div style={{ paddingTop: '16px' }}>{this.props.right.cost}</div>
             </div>
+          </div>
+          <div styleName="controls">
+            <button
+              onClick={() => {
+                const pair: Pair = {
+                  id: +this.props.id,
+                  comparator: this.props.comparator,
+                  left: {
+                    vlSpec: this.props.left.vlSpec
+                  },
+                  right: {
+                    vlSpec: this.props.right.vlSpec
+                  }
+                };
+
+                this.props.solvePair(pair);
+              }}>
+              reload
+            </button>
           </div>
         </div>
       );

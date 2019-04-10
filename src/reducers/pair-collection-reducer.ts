@@ -15,14 +15,14 @@ const initialState: PairCollectionStore = {
 
 // @ts-ignore
 const pairsCollectionReducer = createReducer(initialState, {
-  [getType(pairCollectionActions.reloadPairsEnd)]: (state: PairCollectionStore, action: PairCollectionAction) => {
-    return reloadPairsEnd(state, action);
+  [getType(pairCollectionActions.setPairs)]: (state: PairCollectionStore, action: PairCollectionAction) => {
+    return setPairs(state, action);
   },
 });
 
 export default pairsCollectionReducer;
 
-function reloadPairsEnd(state: PairCollectionStore, action: PairCollectionAction) {
+function setPairs(state: PairCollectionStore, action: PairCollectionAction) {
   const specDict = action.payload;
   const pairsDictionary = SpecDictionary.toPairsDictionary(specDict, state.pairs);
   state.pairs = pairsDictionary;

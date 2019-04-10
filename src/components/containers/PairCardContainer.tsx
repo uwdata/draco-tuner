@@ -1,7 +1,9 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { solvePairsBegin } from '../../actions/draco-worker-actions';
 import { RootState } from '../../reducers';
+import { Pair } from '../../reducers/pair-collection-reducer';
 import PairCard, { PairCardDispatchProps, PairCardOwnProps, PairCardStoreProps } from '../presenters/pair-card';
 
 function mapStateToProps(rootState: RootState, props: PairCardOwnProps): PairCardStoreProps {
@@ -45,7 +47,11 @@ function mapStateToProps(rootState: RootState, props: PairCardOwnProps): PairCar
 }
 
 function mapDispatchToProps(dispatch: Dispatch, props: PairCardOwnProps) {
-  return {};
+  return {
+    solvePair: (pair: Pair) => {
+      dispatch(solvePairsBegin([pair]));
+    }
+  };
 }
 
 export default connect<PairCardStoreProps, PairCardDispatchProps, PairCardOwnProps>(

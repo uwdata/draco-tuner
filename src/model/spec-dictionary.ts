@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { PairsDictionary } from '../reducers/pair-collection-reducer';
+import { Pair, PairsDictionary } from '../reducers/pair-collection-reducer';
 import { SpecObject } from './spec';
 
 export interface SpecDictionaryObject {
@@ -28,6 +28,16 @@ export class SpecDictionary {
 
     return result;
   };
+
+  static fromPairs = (pairs: Pair[]): SpecDictionaryObject => {
+    const specDict: SpecDictionaryObject = {};
+    for (const pair of pairs) {
+      specDict[`${pair.id}.left`] = pair.left;
+      specDict[`${pair.id}.right`] = pair.right;
+    }
+
+    return specDict;
+  }
 }
 
 function setPath(obj: any, path: string, val: any): void {
