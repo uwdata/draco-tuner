@@ -16,7 +16,7 @@ export interface DracoSolutionObject {
 export type ViolationMap = { [name: string]: Violation[] };
 
 export class Spec {
-  static dracoSolve = (spec: SpecObject, draco: Draco, opt?: Options): SpecObject => {
+  static dracoSolve(spec: SpecObject, draco: Draco, opt?: Options): SpecObject {
     const result = _.clone(spec);
     const sol = draco.solve(Spec.toAspString(spec), opt);
 
@@ -26,12 +26,12 @@ export class Spec {
     return result;
   };
 
-  static toAsp = (spec: SpecObject): string[] => {
+  static toAsp(spec: SpecObject): string[] {
     const result = vl2asp(spec.vlSpec);
     return result;
   };
 
-  static toAspString = (spec: SpecObject): string => {
+  static toAspString(spec: SpecObject): string {
     const result = aspToString(Spec.toAsp(spec));
     return result;
   };
@@ -52,7 +52,7 @@ export class Spec {
 }
 
 export class DracoSolution {
-  static fromSolutionSet = (sol: SolutionSet) => {
+  static fromSolutionSet(sol: SolutionSet) {
     const violations = sol.models[0].violations.reduce(
       (dict, v) => {
         if (!dict.hasOwnProperty(v.name)) {

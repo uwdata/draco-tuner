@@ -42,3 +42,34 @@ export class Pair {
     return undefined;
   }
 }
+
+export class PairFilter {
+  static getPairFilter(type: PairFilterType) {
+    switch (type) {
+      case PairFilter.BY_PASS_TYPE:
+        return PairFilter.byPass
+      case PairFilter.BY_FAIL_TYPE:
+        return PairFilter.byFail
+    }
+  }
+
+  static BY_PASS_TYPE: 'bypass' = 'bypass';
+  static byPass(pair: PairObject, opt?: { constraintMap: ConstraintMapObject }): boolean {
+    if (_.isUndefined(opt) || _.isUndefined(opt.constraintMap)) {
+      throw new Error('PairFilter.byPass requires a constraintMap in opt.');
+    }
+    return Pair.getPassFail(pair, opt.constraintMap);
+  }
+
+  static BY_FAIL_TYPE: 'byfail' = 'byfail';
+  static byFail(pair: PairObject, opt?: { constraintMap: ConstraintMapObject }): boolean {
+    if (_.isUndefined(opt) || _.isUndefined(opt.constraintMap)) {
+      throw new Error('PairFilter.byFail requires a constraintMap in opt.');
+    }
+    return !Pair.getPassFail(pair, opt.constraintMap);
+  }
+}
+
+export type PairFilterType =
+  typeof PairFilter.BY_PASS_TYPE |
+  typeof PairFilter.BY_FAIL_TYPE;
