@@ -1,7 +1,7 @@
 import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType } from 'typesafe-actions';
 import { PairCollectionAction, pairCollectionActions } from '../actions';
-import { EXAMPLE_PAIRS } from '../examples/pairs';
+import { EXAMPLE_PAIRS } from '../examples';
 import { PairObject, SpecDictionary } from '../model';
 
 export type PairsDictionary = { [id: string]: PairObject };

@@ -1,3 +1,5 @@
+export const EXAMPLE_PAIRS = require('./pairs.json');
+
 export const SCATTER: string = `data("cars.json").
 
 encoding(e0).
