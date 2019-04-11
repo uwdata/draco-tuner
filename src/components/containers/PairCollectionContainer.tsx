@@ -2,21 +2,24 @@ import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { reloadPairsThunk, setPairFilters, toggleFocusPair } from '../../actions/pair-collection-actions';
-import { PairFilter, PairFilterType } from '../../model/pair';
+import { PairFilter, PairFilterType } from '../../model';
 import { RootState } from '../../reducers';
-import PairCollection, { PairCollectionDispatchProps, PairCollectionOwnProps, PairCollectionStoreProps } from '../presenters/pair-collection/PairCollection';
+import PairCollection, {
+  PairCollectionDispatchProps,
+  PairCollectionOwnProps,
+  PairCollectionStoreProps,
+} from '../presenters/pair-collection/PairCollection';
 
 function mapStateToProps(state: RootState, props: PairCollectionOwnProps) {
   const unfilteredPairIds = Object.keys(state.pairCollection.pairs);
-  const pairFilters = state.pairCollection.filters.map(type => PairFilter.getPairFilter(type));
+  const pairFilters = state.pairCollection.filters.map(type => PairFilter.fromType(type));
 
-  console.log(pairFilters);
-  const pairIds = pairFilters.reduce((pairIds, filterFn) => {
-    return pairIds.filter((pairId) => {
+  const pairIds = pairFilters.reduce((pairIds: string[], filterFn) => {
+    return pairIds.filter(pairId => {
       const pair = state.pairCollection.pairs[pairId];
       return filterFn(pair, { constraintMap: state.draco.constraintMap });
     });
-   }, unfilteredPairIds);
+  }, unfilteredPairIds);
 
   const finishedRunIds = state.draco.finishedRunIds;
   return {
@@ -32,7 +35,7 @@ function mapDispatchToProps(
   return {
     reloadPairs: (runId: number) => dispatch(reloadPairsThunk(runId)),
     clearFocusPair: () => dispatch(toggleFocusPair(null, false)),
-    setPairFilters: (filterTypes: PairFilterType[]) => dispatch(setPairFilters(filterTypes))
+    setPairFilters: (filterTypes: PairFilterType[]) => dispatch(setPairFilters(filterTypes)),
   };
 }
 

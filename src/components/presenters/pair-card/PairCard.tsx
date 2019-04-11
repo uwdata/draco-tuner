@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import _ from 'lodash';
 import * as React from 'react';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
-import { PairObject } from '../../../model/pair';
+import { PairEval, PairEvalType, PairObject } from '../../../model';
 import VegaLiteChart from '../vega-lite-chart';
 import './pair-card.css';
 
@@ -11,7 +11,7 @@ export interface PairCardStoreProps {
   right?: PairCardItem;
   comparator?: string;
   diffVector?: number[];
-  pass?: boolean;
+  evalType?: PairEvalType;
   focused?: boolean;
   finishedRunIds?: Set<number>;
 }
@@ -107,9 +107,9 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
         style={{
           borderColor: this.props.focused
             ? Splinter.BLUE
-            : _.isUndefined(this.props.pass)
+            : _.isUndefined(this.props.evalType) || this.props.evalType === PairEval.UNSAT
             ? Splinter.GREY
-            : this.props.pass
+            : this.props.evalType === PairEval.PASS
             ? Splinter.GREEN
             : Splinter.RED,
         }}
@@ -119,7 +119,7 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
             this.props.selectPair(this.props.id);
             this.props.toggleFocusPair(this.props.id, !this.props.open);
           }}
-          pass={this.props.pass}
+          evalType={this.props.evalType}
           vector={this.props.diffVector}
         />
         {populated}
@@ -131,7 +131,7 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
 interface SplinterProps {
   onClick: (...args: any[]) => void;
   vector?: number[];
-  pass?: boolean;
+  evalType?: PairEvalType;
 }
 
 interface SplinterState {}
@@ -156,8 +156,18 @@ export class Splinter extends React.PureComponent<SplinterProps, SplinterState> 
     }
 
     let splinterColor = Splinter.WHITE;
-    if (typeof this.props.pass !== 'undefined') {
-      splinterColor = this.props.pass ? Splinter.GREEN : Splinter.RED;
+    if (typeof this.props.evalType !== 'undefined') {
+      switch (this.props.evalType) {
+        case PairEval.PASS:
+          splinterColor = Splinter.GREEN;
+          break;
+        case PairEval.FAIL:
+          splinterColor = Splinter.RED;
+          break;
+        case PairEval.UNSAT:
+          splinterColor = Splinter.GREY;
+          break;
+      }
     }
     return (
       <div styleName="splinter" style={{ backgroundColor: splinterColor }} onClick={this.props.onClick}>

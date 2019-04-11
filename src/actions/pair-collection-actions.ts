@@ -22,4 +22,4 @@ export const toggleFocusPair = createAction('pair-collection/TOGGLE_FOCUS_PAIR',
 
 export const setPairFilters = createAction('pair-collection/SET_PAIR_FILTERS', action => {
   return (filterTypes: PairFilterType[]) => action(filterTypes);
-})
+});

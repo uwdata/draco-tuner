@@ -2,7 +2,7 @@ import { Constraint } from 'draco-vis';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { setConstraintMap } from '../../actions/draco-actions';
-import { ConstraintMap, ViolationMap } from '../../model';
+import { ConstraintMap, DracoSolution, ViolationMap } from '../../model';
 import { RootState } from '../../reducers';
 import ConstraintTuner, {
   ConstraintTunerDispatchProps,
@@ -25,20 +25,22 @@ function mapStateToProps(state: RootState, props: ConstraintTunerOwnProps): Cons
       };
     }
 
-    if (pair.left.sol) {
-      sortBy.splice(0, 0, extractSortWeight(pair.left.sol.violations, false));
-      sortBy.splice(0, 0, extractSortWeight(pair.left.sol.violations, true));
+    const leftSol = pair.left.sol;
+    if (DracoSolution.isDefined(leftSol)) {
+      sortBy.splice(0, 0, extractSortWeight(leftSol.violations, false));
+      sortBy.splice(0, 0, extractSortWeight(leftSol.violations, true));
     }
 
-    if (pair.right.sol) {
-      sortBy.splice(0, 0, extractSortWeight(pair.right.sol.violations, false));
-      sortBy.splice(0, 0, extractSortWeight(pair.right.sol.violations, true));
+    const rightSol = pair.right.sol;
+    if (DracoSolution.isDefined(rightSol)) {
+      sortBy.splice(0, 0, extractSortWeight(rightSol.violations, false));
+      sortBy.splice(0, 0, extractSortWeight(rightSol.violations, true));
     }
 
-    if (pair.left.sol && pair.right.sol) {
+    if (DracoSolution.isDefined(leftSol) && DracoSolution.isDefined(rightSol)) {
       sortBy.splice(0, 0, (c: Constraint) => {
-        const leftV = pair.left.sol.violations;
-        const rightV = pair.right.sol.violations;
+        const leftV = leftSol.violations;
+        const rightV = rightSol.violations;
         const numLeft = leftV.hasOwnProperty(c.name) ? leftV[c.name].length : 0;
         const numRight = rightV.hasOwnProperty(c.name) ? rightV[c.name].length : 0;
 
@@ -56,19 +58,21 @@ function mapStateToProps(state: RootState, props: ConstraintTunerOwnProps): Cons
 
   if (state.pairCollection.focusPair) {
     const pair = state.pairCollection.pairs[state.pairCollection.focusPair];
-    if (pair.left.sol) {
+    const leftSol = pair.left.sol;
+    if (DracoSolution.isDefined(leftSol)) {
       focusLeftViolationCounts = constraints.map(c => {
-        if (pair.left.sol.violations.hasOwnProperty(c.name)) {
-          return pair.left.sol.violations[c.name].length;
+        if (leftSol.violations.hasOwnProperty(c.name)) {
+          return leftSol.violations[c.name].length;
         }
         return 0;
       });
     }
 
-    if (pair.right.sol) {
+    const rightSol = pair.right.sol;
+    if (DracoSolution.isDefined(rightSol)) {
       focusRightViolationCounts = constraints.map(c => {
-        if (pair.right.sol.violations.hasOwnProperty(c.name)) {
-          return pair.right.sol.violations[c.name].length;
+        if (rightSol.violations.hasOwnProperty(c.name)) {
+          return rightSol.violations[c.name].length;
         }
         return 0;
       });

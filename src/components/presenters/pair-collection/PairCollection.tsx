@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import _ from 'lodash';
 import * as React from 'react';
-import { PairFilter, PairFilterType } from '../../../model/pair';
+import { PairFilter, PairFilterType } from '../../../model';
 import { PairCardContainer } from '../../containers';
 import './pair-collection.css';
 
@@ -105,22 +105,10 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
           <div styleName="button-container">
             <input
               placeholder="filter"
-              onChange={(event) => {
+              onChange={event => {
                 const val = event.target.value;
-                const filterStrings = val.split(/\s+/);
-                const filterTypes: PairFilterType[] = filterStrings.reduce((filterTypes, s) => {
-                  switch (s) {
-                    case 'is:failing':
-                      filterTypes.push(PairFilter.BY_FAIL_TYPE);
-                      break;
-                    case 'is:passing':
-                      filterTypes.push(PairFilter.BY_PASS_TYPE);
-                      break;
-                  }
-                  return filterTypes;
-                }, []);
+                const filterTypes = PairFilter.getTypesFromString(val);
 
-                
                 if (!_.isEqual(this.prevFilterTypes, filterTypes)) {
                   this.prevFilterTypes = filterTypes;
                   this.props.setPairFilters(filterTypes);

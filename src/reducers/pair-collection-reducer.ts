@@ -14,7 +14,7 @@ export interface PairCollectionStore {
 
 const initialState: PairCollectionStore = {
   pairs: EXAMPLE_PAIRS,
-  filters: []
+  filters: [],
 };
 
 // @ts-ignore
@@ -32,7 +32,10 @@ function setPairs(state: PairCollectionStore, action: ActionType<typeof pairColl
   state.pairs = pairsDictionary;
 }
 
-function toggleFocusPair(state: PairCollectionStore, action: ActionType<typeof pairCollectionActions.toggleFocusPair>): void {
+function toggleFocusPair(
+  state: PairCollectionStore,
+  action: ActionType<typeof pairCollectionActions.toggleFocusPair>
+): void {
   if (action.payload.id === null || !action.payload.on) {
     state.focusPair = undefined;
   } else {
@@ -40,6 +43,9 @@ function toggleFocusPair(state: PairCollectionStore, action: ActionType<typeof p
   }
 }
 
-function setPairFilters(state: PairCollectionStore, action: ActionType<typeof pairCollectionActions.setPairFilters>): void {
+function setPairFilters(
+  state: PairCollectionStore,
+  action: ActionType<typeof pairCollectionActions.setPairFilters>
+): void {
   state.filters = action.payload;
 }

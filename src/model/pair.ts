@@ -24,52 +24,40 @@ export class Pair {
     return items;
   }
 
-  static getPassFail(pair: PairObject, constraintMap: ConstraintMapObject): boolean {
+  static getEval(pair: PairObject, constraintMap: ConstraintMapObject): PairEvalType {
     const leftCost = Spec.getCost(pair.left, constraintMap);
     const rightCost = Spec.getCost(pair.right, constraintMap);
 
-    if (!_.isUndefined(leftCost) && _.isUndefined(rightCost)) {
-      return true;
+    if (_.isUndefined(leftCost) || _.isUndefined(rightCost)) {
+      return undefined;
     }
 
-    if (!_.isUndefined(leftCost) && !_.isUndefined(rightCost)) {
-      if (pair.comparator === '<') {
-        return leftCost < rightCost;
-      }
-      return leftCost === rightCost;
+    if (leftCost === Infinity || rightCost === Infinity) {
+      return PairEval.UNSAT;
     }
 
-    return undefined;
+    if (pair.comparator === '<') {
+      return PairEval.fromBoolean(leftCost < rightCost);
+    }
+    return PairEval.fromBoolean(leftCost === rightCost);
   }
 }
 
-export class PairFilter {
-  static getPairFilter(type: PairFilterType) {
-    switch (type) {
-      case PairFilter.BY_PASS_TYPE:
-        return PairFilter.byPass
-      case PairFilter.BY_FAIL_TYPE:
-        return PairFilter.byFail
-    }
-  }
+export class PairEval {
+  static PASS: 'pass' = 'pass';
+  static FAIL: 'fail' = 'fail';
+  static UNSAT: 'unsat' = 'unsat';
 
-  static BY_PASS_TYPE: 'bypass' = 'bypass';
-  static byPass(pair: PairObject, opt?: { constraintMap: ConstraintMapObject }): boolean {
-    if (_.isUndefined(opt) || _.isUndefined(opt.constraintMap)) {
-      throw new Error('PairFilter.byPass requires a constraintMap in opt.');
+  static fromBoolean(bool: boolean): PairEvalType {
+    switch (bool) {
+      case true:
+        return PairEval.PASS;
+      case false:
+        return PairEval.FAIL;
+      default:
+        return PairEval.UNSAT;
     }
-    return Pair.getPassFail(pair, opt.constraintMap);
-  }
-
-  static BY_FAIL_TYPE: 'byfail' = 'byfail';
-  static byFail(pair: PairObject, opt?: { constraintMap: ConstraintMapObject }): boolean {
-    if (_.isUndefined(opt) || _.isUndefined(opt.constraintMap)) {
-      throw new Error('PairFilter.byFail requires a constraintMap in opt.');
-    }
-    return !Pair.getPassFail(pair, opt.constraintMap);
   }
 }
 
-export type PairFilterType =
-  typeof PairFilter.BY_PASS_TYPE |
-  typeof PairFilter.BY_FAIL_TYPE;
+export type PairEvalType = typeof PairEval.PASS | typeof PairEval.FAIL | typeof PairEval.UNSAT;

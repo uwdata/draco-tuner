@@ -15,7 +15,8 @@ function mapStateToProps(rootState: RootState, props: PairCardOwnProps): PairCar
   const pair = rootState.pairCollection.pairs[props.id];
   const [left, right]: PairCardItem[] = Pair.getPairCardItems(pair, rootState.draco.constraintMap);
   const comparator = pair.comparator;
-  const pass = Pair.getPassFail(pair, rootState.draco.constraintMap);
+
+  const evalType = Pair.getEval(pair, rootState.draco.constraintMap);
 
   const focused = rootState.pairCollection.focusPair === props.id;
   const finishedRunIds = rootState.draco.finishedRunIds;
@@ -23,7 +24,7 @@ function mapStateToProps(rootState: RootState, props: PairCardOwnProps): PairCar
     left,
     right,
     comparator,
-    pass,
+    evalType,
     focused,
     finishedRunIds,
   };
