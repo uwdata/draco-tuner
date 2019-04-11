@@ -83,7 +83,7 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
                 this.setState({ selectedPairs });
               }}
             >
-              expand all
+              expand
             </button>
           </div>
           <div styleName="button-container">
@@ -94,8 +94,11 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
                 // this.props.clearFocusPair();
               }}
             >
-              collapse all
+              collapse
             </button>
+          </div>
+          <div styleName="button-container">
+            <input placeholder="filter" />
           </div>
         </div>
         <div styleName="view">{pairCards}</div>

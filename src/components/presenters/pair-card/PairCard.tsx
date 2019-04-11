@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import _ from 'lodash';
 import * as React from 'react';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
-import { Pair } from '../../../reducers/pair-collection-reducer';
+import { PairObject } from '../../../model/pair';
 import VegaLiteChart from '../vega-lite-chart';
 import './pair-card.css';
 
@@ -17,7 +17,7 @@ export interface PairCardStoreProps {
 }
 
 export interface PairCardDispatchProps {
-  solvePair?: (pair: Pair, runId: number) => void;
+  solvePair?: (pair: PairObject, runId: number) => void;
   toggleFocusPair?: (id: string, on: boolean) => void;
 }
 
@@ -74,7 +74,7 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
                   reloading: !_.isUndefined(this.state.runId) && !this.props.finishedRunIds.has(this.state.runId),
                 })}
                 onClick={() => {
-                  const pair: Pair = {
+                  const pair: PairObject = {
                     id: +this.props.id,
                     comparator: this.props.comparator,
                     left: {

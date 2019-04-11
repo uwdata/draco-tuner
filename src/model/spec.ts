@@ -1,6 +1,7 @@
 import Draco, { Options, SolutionSet, Violation, vl2asp } from 'draco-vis';
 import { TopLevelUnitSpec } from 'draco-vis/node_modules/vega-lite/build/src/spec/unit';
 import _ from 'lodash';
+import { ConstraintMapObject } from './constraints';
 
 export interface SpecObject {
   vlSpec: TopLevelUnitSpec;
@@ -34,6 +35,20 @@ export class Spec {
     const result = aspToString(Spec.toAsp(spec));
     return result;
   };
+
+  static getCost(spec: SpecObject, constraintMap: ConstraintMapObject): number {
+    if (_.isUndefined(spec.sol)) {
+      return undefined;
+    }
+
+    const cost = Object.keys(spec.sol.violations).reduce((c, vname) => {
+      const numViolations = spec.sol.violations[vname].length;
+      const weight = constraintMap[vname].weight;
+      return c + weight * numViolations;
+    }, 0);
+
+    return cost;
+  }
 }
 
 export class DracoSolution {

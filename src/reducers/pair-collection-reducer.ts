@@ -2,9 +2,9 @@ import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType } from 'typesafe-actions';
 import { PairCollectionAction, pairCollectionActions } from '../actions';
 import { EXAMPLE_PAIRS } from '../examples/pairs';
-import { SpecDictionary, SpecObject } from '../model';
+import { PairObject, SpecDictionary } from '../model';
 
-export type PairsDictionary = { [id: string]: Pair };
+export type PairsDictionary = { [id: string]: PairObject };
 
 export interface PairCollectionStore {
   pairs: PairsDictionary;
@@ -45,11 +45,4 @@ function toggleFocusPair(state: PairCollectionStore, action: ActionType<typeof p
   } else {
     state.focusPair = `${action.payload.id}`;
   }
-}
-
-export interface Pair {
-  id: number;
-  comparator: string;
-  left: SpecObject;
-  right: SpecObject;
 }
