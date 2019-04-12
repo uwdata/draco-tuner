@@ -7,4 +7,4 @@ export const setConstraintMap = createAction('draco/SET_CONSTRAINT_MAP', action 
 
 export const addConstraintEdit = createAction('draco/ADD_CONSTRAINT_EDIT', action => {
   return (constraintEdit: ConstraintEditObject) => action(constraintEdit);
-})
+});

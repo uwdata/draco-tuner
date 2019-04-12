@@ -93,13 +93,13 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
                 const before = constraint.weight;
                 const after = +event.target.value;
                 const targetId = constraint.name;
-                
+
                 const edit: ConstraintCostEdit = {
                   targetId,
                   before,
                   after,
-                  type: ConstraintEdit.COST
-                }
+                  type: ConstraintEdit.COST,
+                };
 
                 const newConstraint: Constraint = {
                   ...constraint,
@@ -139,7 +139,7 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
                   {hasLeftFocus ? <th>left # violations</th> : null}
                   {hasRightFocus ? <th>right # violations</th> : null}
                 </tr>
-              {constraintRows}
+                {constraintRows}
               </tbody>
             </table>
           </div>

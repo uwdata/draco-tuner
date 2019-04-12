@@ -23,7 +23,7 @@ const initialState: DracoStore = {
 // @ts-ignore
 const dracoReducer = createReducer<DracoStore, DracoAction>(initialState, {
   [getType(dracoActions.setConstraintMap)]: setConstraintMap,
-  [getType(dracoActions.addConstraintEdit)]: addConstraintEdit
+  [getType(dracoActions.addConstraintEdit)]: addConstraintEdit,
 });
 
 function setConstraintMap(state: DracoStore, action: ActionType<typeof dracoActions.setConstraintMap>) {
@@ -36,8 +36,11 @@ function addConstraintEdit(state: DracoStore, action: ActionType<typeof dracoAct
   if (state.edits.length > 0) {
     const prevEdit = state.edits[0];
     if (prevEdit.type === edit.type) {
-      if (!ConstraintEdit.isCheckpoint(prevEdit) && !ConstraintEdit.isCheckpoint(edit) &&
-        prevEdit.targetId === edit.targetId) {
+      if (
+        !ConstraintEdit.isCheckpoint(prevEdit) &&
+        !ConstraintEdit.isCheckpoint(edit) &&
+        prevEdit.targetId === edit.targetId
+      ) {
         prevEdit.after = edit.after;
       } else {
         state.edits.splice(0, 0, edit);
@@ -48,7 +51,7 @@ function addConstraintEdit(state: DracoStore, action: ActionType<typeof dracoAct
   } else {
     state.edits.splice(0, 0, edit);
   }
-  
+
   if (ConstraintEdit.isCostEdit(edit)) {
     state.constraintMap[edit.targetId].weight = edit.after;
   }

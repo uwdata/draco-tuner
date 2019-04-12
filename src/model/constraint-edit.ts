@@ -29,6 +29,4 @@ export class ConstraintEdit {
   }
 }
 
-export type ConstraintEditType =
-  typeof ConstraintEdit.COST |
-  typeof ConstraintEdit.CHECKPOINT;
+export type ConstraintEditType = typeof ConstraintEdit.COST | typeof ConstraintEdit.CHECKPOINT;

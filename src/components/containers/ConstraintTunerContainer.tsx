@@ -90,7 +90,7 @@ function mapDispatchToProps(dispatch: Dispatch, props: ConstraintTunerOwnProps):
   return {
     addConstraintEdit: (edit: ConstraintEditObject): void => {
       dispatch(addConstraintEdit(edit));
-    }
+    },
   };
 }
 

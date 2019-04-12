@@ -13,10 +13,7 @@ export interface EditTableDispatchProps {}
 
 export interface EditTableOwnProps {}
 
-export interface EditTableProps
-  extends EditTableStoreProps,
-    EditTableDispatchProps,
-    EditTableOwnProps {}
+export interface EditTableProps extends EditTableStoreProps, EditTableDispatchProps, EditTableOwnProps {}
 
 export interface EditTableState {}
 

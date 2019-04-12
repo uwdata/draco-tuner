@@ -48,7 +48,7 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
   render() {
     let populated;
     const style: any = { 'pair-card': true };
-    if (this.props.open || this.props.focused ) {
+    if (this.props.open || this.props.focused) {
       style['open'] = true;
       populated = (
         <div styleName="info">

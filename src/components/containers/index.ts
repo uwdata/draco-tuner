@@ -13,5 +13,5 @@ export {
   NavbarContainer,
   EvalMinimapContainer,
   EvalMinimapCellContainer,
-  EditTableContainer
+  EditTableContainer,
 };
