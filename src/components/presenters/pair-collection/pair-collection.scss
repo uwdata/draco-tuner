@@ -2,8 +2,15 @@
 
 .pair-collection {
   @extend %flex-column;
-  width: 100%;
-  height: 100%;
+  width: calc(100% - 4px);
+  height: calc(100% - 4px);
+  border: 2px solid transparent;
+
+  &:focus {
+    outline: none;
+    border-color: $light-purple;
+    box-shadow: none;
+  }
 
   .button-container {
     @extend %button-container;

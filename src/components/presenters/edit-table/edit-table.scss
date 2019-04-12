@@ -2,9 +2,16 @@
 
 .edit-table {
   @extend %flex-column;
-  height: 100%;
-  width: 100%;
+  height: calc(100%);
+  width: calc(100%);
   overflow-y: scroll;
+  border: 2px solid transparent;
+
+  &:focus {
+    outline: none;
+    border-color: $light-purple;
+    box-shadow: none;
+  }
 }
 
 .table {
@@ -33,18 +40,26 @@
         filter: brightness(95%);
       }
     }
+
+    &:focus {
+      outline: none;
+      td, input {
+        background-color: $very-light-purple;
+        border-color: $medium-grey;
+      }
+    }
   }
 
   tr.focused {
     td, input {
-      background-color: $light-blue;
+      background-color: $very-light-purple;
       border-color: $medium-grey;
     }
   }
 
   tr.unfocused {
     td, input {
-      background-color: #fff;
+      background-color: rgb(255, 233, 233);
     }
   }
 
