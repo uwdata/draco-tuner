@@ -21,7 +21,10 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
               className="material-icons"
               onClick={() => {
                 this.props.downloadFiles();
-              }}>get_app</button>
+              }}
+            >
+              get_app
+            </button>
           </div>
         </div>
       </div>

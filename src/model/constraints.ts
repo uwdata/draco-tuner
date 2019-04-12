@@ -20,8 +20,8 @@ export class ConstraintMap {
 
     return {
       soft,
-      hard
-    }
+      hard,
+    };
   }
 
   static toConstraintList = (

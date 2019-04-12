@@ -9,10 +9,7 @@ function mapStateToProps(state: RootState, props: NavbarOwnProps) {
   return {};
 }
 
-function mapDispatchToProps(
-  dispatch: ThunkDispatch<{}, {}, AnyAction>,
-  props: NavbarOwnProps
-): NavbarDispatchProps {
+function mapDispatchToProps(dispatch: ThunkDispatch<{}, {}, AnyAction>, props: NavbarOwnProps): NavbarDispatchProps {
   return {
     downloadFiles: () => dispatch(downloadFiles()),
   };

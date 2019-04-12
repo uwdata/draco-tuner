@@ -4,7 +4,11 @@ import { ThunkDispatch } from 'redux-thunk';
 import { reloadPairsThunk, setPairFilters, toggleFocusPair } from '../../actions/pair-collection-actions';
 import { PairFilter, PairFilterType } from '../../model';
 import { RootState } from '../../reducers';
-import PairCollection, { PairCollectionDispatchProps, PairCollectionOwnProps, PairCollectionStoreProps } from '../presenters/pair-collection';
+import PairCollection, {
+  PairCollectionDispatchProps,
+  PairCollectionOwnProps,
+  PairCollectionStoreProps,
+} from '../presenters/pair-collection';
 
 function mapStateToProps(state: RootState, props: PairCollectionOwnProps) {
   const unfilteredPairIds = Object.keys(state.pairCollection.pairs);

@@ -14,7 +14,7 @@ export class PairFilter {
           filterTypes.push(PairFilter.BY_PASS_TYPE);
           break;
         case 'is:unsat':
-          filterTypes.push(PairFilter.BY_UNSAT_TYPE)
+          filterTypes.push(PairFilter.BY_UNSAT_TYPE);
           break;
       }
       return filterTypes;
@@ -58,6 +58,6 @@ function byEvalType(pair: PairObject, evalType: PairEvalType, opt?: { constraint
 }
 
 export type PairFilterType =
-  typeof PairFilter.BY_PASS_TYPE |
-  typeof PairFilter.BY_FAIL_TYPE |
-  typeof PairFilter.BY_UNSAT_TYPE;
+  | typeof PairFilter.BY_PASS_TYPE
+  | typeof PairFilter.BY_FAIL_TYPE
+  | typeof PairFilter.BY_UNSAT_TYPE;

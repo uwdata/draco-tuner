@@ -11,7 +11,7 @@ interface DracoStore {
 
 // Get constraint set (for now we grab from the draco-vis module).
 const dummyDraco = new Draco();
-const constraintMap =  ConstraintMap.fromConstraintSet(dummyDraco.getConstraintSet());
+const constraintMap = ConstraintMap.fromConstraintSet(dummyDraco.getConstraintSet());
 
 const initialState = {
   constraintMap,

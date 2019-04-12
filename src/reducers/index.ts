@@ -55,11 +55,10 @@ function downloadFiles(state: CombinedState, action: AppAction) {
   aspFolder.file('assign_weights.lp', softAspSet.assigns);
   aspFolder.file('weights.lp', softAspSet.weights);
   aspFolder.file('hard.lp', hardAspSet.definitions);
-  
+
   const pairs = JSON.stringify(state.pairCollection.pairs);
   zip.file('pairs.json', pairs);
-  zip.generateAsync({ type: 'blob' })
-    .then(content => saveAs(content, "draco.zip"));
+  zip.generateAsync({ type: 'blob' }).then(content => saveAs(content, 'draco.zip'));
 
   return state;
 }
