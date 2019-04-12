@@ -1,8 +1,8 @@
 import { Constraint } from 'draco-vis';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { setConstraintMap } from '../../actions/draco-actions';
-import { ConstraintMap, DracoSolution, ViolationMap } from '../../model';
+import { setConstraintMap, addConstraintEdit } from '../../actions/draco-actions';
+import { ConstraintMap, DracoSolution, ViolationMap, ConstraintEdit, ConstraintEditObject } from '../../model';
 import { RootState } from '../../reducers';
 import ConstraintTuner, {
   ConstraintTunerDispatchProps,
@@ -88,10 +88,9 @@ function mapStateToProps(state: RootState, props: ConstraintTunerOwnProps): Cons
 
 function mapDispatchToProps(dispatch: Dispatch, props: ConstraintTunerOwnProps): ConstraintTunerDispatchProps {
   return {
-    updateConstraints: (constraints: Constraint[]): void => {
-      const constraintMap = ConstraintMap.fromConstraintList(constraints);
-      dispatch(setConstraintMap(constraintMap));
-    },
+    addConstraintEdit: (edit: ConstraintEditObject): void => {
+      dispatch(addConstraintEdit(edit));
+    }
   };
 }
 

@@ -3,6 +3,7 @@ import { Constraint } from 'draco-vis';
 import _ from 'lodash';
 import * as React from 'react';
 import './constraint-tuner.css';
+import { ConstraintCostEdit, ConstraintEdit, ConstraintEditObject } from '../../../model/index';
 
 export interface ConstraintTunerStoreProps {
   constraints: Constraint[];
@@ -11,7 +12,7 @@ export interface ConstraintTunerStoreProps {
 }
 
 export interface ConstraintTunerDispatchProps {
-  updateConstraints: (constraints: Constraint[]) => void;
+  addConstraintEdit: (edit: ConstraintEdit) => void;
 }
 
 export interface ConstraintTunerOwnProps {}
@@ -50,8 +51,8 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
     };
   }
 
-  updateStore() {
-    this.props.updateConstraints(this.state.constraints);
+  updateStore(edit: ConstraintEditObject) {
+    this.props.addConstraintEdit(edit);
     this.setState({ updateQueued: undefined });
   }
 
@@ -87,6 +88,17 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
               type="number"
               value={constraint.weight}
               onChange={event => {
+                const before = constraint.weight;
+                const after = +event.target.value;
+                const targetId = constraint.name;
+                
+                const edit: ConstraintCostEdit = {
+                  targetId,
+                  before,
+                  after,
+                  type: ConstraintEdit.COST
+                }
+
                 const newConstraint: Constraint = {
                   ...constraint,
                   weight: +event.target.value,
@@ -97,7 +109,9 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
                 });
 
                 window.clearTimeout(this.state.updateQueued);
-                const updateQueued = window.setTimeout(this.updateStore, ConstraintTuner.DEBOUNCE_DURATION);
+                const updateQueued = window.setTimeout(() => {
+                  this.updateStore(edit);
+                }, ConstraintTuner.DEBOUNCE_DURATION);
                 this.setState({
                   updateQueued,
                   constraints: newConstraints,
