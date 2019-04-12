@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { solvePairsBegin } from '../../actions/draco-worker-actions';
-import { toggleFocusPair } from '../../actions/pair-collection-actions';
+import { toggleFocusPair, toggleHoverPair } from '../../actions/pair-collection-actions';
 import { Pair, PairObject } from '../../model/pair';
 import { RootState } from '../../reducers';
 import PairCard, {

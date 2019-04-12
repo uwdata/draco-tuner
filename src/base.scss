@@ -4,7 +4,7 @@
 
 
 %button-container {
-  @extend %flex-column;
+  @extend %flex-row;
   @extend %in-flex-center-all;
   width: calc(112px + 4px + 16px + 16px);  // border + padding + margin
   height: 48px;
@@ -25,6 +25,17 @@
       border 220ms linear,
       color 220ms linear;
 
+
+    &.icon-button {
+      border: none;
+      width: 48px;
+      color: $medium-purple;
+    
+      &:hover {
+        background-color: $medium-purple;
+        color: #fff;
+      }
+    }
 
     &:hover {
       transition: none;

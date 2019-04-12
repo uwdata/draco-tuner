@@ -17,14 +17,14 @@ export interface PairCardStoreProps {
 }
 
 export interface PairCardDispatchProps {
-  solvePair?: (pair: PairObject, runId: number) => void;
-  toggleFocusPair?: (id: string, on: boolean) => void;
+  solvePair: (pair: PairObject, runId: number) => void;
+  toggleFocusPair: (id: string, on: boolean) => void;
 }
 
 export interface PairCardOwnProps {
   open: boolean;
   id?: string;
-  selectPair?: (id: string) => void;
+  selectPair?: (id: string, on: boolean) => void;
 }
 
 export interface PairCardProps extends PairCardStoreProps, PairCardDispatchProps, PairCardOwnProps {}
@@ -48,7 +48,7 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
   render() {
     let populated;
     const style: any = { 'pair-card': true };
-    if (this.props.open) {
+    if (this.props.open || this.props.focused ) {
       style['open'] = true;
       populated = (
         <div styleName="info">
@@ -116,8 +116,8 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
       >
         <Splinter
           onClick={() => {
-            this.props.selectPair(this.props.id);
-            this.props.toggleFocusPair(this.props.id, !this.props.open);
+            this.props.selectPair(this.props.id, !(this.props.open || this.props.focused));
+            this.props.toggleFocusPair(this.props.id, !(this.props.open || this.props.focused));
           }}
           evalType={this.props.evalType}
           vector={this.props.diffVector}

@@ -4,7 +4,4 @@
     "**/*.css": true
   },
   "files.insertFinalNewline": true,
-  "editor.codeActionsOnSave": {
-		"source.organizeImports": true
-	}
 }

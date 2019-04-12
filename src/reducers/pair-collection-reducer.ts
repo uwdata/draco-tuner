@@ -10,6 +10,7 @@ export interface PairCollectionStore {
   pairs: PairsDictionary;
   filters: PairFilterType[];
   focusPair?: string;
+  hoverPair?: string;
 }
 
 const initialState: PairCollectionStore = {
@@ -22,6 +23,7 @@ const pairsCollectionReducer = createReducer<PairCollectionStore, PairCollection
   [getType(pairCollectionActions.setPairs)]: setPairs,
   [getType(pairCollectionActions.toggleFocusPair)]: toggleFocusPair,
   [getType(pairCollectionActions.setPairFilters)]: setPairFilters,
+  [getType(pairCollectionActions.toggleHoverPair)]: toggleHoverPair,
 });
 
 export default pairsCollectionReducer;
@@ -39,7 +41,18 @@ function toggleFocusPair(
   if (action.payload.id === null || !action.payload.on) {
     state.focusPair = undefined;
   } else {
-    state.focusPair = `${action.payload.id}`;
+    state.focusPair = action.payload.id;
+  }
+}
+
+function toggleHoverPair(
+  state: PairCollectionStore,
+  action: ActionType<typeof pairCollectionActions.toggleHoverPair>
+): void {
+  if (action.payload.id === null || !action.payload.on) {
+    state.hoverPair = undefined;
+  } else {
+    state.hoverPair = action.payload.id;
   }
 }
 

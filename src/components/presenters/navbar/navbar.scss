@@ -18,14 +18,4 @@
 .button-container {
   @extend %button-container;
   margin: 0 16px 0 16px;
-
-  button {
-    border: none;
-    width: 48px;
-    color: $medium-purple;
-
-    &:hover {
-      background-color: $medium-purple;
-    }
-  }
 }

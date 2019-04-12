@@ -1,0 +1,14 @@
+@import 'base.scss';
+
+.eval-minimap-cell {
+  flex-grow: 1;
+  cursor: pointer;
+
+  &.focused {
+    display: block;
+  }
+
+  &:hover {
+    filter: brightness(90%);
+  }
+}

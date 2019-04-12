@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import _ from 'lodash';
 import * as React from 'react';
 import { PairFilter, PairFilterType } from '../../../model';
-import { PairCardContainer } from '../../containers';
+import { EvalMinimapContainer, PairCardContainer } from '../../containers';
 import './pair-collection.css';
 
 export interface PairCollectionStoreProps {
@@ -49,7 +49,7 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
           key={i}
           id={id}
           open={this.state.selectedPairs.has(id)}
-          selectPair={(id: string) => this.toggleSelectedPairs([id])}
+          selectPair={(id: string, on: boolean) => this.toggleSelectedPairs([id], on)}
         />
       );
     });
@@ -79,6 +79,8 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
           </div>
           <div styleName="button-container">
             <button
+              className="material-icons"
+              styleName="icon-button"
               onClick={() => {
                 const selectedPairs = this.props.pairIds.reduce((set, id) => {
                   set.add(id);
@@ -88,18 +90,18 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
                 this.setState({ selectedPairs });
               }}
             >
-              expand
+              unfold_more
             </button>
-          </div>
-          <div styleName="button-container">
             <button
+              className="material-icons"
+              styleName="icon-button"
               onClick={() => {
                 const selectedPairs = new Set();
                 this.setState({ selectedPairs });
                 // this.props.clearFocusPair();
               }}
             >
-              collapse
+              unfold_less
             </button>
           </div>
           <div styleName="button-container">
@@ -117,19 +119,24 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
             />
           </div>
         </div>
-        <div styleName="view">{pairCards}</div>
+        <div styleName="view">
+          <div styleName="minimap">
+            <EvalMinimapContainer pairIds={this.props.pairIds} />
+          </div>
+          <div styleName="pairs">{pairCards}</div>
+        </div>
       </div>
     );
   }
 
-  toggleSelectedPairs(ids: string[]) {
+  toggleSelectedPairs(ids: string[], on: boolean) {
     this.setState((state, props) => {
       const selectedPairs = _.clone(state.selectedPairs);
       ids.forEach(id => {
-        if (selectedPairs.has(id)) {
-          selectedPairs.delete(id);
-        } else {
+        if (on) {
           selectedPairs.add(id);
+        } else {
+          selectedPairs.delete(id);
         }
       });
       return { selectedPairs };

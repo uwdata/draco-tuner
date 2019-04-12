@@ -114,13 +114,15 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
     return (
       <div styleName="constraint-tuner">
         <table styleName="constraint-table">
-          <tr key="header">
-            <th>name</th>
-            <th>cost</th>
-            {hasLeftFocus ? <th>left # violations</th> : null}
-            {hasRightFocus ? <th>right # violations</th> : null}
-          </tr>
+          <tbody>
+            <tr key="header">
+              <th>name</th>
+              <th>cost</th>
+              {hasLeftFocus ? <th>left # violations</th> : null}
+              {hasRightFocus ? <th>right # violations</th> : null}
+            </tr>
           {constraintRows}
+          </tbody>
         </table>
       </div>
     );
