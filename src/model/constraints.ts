@@ -1,4 +1,4 @@
-import { Constraint } from 'draco-vis';
+import { Constraint, ConstraintSet } from 'draco-vis';
 import _ from 'lodash';
 
 export interface ConstraintMapObject {
@@ -6,15 +6,35 @@ export interface ConstraintMapObject {
 }
 
 export class ConstraintMap {
+  static fromConstraintSet(constraintSet: ConstraintSet): ConstraintMapObject {
+    const allConstraints = _.flatMap([constraintSet.hard, constraintSet.soft], set => {
+      return set.map(constraint => constraint);
+    });
+    return ConstraintMap.fromConstraintList(allConstraints);
+  }
+
+  static toConstraintSet(constraintMap: ConstraintMapObject): ConstraintSet {
+    const constraintList = ConstraintMap.toConstraintList(constraintMap);
+    const soft = constraintList.filter(c => c.type === 'soft');
+    const hard = constraintList.filter(c => c.type === 'hard');
+
+    return {
+      soft,
+      hard
+    }
+  }
+
   static toConstraintList = (
     constraintMap: ConstraintMapObject,
-    sortBy: ((c: Constraint) => string | number)[]
+    sortBy?: ((c: Constraint) => string | number)[]
   ): Constraint[] => {
     let constraints = Object.keys(constraintMap).map(cname => {
       return constraintMap[cname];
     });
 
-    constraints = _.sortBy(constraints, sortBy);
+    if (!_.isUndefined(sortBy)) {
+      constraints = _.sortBy(constraints, sortBy);
+    }
 
     return constraints;
   };

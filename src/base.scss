@@ -12,11 +12,11 @@
   button {
     width: 112px;
     height: 30px;
-    border: 2px solid $light-grey;
+    border: 2px solid $medium-purple;
     border-radius: 8px;
     padding: 0 8px 0 8px;
     margin: 8px;
-    color: $medium-grey;
+    color: $medium-purple;
     font-weight: 400;
     overflow: hidden;
     transition:
@@ -28,7 +28,7 @@
 
     &:hover {
       transition: none;
-      background-color: $light-grey;
+      background-color: $medium-purple;
       color: #fff;
     }
 
@@ -39,7 +39,7 @@
         border 220ms linear 220ms;
       color: #fff;
       border-radius: 50%/50%;
-      background-color: $light-grey;
+      background-color: $light-purple;
       // background-color: transparent !important;
       pointer-events: none;
       border: none;

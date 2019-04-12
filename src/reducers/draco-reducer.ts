@@ -1,5 +1,4 @@
 import Draco from 'draco-vis';
-import _ from 'lodash';
 import { createReducer } from 'redux-starter-kit';
 import { getType } from 'typesafe-actions';
 import { DracoAction, dracoActions } from '../actions/index';
@@ -12,11 +11,7 @@ interface DracoStore {
 
 // Get constraint set (for now we grab from the draco-vis module).
 const dummyDraco = new Draco();
-const constraintSet = dummyDraco.getConstraintSet();
-const allConstraints = _.flatMap([constraintSet.hard, constraintSet.soft], set => {
-  return set.map(constraint => constraint);
-});
-const constraintMap: ConstraintMapObject = ConstraintMap.fromConstraintList(allConstraints);
+const constraintMap =  ConstraintMap.fromConstraintSet(dummyDraco.getConstraintSet());
 
 const initialState = {
   constraintMap,

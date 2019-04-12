@@ -1,3 +1,4 @@
+
 declare module "*.css" {
   interface IClassNames {
       [className: string]: string;
@@ -22,4 +23,9 @@ declare module "redux-worker-middleware" {
 declare module "react-vega-lite" {
   const VegaLite: any;
   export default VegaLite;
+}
+
+declare module "material-icons-react" {
+  const content: any;
+  export default content;
 }

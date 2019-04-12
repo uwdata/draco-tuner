@@ -1,23 +1,30 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import './navbar.css';
 
-interface StateProps {}
-interface DispatchProps {}
-interface NavbarProps extends StateProps, DispatchProps {}
+export interface NavbarStoreProps {}
+export interface NavbarDispatchProps {
+  downloadFiles: () => void;
+}
+export interface NavbarOwnProps {}
+export interface NavbarProps extends NavbarStoreProps, NavbarDispatchProps, NavbarOwnProps {}
 
-interface State {}
+export interface NavbarState {}
 
-class Navbar extends React.Component<NavbarProps, State> {
+export default class Navbar extends React.Component<NavbarProps, NavbarState> {
   render() {
     return (
       <div styleName="navbar">
         <div styleName="content">
           <h1>Draco Tuner</h1>
+          <div styleName="button-container">
+            <button
+              className="material-icons"
+              onClick={() => {
+                this.props.downloadFiles();
+              }}>get_app</button>
+          </div>
         </div>
       </div>
     );
   }
 }
-
-export default connect()(Navbar);
