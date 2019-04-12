@@ -2,11 +2,12 @@ import Draco from 'draco-vis';
 import { createReducer } from 'redux-starter-kit';
 import { getType } from 'typesafe-actions';
 import { DracoAction, dracoActions } from '../actions/index';
-import { ConstraintMap, ConstraintMapObject } from '../model/index';
+import { ConstraintMap, ConstraintMapObject, ConstraintEdit } from '../model/index';
 
 interface DracoStore {
   constraintMap: ConstraintMapObject;
   finishedRunIds: Set<number>;
+  edits: ConstraintEdit[];
 }
 
 // Get constraint set (for now we grab from the draco-vis module).

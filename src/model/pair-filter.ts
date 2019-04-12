@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { ConstraintMapObject } from './constraints';
+import { ConstraintMapObject } from './constraint-map';
 import { Pair, PairEval, PairEvalType, PairObject } from './pair';
 
 export class PairFilter {

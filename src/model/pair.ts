@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { PairCardItem } from '../components/presenters/pair-card/index';
-import { ConstraintMapObject } from './constraints';
+import { ConstraintMapObject } from './constraint-map';
 import { Spec, SpecObject } from './spec';
 
 export interface PairObject {
