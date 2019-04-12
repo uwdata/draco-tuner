@@ -2,7 +2,7 @@ import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType } from 'typesafe-actions';
 import { PairCollectionAction, pairCollectionActions } from '../actions';
 import { EXAMPLE_PAIRS } from '../examples';
-import { PairFilterType, PairObject, SpecDictionary } from '../model';
+import { PairEvalDeltaMapObject, PairEvalMapObject, PairFilterType, PairObject, SpecDictionary } from '../model';
 
 export type PairsDictionary = { [id: string]: PairObject };
 
@@ -11,6 +11,9 @@ export interface PairCollectionStore {
   filters: PairFilterType[];
   focusPair?: string;
   hoverPair?: string;
+  currPairEvalMap?: PairEvalMapObject;
+  pairEvalDeltaMap?: PairEvalDeltaMapObject;
+  pairEvalDeltaScore?: number;
 }
 
 const initialState: PairCollectionStore = {

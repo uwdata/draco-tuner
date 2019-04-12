@@ -3,13 +3,21 @@ import _ from 'lodash';
 import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType } from 'typesafe-actions';
 import { DracoAction, dracoActions } from '../actions/index';
-import { ConstraintEdit, ConstraintEditObject, ConstraintMap, ConstraintMapObject } from '../model/index';
+import {
+  CheckpointMapObject,
+  ConstraintEdit,
+  ConstraintEditObject,
+  ConstraintMap,
+  ConstraintMapObject,
+} from '../model/index';
 
-interface DracoStore {
+export interface DracoStore {
   constraintMap: ConstraintMapObject;
   finishedRunIds: Set<number>;
   edits: ConstraintEditObject[];
   editIndex: number;
+  checkpointMap: CheckpointMapObject;
+  nextCheckpointId: number;
 }
 
 // Get constraint set (for now we grab from the draco-vis module).
@@ -21,6 +29,8 @@ const initialState: DracoStore = {
   finishedRunIds: new Set(),
   edits: [],
   editIndex: 0,
+  checkpointMap: {},
+  nextCheckpointId: 0,
 };
 
 // @ts-ignore

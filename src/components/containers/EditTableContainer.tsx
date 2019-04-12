@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
+import { updateStatus } from '../../actions/app-actions';
 import { deleteCurrentEdit, moveEditIndex, revertToEdit } from '../../actions/draco-actions';
 import { RootState } from '../../reducers';
 import EditTable, { EditTableDispatchProps, EditTableOwnProps, EditTableStoreProps } from '../presenters/edit-table';
@@ -21,12 +22,20 @@ function mapDispatchToProps(
   return {
     revertToEdit: (editIndex: number) => {
       dispatch(revertToEdit(editIndex));
+      dispatch(updateStatus());
     },
     deleteCurrentEdit: () => {
       dispatch(deleteCurrentEdit());
+      dispatch(updateStatus());
     },
-    prevEdit: () => dispatch(moveEditIndex(-1)),
-    nextEdit: () => dispatch(moveEditIndex(1)),
+    prevEdit: () => {
+      dispatch(moveEditIndex(-1));
+      dispatch(updateStatus());
+    },
+    nextEdit: () => {
+      dispatch(moveEditIndex(1));
+      dispatch(updateStatus());
+    },
   };
 }
 

@@ -1,4 +1,4 @@
-@import 'base.scss';
+@import "base.scss";
 
 .constraint-tuner {
   @extend %flex-column;
@@ -14,7 +14,7 @@
 }
 
 .constraint-table {
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
   font-size: 11px;
   width: calc(100%);
   margin-bottom: 12px;
@@ -26,20 +26,23 @@
   }
 
   :nth-child(even) {
-    td, input {
+    td,
+    input {
       filter: brightness(98%);
     }
   }
 
   tr.focused {
-    td, input {
+    td,
+    input {
       background-color: $light-blue;
       border-color: $medium-grey;
     }
   }
 
   tr.unfocused {
-    td, input {
+    td,
+    input {
       background-color: #fff;
     }
   }
@@ -55,7 +58,7 @@
   }
 
   th {
-    font-family: 'Lato', sans-serif;
+    font-family: "Lato", sans-serif;
     padding: 8px;
     text-align: left;
     background-color: $medium-purple;

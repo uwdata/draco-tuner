@@ -1,11 +1,17 @@
-@import 'base.scss';
+@import "base.scss";
 
 .eval-minimap-cell {
   flex-grow: 1;
+  flex-basis: 1;
   cursor: pointer;
 
   &.focused {
     display: block;
+  }
+
+  &.important {
+    flex-basis: 16px;
+    border: 2px solid $medium-blue;
   }
 
   &:hover {

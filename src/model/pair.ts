@@ -58,6 +58,17 @@ export class PairEval {
         return PairEval.UNSAT;
     }
   }
+
+  static toScore(pairEval: PairEvalType): number {
+    switch (pairEval) {
+      case PairEval.PASS:
+        return 1;
+      case undefined:
+      case PairEval.FAIL:
+      case PairEval.UNSAT:
+        return 0;
+    }
+  }
 }
 
 export type PairEvalType = typeof PairEval.PASS | typeof PairEval.FAIL | typeof PairEval.UNSAT;

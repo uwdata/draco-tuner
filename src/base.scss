@@ -1,40 +1,48 @@
-@import 'styles/containers.scss';
-@import 'styles/colors.scss';
-@import 'styles/animation.scss';
-
+@import "styles/containers.scss";
+@import "styles/colors.scss";
+@import "styles/animation.scss";
 
 %button-container {
   @extend %flex-row;
   @extend %in-flex-center-all;
-  width: calc(112px + 4px + 16px + 16px);  // border + padding + margin
+  width: calc(112px + 4px + 16px + 16px); // border + padding + margin
   height: 48px;
 
   button {
-    width: 112px;
+    @extend %flex-row;
+    @extend %in-flex-center-all;
+
+    width: 48px;
     height: 30px;
-    border: 2px solid $medium-purple;
+    // border: 2px solid $medium-purple;
     border-radius: 8px;
     padding: 0 8px 0 8px;
     margin: 8px;
     color: $medium-purple;
     font-weight: 400;
     overflow: hidden;
-    transition:
-      width 220ms $standard-ease,
-      border-radius 220ms linear,
-      border 220ms linear,
-      color 220ms linear;
-
+    transition: width 220ms $standard-ease, border-radius 220ms linear,
+      border 220ms linear, color 220ms linear;
 
     &.icon-button {
       border: none;
-      width: 48px;
+      width: auto;
       color: $medium-purple;
-    
+
       &:hover {
         background-color: $medium-purple;
         color: #fff;
       }
+    }
+
+    &.green {
+      background-color: $light-green;
+      color: $medium-green;
+    }
+
+    &.red {
+      background-color: $light-red;
+      color: $medium-red;
     }
 
     &:hover {
@@ -44,9 +52,8 @@
     }
 
     &.reloading {
-      transition:
-        width 220ms $standard-ease 220ms,
-        border-radius 220ms linear 220ms,
+      transition: width 220ms $standard-ease 220ms,
+        height 220ms $standard-ease 220ms, border-radius 220ms linear 220ms,
         border 220ms linear 220ms;
       color: #fff;
       border-radius: 50%/50%;
@@ -58,18 +65,22 @@
       border-top: 2px solid $dark-purple;
       border-left: 2px solid $dark-purple;
       border-right: 2px solid $dark-purple;
-      width: 30px;
-      animation: flash-animation 220ms linear 220ms forwards, reloading-animation 1000ms linear 440ms infinite;
+      width: 1em;
+      height: 1em;
+      animation: flash-animation 220ms linear 220ms forwards,
+        reloading-animation 1000ms linear 440ms infinite;
     }
 
     @keyframes flash-animation {
       0% {
         background-color: $dark-purple;
         color: #fff;
-      } 50% {
+      }
+      50% {
         background-color: $dark-purple;
         color: transparent;
-      } 100% {
+      }
+      100% {
         background-color: transparent;
         color: transparent;
       }

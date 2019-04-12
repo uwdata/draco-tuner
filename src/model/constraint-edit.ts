@@ -1,11 +1,9 @@
-import _ from 'lodash';
-
 export interface ConstraintEditBase {
   type: ConstraintEditType;
 }
 
 export interface ConstraintEditCheckpoint extends ConstraintEditBase {
-  name: string;
+  id: string;
 }
 
 export interface ConstraintCostEdit extends ConstraintEditBase {

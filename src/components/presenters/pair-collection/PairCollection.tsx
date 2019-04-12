@@ -8,12 +8,14 @@ import './pair-collection.css';
 export interface PairCollectionStoreProps {
   pairIds: string[];
   finishedRunIds: Set<number>;
+  pairEvalDeltaScore?: number;
 }
 
 export interface PairCollectionDispatchProps {
   reloadPairs: (runId: number) => void;
   clearFocusPair: () => void;
   setPairFilters: (filterTypes: PairFilterType[]) => void;
+  addCheckpoint: () => void;
 }
 
 export interface PairCollectionOwnProps {}
@@ -58,11 +60,24 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
       reloading: !_.isUndefined(this.state.runId) && !this.props.finishedRunIds.has(this.state.runId),
     });
 
+    let deltaStringSign = '';
+    if (this.props.pairEvalDeltaScore > 0) {
+      deltaStringSign = '+';
+    }
+    const deltaString =
+      deltaStringSign + (_.isUndefined(this.props.pairEvalDeltaScore) ? '' : this.props.pairEvalDeltaScore.toString());
+    const checkpointStyleNames = classnames({
+      'icon-button': true,
+      green: this.props.pairEvalDeltaScore > 0,
+      red: this.props.pairEvalDeltaScore < 0,
+    });
+
     return (
       <div styleName="pair-collection">
         <div styleName="controls">
           <div styleName="button-container">
             <button
+              className="material-icons"
               styleName={reloadButtonStyle}
               onClick={() => {
                 const runId = (window as any).runId;
@@ -74,7 +89,18 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
                 this.props.reloadPairs(runId);
               }}
             >
-              reload
+              refresh
+            </button>
+          </div>
+          <div styleName="button-container">
+            <button
+              styleName={checkpointStyleNames}
+              onClick={() => {
+                this.props.addCheckpoint();
+              }}
+            >
+              <span className="material-icons">location_on</span>
+              {deltaString}
             </button>
           </div>
           <div styleName="button-container">

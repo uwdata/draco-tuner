@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
+import { addCheckpoint, updateStatus } from '../../actions/app-actions';
 import { reloadPairsThunk, setPairFilters, toggleFocusPair } from '../../actions/pair-collection-actions';
 import { PairFilter, PairFilterType } from '../../model';
 import { RootState } from '../../reducers';
@@ -22,9 +23,11 @@ function mapStateToProps(state: RootState, props: PairCollectionOwnProps) {
   }, unfilteredPairIds);
 
   const finishedRunIds = state.draco.finishedRunIds;
+  const pairEvalDeltaScore = state.pairCollection.pairEvalDeltaScore;
   return {
     pairIds,
     finishedRunIds,
+    pairEvalDeltaScore,
   };
 }
 
@@ -36,6 +39,10 @@ function mapDispatchToProps(
     reloadPairs: (runId: number) => dispatch(reloadPairsThunk(runId)),
     clearFocusPair: () => dispatch(toggleFocusPair(null, false)),
     setPairFilters: (filterTypes: PairFilterType[]) => dispatch(setPairFilters(filterTypes)),
+    addCheckpoint: () => {
+      dispatch(addCheckpoint());
+      dispatch(updateStatus());
+    },
   };
 }
 

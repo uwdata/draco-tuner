@@ -46,6 +46,24 @@ export default class EditTable extends React.PureComponent<EditTableProps, EditT
           </tr>
         );
       }
+
+      if (ConstraintEdit.isCheckpoint(edit)) {
+        return (
+          <tr
+            key={i}
+            styleName={styleNames}
+            onClick={() => {
+              this.props.revertToEdit(i);
+            }}
+          >
+            <td>{edit.type}</td>
+            <td>{edit.id}</td>
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+          </tr>
+        );
+      }
     });
 
     return (
@@ -70,7 +88,7 @@ export default class EditTable extends React.PureComponent<EditTableProps, EditT
           <tbody>
             <tr key="header">
               <th>type</th>
-              <th>constraint</th>
+              <th>id</th>
               <th>before</th>
               <th>after</th>
               <th>delta</th>

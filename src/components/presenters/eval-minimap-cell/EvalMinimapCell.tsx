@@ -1,12 +1,13 @@
+import classnames from 'classnames';
 import React from 'react';
 import { PairEval, PairEvalType } from '../../../model/pair';
 import { Splinter } from '../pair-card/index';
 import './eval-minimap-cell.css';
-import classnames from 'classnames';
 
 export interface EvalMinimapCellStoreProps {
   evalType: PairEvalType;
   focused: boolean;
+  important: boolean;
 }
 
 export interface EvalMinimapCellDispatchProps {
@@ -49,6 +50,7 @@ export default class EvalMinimapCell extends React.PureComponent<EvalMinimapCell
     const style = { backgroundColor: color };
     const styleName = classnames({
       'eval-minimap-cell': true,
+      important: this.props.important,
     });
 
     return (
