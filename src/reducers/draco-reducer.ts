@@ -1,9 +1,9 @@
 import Draco from 'draco-vis';
-import { createReducer } from 'redux-starter-kit';
-import { getType, ActionType } from 'typesafe-actions';
-import { DracoAction, dracoActions } from '../actions/index';
-import { ConstraintMap, ConstraintMapObject, ConstraintEdit, ConstraintEditObject } from '../model/index';
 import _ from 'lodash';
+import { createReducer } from 'redux-starter-kit';
+import { ActionType, getType } from 'typesafe-actions';
+import { DracoAction, dracoActions } from '../actions/index';
+import { ConstraintEdit, ConstraintEditObject, ConstraintMap, ConstraintMapObject } from '../model/index';
 
 interface DracoStore {
   constraintMap: ConstraintMapObject;
@@ -20,7 +20,7 @@ const initialState: DracoStore = {
   constraintMap,
   finishedRunIds: new Set(),
   edits: [],
-  editIndex: 0
+  editIndex: 0,
 };
 
 // @ts-ignore

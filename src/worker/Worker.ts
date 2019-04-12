@@ -12,7 +12,7 @@ const dracoOptions: Options = {
   models: 7,
 };
 
-const draco = new Draco('static', status => console.debug);
+const draco = new Draco('static', status => {});
 
 ctx.onmessage = ({ data: action }: DracoWorkerEvent) => {
   if (!draco.initialized) {

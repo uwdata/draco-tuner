@@ -1,9 +1,7 @@
-import React from 'react';
-import { PairEval, PairEvalType } from '../../../model/pair';
-import { Splinter } from '../pair-card/index';
-import './edit-table.css';
 import classnames from 'classnames';
-import { ConstraintEditObject, ConstraintEdit } from '../../../model/index';
+import React from 'react';
+import { ConstraintEdit, ConstraintEditObject } from '../../../model/index';
+import './edit-table.css';
 
 export interface EditTableStoreProps {
   edits: ConstraintEditObject[];
@@ -28,7 +26,7 @@ export default class EditTable extends React.PureComponent<EditTableProps, EditT
     const edits = this.props.edits.map((edit, i) => {
       const styleNames = classnames({
         focused: i === this.props.editIndex,
-        unfocused: i < this.props.editIndex
+        unfocused: i < this.props.editIndex,
       });
 
       if (ConstraintEdit.isCostEdit(edit)) {
@@ -37,7 +35,7 @@ export default class EditTable extends React.PureComponent<EditTableProps, EditT
             key={i}
             styleName={styleNames}
             onClick={() => {
-              this.props.revertToEdit(i)
+              this.props.revertToEdit(i);
             }}
           >
             <td>{edit.type}</td>
@@ -51,8 +49,9 @@ export default class EditTable extends React.PureComponent<EditTableProps, EditT
     });
 
     return (
-      <div styleName="edit-table"
-        onKeyDown={(event) => {
+      <div
+        styleName="edit-table"
+        onKeyDown={event => {
           switch (event.key) {
             case 'Backspace':
               this.props.deleteCurrentEdit();

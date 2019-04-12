@@ -2,10 +2,10 @@ import classnames from 'classnames';
 import { Constraint } from 'draco-vis';
 import _ from 'lodash';
 import * as React from 'react';
-import './constraint-tuner.css';
-import { ConstraintCostEdit, ConstraintEdit, ConstraintEditObject } from '../../../model/index';
 import SplitPane from 'react-split-pane';
+import { ConstraintCostEdit, ConstraintEdit, ConstraintEditObject } from '../../../model/index';
 import { EditTableContainer } from '../../containers/index';
+import './constraint-tuner.css';
 
 export interface ConstraintTunerStoreProps {
   constraints: Constraint[];
