@@ -1,7 +1,7 @@
 import * as React from 'react';
 import SplitPane from 'react-split-pane';
 import './app.css';
-import { ConstraintTunerContainer, NavbarContainer, PairCollectionContainer } from './containers';
+import { ConstraintTunerContainer, NavbarContainer, PairCollectionContainer, EditTableContainer } from './containers';
 
 interface StateProps {}
 
@@ -19,7 +19,7 @@ export default class App extends React.PureComponent<AppProps, State> {
           <NavbarContainer />
         </div>
         <div styleName="tuner" id="tuner">
-          <SplitPane split="vertical" defaultSize={0} maxSize={600}>
+          <SplitPane split="vertical" defaultSize={0} maxSize={400}>
             <div />
             <div style={{ width: '100%', height: '100%' }}>
               <SplitPane split="vertical" primary="first" minSize={200} defaultSize="60%">

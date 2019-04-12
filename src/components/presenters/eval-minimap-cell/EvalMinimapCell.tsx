@@ -24,7 +24,7 @@ export interface EvalMinimapCellProps
 
 export interface EvalMinimapCellState {}
 
-export default class EvalMinimap extends React.PureComponent<EvalMinimapCellProps, EvalMinimapCellState> {
+export default class EvalMinimapCell extends React.PureComponent<EvalMinimapCellProps, EvalMinimapCellState> {
   render() {
     let color;
     switch (this.props.evalType) {

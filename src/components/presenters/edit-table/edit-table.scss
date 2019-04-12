@@ -1,19 +1,13 @@
 @import 'base.scss';
 
-.constraint-tuner {
-  @extend %flex-column;
-  width: 100%;
-  height: 100%;
-}
-
-.constraint-table-container {
+.edit-table {
   @extend %flex-column;
   height: 100%;
   width: 100%;
   overflow-y: scroll;
 }
 
-.constraint-table {
+.table {
   font-family: 'Roboto Mono', monospace;
   font-size: 11px;
   width: calc(100%);
@@ -28,6 +22,16 @@
   :nth-child(even) {
     td, input {
       filter: brightness(98%);
+    }
+  }
+
+  tr {
+    cursor: pointer;
+
+    &:hover {
+      td {
+        filter: brightness(95%);
+      }
     }
   }
 

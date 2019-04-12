@@ -4,6 +4,7 @@ import EvalMinimapContainer from './EvalMinimapContainer';
 import NavbarContainer from './NavbarContainer';
 import PairCardContainer from './PairCardContainer';
 import PairCollectionContainer from './PairCollectionContainer';
+import EditTableContainer from './EditTableContainer';
 
 export {
   PairCardContainer,
@@ -12,4 +13,5 @@ export {
   NavbarContainer,
   EvalMinimapContainer,
   EvalMinimapCellContainer,
+  EditTableContainer
 };

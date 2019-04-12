@@ -2,12 +2,12 @@ import Draco from 'draco-vis';
 import { createReducer } from 'redux-starter-kit';
 import { getType, ActionType } from 'typesafe-actions';
 import { DracoAction, dracoActions } from '../actions/index';
-import { ConstraintMap, ConstraintMapObject, ConstraintEdit } from '../model/index';
+import { ConstraintMap, ConstraintMapObject, ConstraintEdit, ConstraintEditObject } from '../model/index';
 
 interface DracoStore {
   constraintMap: ConstraintMapObject;
   finishedRunIds: Set<number>;
-  edits: ConstraintEdit[];
+  edits: ConstraintEditObject[];
 }
 
 // Get constraint set (for now we grab from the draco-vis module).
@@ -32,8 +32,23 @@ function setConstraintMap(state: DracoStore, action: ActionType<typeof dracoActi
 
 function addConstraintEdit(state: DracoStore, action: ActionType<typeof dracoActions.addConstraintEdit>) {
   const edit = action.payload;
-  state.edits.push(edit);
 
+  if (state.edits.length > 0) {
+    const prevEdit = state.edits[0];
+    if (prevEdit.type === edit.type) {
+      if (!ConstraintEdit.isCheckpoint(prevEdit) && !ConstraintEdit.isCheckpoint(edit) &&
+        prevEdit.targetId === edit.targetId) {
+        prevEdit.after = edit.after;
+      } else {
+        state.edits.splice(0, 0, edit);
+      }
+    } else {
+      state.edits.splice(0, 0, edit);
+    }
+  } else {
+    state.edits.splice(0, 0, edit);
+  }
+  
   if (ConstraintEdit.isCostEdit(edit)) {
     state.constraintMap[edit.targetId].weight = edit.after;
   }

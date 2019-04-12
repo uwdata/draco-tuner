@@ -4,6 +4,8 @@ import _ from 'lodash';
 import * as React from 'react';
 import './constraint-tuner.css';
 import { ConstraintCostEdit, ConstraintEdit, ConstraintEditObject } from '../../../model/index';
+import SplitPane from 'react-split-pane';
+import { EditTableContainer } from '../../containers/index';
 
 export interface ConstraintTunerStoreProps {
   constraints: Constraint[];
@@ -127,17 +129,22 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
 
     return (
       <div styleName="constraint-tuner">
-        <table styleName="constraint-table">
-          <tbody>
-            <tr key="header">
-              <th>name</th>
-              <th>cost</th>
-              {hasLeftFocus ? <th>left # violations</th> : null}
-              {hasRightFocus ? <th>right # violations</th> : null}
-            </tr>
-          {constraintRows}
-          </tbody>
-        </table>
+        <SplitPane split="horizontal" primary="second" defaultSize={200} maxSize={400}>
+          <div styleName="constraint-table-container">
+            <table styleName="constraint-table">
+              <tbody>
+                <tr key="header">
+                  <th>name</th>
+                  <th>cost</th>
+                  {hasLeftFocus ? <th>left # violations</th> : null}
+                  {hasRightFocus ? <th>right # violations</th> : null}
+                </tr>
+              {constraintRows}
+              </tbody>
+            </table>
+          </div>
+          <EditTableContainer />
+        </SplitPane>
       </div>
     );
   }
