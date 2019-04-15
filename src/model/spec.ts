@@ -1,6 +1,6 @@
 import Draco, { Options, SolutionSet, Violation, vl2asp } from 'draco-vis';
-import { TopLevelUnitSpec } from 'draco-vis/node_modules/vega-lite/build/src/spec/unit';
 import _ from 'lodash';
+import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
 import { ConstraintMapObject } from './constraint-map';
 
 export interface SpecObject {

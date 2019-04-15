@@ -93,6 +93,11 @@ function moveEditIndex(state: DracoStore, action: ActionType<typeof dracoActions
 }
 
 function deleteCurrentEdit(state: DracoStore, action: ActionType<typeof dracoActions.deleteCurrentEdit>): void {
+  const edit = state.edits[state.editIndex];
+  if (ConstraintEdit.isCostEdit(edit)) {
+    state.constraintMap[edit.targetId].weight = edit.before;
+  }
+
   state.edits.splice(state.editIndex, 1);
   updateConstraintMap(state);
 }

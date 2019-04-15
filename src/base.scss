@@ -12,8 +12,9 @@
     @extend %flex-row;
     @extend %in-flex-center-all;
 
-    width: 48px;
-    height: 30px;
+    justify-content: space-evenly;
+    width: 112px;
+    height: 32px;
     // border: 2px solid $medium-purple;
     border-radius: 8px;
     padding: 0 8px 0 8px;
@@ -65,8 +66,8 @@
       border-top: 2px solid $dark-purple;
       border-left: 2px solid $dark-purple;
       border-right: 2px solid $dark-purple;
-      width: 1em;
-      height: 1em;
+      width: 16px;
+      height: 20px;
       animation: flash-animation 220ms linear 220ms forwards,
         reloading-animation 1000ms linear 440ms infinite;
     }

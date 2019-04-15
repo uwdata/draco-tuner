@@ -60,7 +60,7 @@ export default class EditTable extends React.PureComponent<EditTableProps, EditT
             <td>{edit.id}</td>
             <td>--</td>
             <td>--</td>
-            <td>--</td>
+            <td>{edit.delta}</td>
           </tr>
         );
       }

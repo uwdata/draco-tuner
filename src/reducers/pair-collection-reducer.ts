@@ -14,11 +14,13 @@ export interface PairCollectionStore {
   currPairEvalMap?: PairEvalMapObject;
   pairEvalDeltaMap?: PairEvalDeltaMapObject;
   pairEvalDeltaScore?: number;
+  score: number;
 }
 
 const initialState: PairCollectionStore = {
   pairs: EXAMPLE_PAIRS,
   filters: [],
+  score: 0,
 };
 
 // @ts-ignore

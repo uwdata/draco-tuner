@@ -24,10 +24,13 @@ function mapStateToProps(state: RootState, props: PairCollectionOwnProps) {
 
   const finishedRunIds = state.draco.finishedRunIds;
   const pairEvalDeltaScore = state.pairCollection.pairEvalDeltaScore;
+  const score = state.pairCollection.score;
+
   return {
     pairIds,
     finishedRunIds,
     pairEvalDeltaScore,
+    score,
   };
 }
 

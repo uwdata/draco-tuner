@@ -24,7 +24,7 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
                 this.props.downloadFiles();
               }}
             >
-              get_app
+              save
             </button>
           </div>
         </div>

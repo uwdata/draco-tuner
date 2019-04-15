@@ -28,11 +28,11 @@ export class Pair {
     const leftCost = Spec.getCost(pair.left, constraintMap);
     const rightCost = Spec.getCost(pair.right, constraintMap);
 
-    if (_.isUndefined(leftCost) || _.isUndefined(rightCost)) {
+    if (_.isUndefined(leftCost)) {
       return undefined;
     }
 
-    if (leftCost === Infinity || rightCost === Infinity) {
+    if (leftCost === Infinity) {
       return PairEval.UNSAT;
     }
 

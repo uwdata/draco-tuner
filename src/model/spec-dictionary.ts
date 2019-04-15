@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { Pair, PairsDictionary } from '../reducers/pair-collection-reducer';
+import { PairsDictionary } from '../reducers/pair-collection-reducer';
+import { PairObject } from './pair';
 import { SpecObject } from './spec';
 
 export interface SpecDictionaryObject {
@@ -29,7 +30,7 @@ export class SpecDictionary {
     return result;
   };
 
-  static fromPairs = (pairs: Pair[]): SpecDictionaryObject => {
+  static fromPairs = (pairs: PairObject[]): SpecDictionaryObject => {
     const specDict: SpecDictionaryObject = {};
     for (const pair of pairs) {
       specDict[`${pair.id}.left`] = pair.left;

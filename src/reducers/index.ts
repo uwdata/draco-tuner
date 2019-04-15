@@ -7,7 +7,7 @@ import { combineReducers, Reducer } from 'redux';
 import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType, StateType } from 'typesafe-actions';
 import { appActions, pairCollectionActions, RootAction } from '../actions/index';
-import { ConstraintEdit, ConstraintEditCheckpoint, ConstraintMap, PairEvalDeltaMap, PairEvalMap } from '../model/index';
+import { ConstraintEdit, ConstraintEditCheckpoint, ConstraintMap, PairEvalMap } from '../model/index';
 import dracoReducer from './draco-reducer';
 import pairCollectionReducer from './pair-collection-reducer';
 
@@ -31,7 +31,7 @@ export type RootState = CombinedState;
 
 function setPairs(state: CombinedState, action: ActionType<typeof pairCollectionActions.setPairs>): void {
   state.draco.finishedRunIds.add(action.payload.runId);
-  updateDelta(state);
+  updateDeltaAndScore(state);
 }
 
 function downloadFiles(state: CombinedState, action: ActionType<typeof appActions.downloadFiles>): void {
@@ -61,16 +61,21 @@ function addCheckpoint(state: CombinedState, action: ActionType<typeof appAction
   const editToAdd: ConstraintEditCheckpoint = {
     type: ConstraintEdit.CHECKPOINT,
     id: checkpointId.toString(),
+    delta: state.pairCollection.pairEvalDeltaScore,
   };
   state.draco.edits.splice(0, 0, editToAdd);
   state.pairCollection.currPairEvalMap = pairEvalMap;
 }
 
 function updateStatus(state: CombinedState, action: ActionType<typeof appActions.updateStatus>): void {
-  updateDelta(state);
+  updateDeltaAndScore(state);
 }
 
-function updateDelta(state: CombinedState) {
+function updateDeltaAndScore(state: CombinedState) {
+  const currPairEvalMap = PairEvalMap.fromPairsDictionary(state.pairCollection.pairs, state.draco.constraintMap);
+  const currScore = PairEvalMap.toScore(currPairEvalMap);
+  state.pairCollection.score = currScore;
+
   let prevCheckpointId;
   for (let i = state.draco.editIndex; i < state.draco.edits.length; i += 1) {
     const edit = state.draco.edits[i];
@@ -82,9 +87,9 @@ function updateDelta(state: CombinedState) {
 
   if (!_.isUndefined(prevCheckpointId)) {
     const prevPairEvalMap = state.draco.checkpointMap[prevCheckpointId].pairEvalMap;
-    const currPairEvalMap = PairEvalMap.fromPairsDictionary(state.pairCollection.pairs, state.draco.constraintMap);
+    const prevScore = PairEvalMap.toScore(prevPairEvalMap);
     const deltaMap = PairEvalMap.getPairEvalDeltaMap(prevPairEvalMap, currPairEvalMap);
-    const deltaScore = PairEvalDeltaMap.toScore(deltaMap);
+    const deltaScore = currScore - prevScore;
 
     state.pairCollection.pairEvalDeltaMap = deltaMap;
     state.pairCollection.pairEvalDeltaScore = deltaScore;

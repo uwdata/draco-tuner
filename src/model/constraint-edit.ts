@@ -4,6 +4,7 @@ export interface ConstraintEditBase {
 
 export interface ConstraintEditCheckpoint extends ConstraintEditBase {
   id: string;
+  delta: number;
 }
 
 export interface ConstraintCostEdit extends ConstraintEditBase {

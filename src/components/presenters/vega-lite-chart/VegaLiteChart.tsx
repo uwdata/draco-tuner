@@ -41,7 +41,12 @@ class VegaLiteChart extends React.PureComponent<Props, State> {
 
     return (
       <div styleName="vega-lite-chart">
-        <VegaLite spec={this.props.spec} data={data} renderer="canvas" style={{ height: '100%', maxWidth: '100%' }} />
+        <VegaLite
+          spec={this.props.spec}
+          data={data}
+          renderer="canvas"
+          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', maxWidth: '100%' }}
+        />
       </div>
     );
   }

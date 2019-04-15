@@ -39,6 +39,18 @@ export class PairEvalMap {
 
     return delta;
   }
+
+  static toScore(evalMap: PairEvalMapObject): number {
+    const score = Object.keys(evalMap).reduce((score, pairId) => {
+      const pairEval = evalMap[pairId];
+      if (pairEval === PairEval.PASS) {
+        return score + 1;
+      }
+      return score;
+    }, 0);
+
+    return score;
+  }
 }
 
 export interface PairEvalDeltaMapObject {

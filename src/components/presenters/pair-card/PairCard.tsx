@@ -50,6 +50,17 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
     const style: any = { 'pair-card': true };
     if (this.props.open || this.props.focused) {
       style['open'] = true;
+      let comp = this.props.comparator;
+      if (comp === '<') {
+        if (this.props.left.cost >= this.props.right.cost) {
+          comp = '≮';
+        }
+      } else if (comp === '=') {
+        if (this.props.left.cost !== this.props.right.cost) {
+          comp = '≠';
+        }
+      }
+
       populated = (
         <div styleName="info">
           <div styleName="charts">
@@ -59,7 +70,7 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
               </div>
               <div style={{ paddingTop: '16px' }}>{this.props.left.cost}</div>
             </div>
-            <div styleName="comparator">{this.props.comparator}</div>
+            <div styleName="comparator">{comp}</div>
             <div styleName="item">
               <div styleName="chart-container">
                 <VegaLiteChart spec={this.props.right.vlSpec} />
@@ -93,7 +104,8 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
                   this.props.solvePair(pair, runId);
                 }}
               >
-                reload
+                <span className="material-icons">refresh</span>
+                {this.props.evalType}
               </button>
             </div>
           </div>

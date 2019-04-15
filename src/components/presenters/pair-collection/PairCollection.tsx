@@ -9,6 +9,7 @@ export interface PairCollectionStoreProps {
   pairIds: string[];
   finishedRunIds: Set<number>;
   pairEvalDeltaScore?: number;
+  score: number;
 }
 
 export interface PairCollectionDispatchProps {
@@ -77,7 +78,6 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
         <div styleName="controls">
           <div styleName="button-container">
             <button
-              className="material-icons"
               styleName={reloadButtonStyle}
               onClick={() => {
                 const runId = (window as any).runId;
@@ -89,7 +89,8 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
                 this.props.reloadPairs(runId);
               }}
             >
-              refresh
+              <span className="material-icons">refresh</span>
+              {`${this.props.score} / ${this.props.pairIds.length}`}
             </button>
           </div>
           <div styleName="button-container">
@@ -99,7 +100,7 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
                 this.props.addCheckpoint();
               }}
             >
-              <span className="material-icons">location_on</span>
+              <span className="material-icons">flag</span>
               {deltaString}
             </button>
           </div>
