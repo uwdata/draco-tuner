@@ -14,11 +14,14 @@ export interface PairCardStoreProps {
   evalType?: PairEvalType;
   focused?: boolean;
   finishedRunIds?: Set<number>;
+  focusItem?: string;
 }
 
 export interface PairCardDispatchProps {
   solvePair: (pair: PairObject, runId: number) => void;
   toggleFocusPair: (id: string, on: boolean) => void;
+  setVegaLiteEditorCode: (code: string) => void;
+  toggleFocusPairItem: (pairId: string, position: string, on: boolean) => void;
 }
 
 export interface PairCardOwnProps {
@@ -65,14 +68,40 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
         <div styleName="info">
           <div styleName="charts">
             <div styleName="item">
-              <div styleName="chart-container">
+              <div
+                styleName={classnames({
+                  'chart-container': true,
+                  focused: this.props.focused && this.props.focusItem === 'left',
+                })}
+                onClick={() => {
+                  if (this.props.focused && this.props.focusItem === 'left') {
+                    this.props.toggleFocusPairItem(this.props.id, 'left', false);
+                  } else {
+                    this.props.toggleFocusPairItem(this.props.id, 'left', true);
+                    this.props.setVegaLiteEditorCode(JSON.stringify(this.props.left.vlSpec, null, 2));
+                  }
+                }}
+              >
                 <VegaLiteChart spec={this.props.left.vlSpec} />
               </div>
               <div style={{ paddingTop: '16px' }}>{this.props.left.cost}</div>
             </div>
             <div styleName="comparator">{comp}</div>
             <div styleName="item">
-              <div styleName="chart-container">
+              <div
+                styleName={classnames({
+                  'chart-container': true,
+                  focused: this.props.focused && this.props.focusItem === 'right',
+                })}
+                onClick={() => {
+                  if (this.props.focused && this.props.focusItem === 'right') {
+                    this.props.toggleFocusPairItem(this.props.id, 'right', false);
+                  } else {
+                    this.props.toggleFocusPairItem(this.props.id, 'right', true);
+                    this.props.setVegaLiteEditorCode(JSON.stringify(this.props.right.vlSpec, null, 2));
+                  }
+                }}
+              >
                 <VegaLiteChart spec={this.props.right.vlSpec} />
               </div>
               <div style={{ paddingTop: '16px' }}>{this.props.right.cost}</div>
@@ -130,6 +159,9 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
           onClick={() => {
             this.props.selectPair(this.props.id, !(this.props.open || this.props.focused));
             this.props.toggleFocusPair(this.props.id, !(this.props.open || this.props.focused));
+            if (!!this.props.focused) {
+              this.props.toggleFocusPairItem(null, null, false);
+            }
           }}
           evalType={this.props.evalType}
           vector={this.props.diffVector}

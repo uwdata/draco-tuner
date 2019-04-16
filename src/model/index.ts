@@ -6,3 +6,4 @@ export * from './pair-eval-map';
 export * from './pair-filter';
 export * from './spec';
 export * from './spec-dictionary';
+export * from './util';

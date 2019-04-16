@@ -31,3 +31,7 @@ export const toggleHoverPair = createAction('pair-collection/TOGGLE_HOVER_PAIR',
 export const addEmptyPair = createAction('pair-collection/ADD_EMPTY_PAIR', action => {
   return () => action();
 });
+
+export const toggleFocusPairItem = createAction('pair-collection/TOGGLE_FOCUS_PAIR_ITEM', action => {
+  return (pairId: string, position: string, on: boolean) => action({ pairId, position, on });
+});

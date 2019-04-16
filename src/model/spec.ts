@@ -23,7 +23,7 @@ export class Spec {
     return {
       vlSpec: {
         mark: null,
-        data: null,
+        data: { url: 'cars.json' },
       },
     };
   }

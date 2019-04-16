@@ -54,8 +54,15 @@
   }
 
   .chart-container {
-    height: calc(100% - 24px);
-    width: 100%;
+    height: calc(100% - 24px - 2px);
+    width: calc(100% - 2px);
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid transparent;
+
+    &.focused {
+      border: 1px solid $medium-blue;
+    }
   }
 
   .controls {

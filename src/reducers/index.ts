@@ -6,8 +6,15 @@ import reduceReducers from 'reduce-reducers';
 import { combineReducers, Reducer } from 'redux';
 import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType, StateType } from 'typesafe-actions';
-import { appActions, pairCollectionActions, RootAction } from '../actions/index';
-import { ConstraintEdit, ConstraintEditCheckpoint, ConstraintMap, PairEvalMap } from '../model/index';
+import { appActions, pairCollectionActions, RootAction, textEditorActions } from '../actions/index';
+import {
+  ConstraintEdit,
+  ConstraintEditCheckpoint,
+  ConstraintMap,
+  isValidJSON,
+  PairEvalMap,
+  Spec,
+} from '../model/index';
 import dracoReducer from './draco-reducer';
 import pairCollectionReducer from './pair-collection-reducer';
 import textEditorReducer from './text-editor-reducer';
@@ -25,6 +32,8 @@ const crossSliceReducer = createReducer<CombinedState, RootAction>(null, {
   [getType(appActions.downloadFiles)]: downloadFiles,
   [getType(appActions.addCheckpoint)]: addCheckpoint,
   [getType(appActions.updateStatus)]: updateStatus,
+  [getType(textEditorActions.setVegaLiteCode)]: setVegaLiteCode,
+  [getType(pairCollectionActions.addEmptyPair)]: addEmptyPair,
 });
 
 export const rootReducer = reduceReducers(combinedReducers, crossSliceReducer as Reducer);
@@ -95,5 +104,30 @@ function updateDeltaAndScore(state: CombinedState) {
 
     state.pairCollection.pairEvalDeltaMap = deltaMap;
     state.pairCollection.pairEvalDeltaScore = deltaScore;
+  }
+}
+
+function setVegaLiteCode(state: CombinedState, action: ActionType<typeof textEditorActions.setVegaLiteCode>): void {
+  updatePairItemVegaLite(state, action.payload);
+}
+
+function addEmptyPair(state: CombinedState, action: ActionType<typeof pairCollectionActions.addEmptyPair>): void {
+  state.textEditor.vegalite = JSON.stringify(Spec.getEmptySpec().vlSpec, null, 2);
+}
+
+function updatePairItemVegaLite(state: CombinedState, code: string): void {
+  const focusPair = state.pairCollection.focusPair;
+  const focusItem = state.pairCollection.focusItem;
+  if (isValidJSON(code)) {
+    const vlSpec = JSON.parse(code);
+    if (!!focusPair && !!focusItem) {
+      if (Spec.isVlSpecValid(JSON.parse(code))) {
+        if (focusItem === 'left') {
+          state.pairCollection.pairs[focusPair].left.vlSpec = vlSpec;
+        } else {
+          state.pairCollection.pairs[focusPair].right.vlSpec = vlSpec;
+        }
+      }
+    }
   }
 }

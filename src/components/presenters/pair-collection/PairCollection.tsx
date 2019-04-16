@@ -112,8 +112,8 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
             <button
               styleName="icon-button"
               onClick={() => {
-                this.paneRef.current.scrollTop = this.paneRef.current.scrollHeight;
                 this.props.addEmptyPair();
+                this.paneRef.current.scrollTop = this.paneRef.current.scrollHeight;
               }}
             >
               <span className="material-icons">add</span>

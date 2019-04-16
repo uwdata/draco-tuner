@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { solvePairsBegin } from '../../actions/draco-worker-actions';
-import { toggleFocusPair, toggleHoverPair } from '../../actions/pair-collection-actions';
+import { toggleFocusPair, toggleFocusPairItem } from '../../actions/pair-collection-actions';
+import { setVegaLiteCode } from '../../actions/text-editor-actions';
 import { Pair, PairObject } from '../../model/pair';
 import { RootState } from '../../reducers';
 import PairCard, {
@@ -19,7 +20,9 @@ function mapStateToProps(rootState: RootState, props: PairCardOwnProps): PairCar
   const evalType = Pair.getEval(pair, rootState.draco.constraintMap);
 
   const focused = rootState.pairCollection.focusPair === props.id;
+  const focusItem = focused ? rootState.pairCollection.focusItem : undefined;
   const finishedRunIds = rootState.draco.finishedRunIds;
+
   return {
     left,
     right,
@@ -27,6 +30,7 @@ function mapStateToProps(rootState: RootState, props: PairCardOwnProps): PairCar
     evalType,
     focused,
     finishedRunIds,
+    focusItem,
   };
 }
 
@@ -37,6 +41,12 @@ function mapDispatchToProps(dispatch: Dispatch, props: PairCardOwnProps) {
     },
     toggleFocusPair: (id: string, on: boolean) => {
       dispatch(toggleFocusPair(id, on));
+    },
+    setVegaLiteEditorCode: (code: string) => {
+      dispatch(setVegaLiteCode(code));
+    },
+    toggleFocusPairItem: (pairId: string, position: string, on: boolean) => {
+      dispatch(toggleFocusPairItem(pairId, position, on));
     },
   };
 }

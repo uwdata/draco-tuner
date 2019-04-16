@@ -14,7 +14,7 @@ import ConstraintTuner, {
 function mapStateToProps(state: RootState, props: ConstraintTunerOwnProps): ConstraintTunerStoreProps {
   const sortBy: any = [(c: Constraint) => (c.type === 'soft' ? 0 : 1), (c: Constraint) => c.name];
 
-  if (state.pairCollection.focusPair) {
+  if (!!state.pairCollection.focusPair) {
     const pair = state.pairCollection.pairs[state.pairCollection.focusPair];
 
     function extractSortWeight(violations: ViolationMap, multiplier: boolean) {
@@ -57,7 +57,7 @@ function mapStateToProps(state: RootState, props: ConstraintTunerOwnProps): Cons
   let focusLeftViolationCounts: number[];
   let focusRightViolationCounts: number[];
 
-  if (state.pairCollection.focusPair) {
+  if (!!state.pairCollection.focusPair) {
     const pair = state.pairCollection.pairs[state.pairCollection.focusPair];
     const leftSol = pair.left.sol;
     if (DracoSolution.isDefined(leftSol)) {

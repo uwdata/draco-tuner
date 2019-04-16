@@ -1,11 +1,12 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i');
-@import 'base.scss';
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+@import url("https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,700i");
+@import "base.scss";
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   font-weight: 300;
 }
 
@@ -17,13 +18,13 @@ h1 {
 }
 
 pre {
-  font-family: 'Lucida Console', Monaco, monospace;
+  font-family: "Lucida Console", Monaco, monospace;
   font-size: 12px;
 }
 
 .Resizer {
   background: #000;
-  opacity: .2;
+  opacity: 0.2;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -65,7 +66,7 @@ pre {
 }
 
 .Resizer.disabled {
-cursor: not-allowed;
+  cursor: not-allowed;
 }
 
 .Resizer.disabled:hover {
@@ -74,6 +75,7 @@ cursor: not-allowed;
 
 .Pane {
   @extend %flex-base;
+  transition: width 220ms $standard-ease;
 }
 
 button {
@@ -86,7 +88,8 @@ button {
   outline: inherit;
 }
 
-.react-monaco-editor-container {  // hack
+.react-monaco-editor-container {
+  // hack
   height: auto !important;
   flex-grow: 1;
 }

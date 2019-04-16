@@ -10,6 +10,7 @@ export interface PairCollectionStore {
   pairs: PairsDictionary;
   filters: PairFilterType[];
   focusPair?: string;
+  focusItem?: string;
   hoverPair?: string;
   currPairEvalMap?: PairEvalMapObject;
   pairEvalDeltaMap?: PairEvalDeltaMapObject;
@@ -30,6 +31,7 @@ const pairsCollectionReducer = createReducer<PairCollectionStore, PairCollection
   [getType(pairCollectionActions.setPairFilters)]: setPairFilters,
   [getType(pairCollectionActions.toggleHoverPair)]: toggleHoverPair,
   [getType(pairCollectionActions.addEmptyPair)]: addEmptyPair,
+  [getType(pairCollectionActions.toggleFocusPairItem)]: toggleFocusPairItem,
 });
 
 export default pairsCollectionReducer;
@@ -81,4 +83,17 @@ function addEmptyPair(state: PairCollectionStore, action: ActionType<typeof pair
 
   state.pairs[nextId.toString()] = Pair.getEmptyPair(nextId);
   state.focusPair = nextId.toString();
+  state.focusItem = 'left';
+}
+
+function toggleFocusPairItem(
+  state: PairCollectionStore,
+  action: ActionType<typeof pairCollectionActions.toggleFocusPairItem>
+): void {
+  if (!action.payload.on) {
+    state.focusItem = undefined;
+  } else {
+    state.focusPair = action.payload.pairId;
+    state.focusItem = action.payload.position;
+  }
 }
