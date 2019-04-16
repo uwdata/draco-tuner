@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { addCheckpoint, updateStatus } from '../../actions/app-actions';
-import { reloadPairsThunk, setPairFilters, toggleFocusPair } from '../../actions/pair-collection-actions';
+import { addEmptyPair, reloadPairsThunk, setPairFilters, toggleFocusPair } from '../../actions/pair-collection-actions';
 import { PairFilter, PairFilterType } from '../../model';
 import { RootState } from '../../reducers';
 import PairCollection, {
@@ -45,6 +45,9 @@ function mapDispatchToProps(
     addCheckpoint: () => {
       dispatch(addCheckpoint());
       dispatch(updateStatus());
+    },
+    addEmptyPair: () => {
+      dispatch(addEmptyPair());
     },
   };
 }

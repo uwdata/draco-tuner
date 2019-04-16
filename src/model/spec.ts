@@ -1,7 +1,15 @@
+import Ajv from 'ajv';
 import Draco, { Options, SolutionSet, Violation, vl2asp } from 'draco-vis';
 import _ from 'lodash';
+import { TopLevelSpec } from 'vega-lite/build/src/spec';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
+import vegaLiteSchema from 'vega-lite/build/vega-lite-schema.json';
 import { ConstraintMapObject } from './constraint-map';
+
+const ajv = new Ajv({ schemaId: 'auto' });
+ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
+ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-06.json'));
+const vegaLiteValidator = ajv.compile(vegaLiteSchema);
 
 export interface SpecObject {
   vlSpec: TopLevelUnitSpec;
@@ -11,6 +19,19 @@ export interface SpecObject {
 export type ViolationMap = { [name: string]: Violation[] };
 
 export class Spec {
+  static getEmptySpec(): SpecObject {
+    return {
+      vlSpec: {
+        mark: null,
+        data: null,
+      },
+    };
+  }
+
+  static isVlSpecValid(vlSpec: TopLevelSpec): boolean {
+    return !!vegaLiteValidator(vlSpec);
+  }
+
   static dracoSolve(spec: SpecObject, draco: Draco, opt?: Options): SpecObject {
     const result = _.clone(spec);
     const sol = draco.solve(Spec.toAspString(spec), opt);

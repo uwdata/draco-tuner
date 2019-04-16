@@ -27,3 +27,7 @@ export const setPairFilters = createAction('pair-collection/SET_PAIR_FILTERS', a
 export const toggleHoverPair = createAction('pair-collection/TOGGLE_HOVER_PAIR', action => {
   return (id: string, on: boolean) => action({ id, on });
 });
+
+export const addEmptyPair = createAction('pair-collection/ADD_EMPTY_PAIR', action => {
+  return () => action();
+});

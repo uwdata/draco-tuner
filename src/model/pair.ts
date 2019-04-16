@@ -11,6 +11,18 @@ export interface PairObject {
 }
 
 export class Pair {
+  static getEmptyPair(id: number): PairObject {
+    const left = Spec.getEmptySpec();
+    const right = Spec.getEmptySpec();
+
+    return {
+      id,
+      left,
+      right,
+      comparator: '<',
+    };
+  }
+
   static getPairCardItems(pair: PairObject, constraintMap: ConstraintMapObject): PairCardItem[] {
     const items: PairCardItem[] = [pair.left, pair.right].map(spec => {
       const cost = Spec.getCost(spec, constraintMap);

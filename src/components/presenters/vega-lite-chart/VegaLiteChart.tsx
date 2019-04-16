@@ -1,6 +1,7 @@
 import * as React from 'react';
 import VegaLite from 'react-vega-lite';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
+import { Spec } from '../../../model/spec';
 import './vega-lite-chart.css';
 
 const cars = require('../../../data/cars.json');
@@ -29,6 +30,10 @@ class VegaLiteChart extends React.PureComponent<Props, State> {
   }
 
   render() {
+    if (!Spec.isVlSpecValid(this.props.spec)) {
+      return <div styleName="vega-lite-chart" />;
+    }
+
     let data;
     // @ts-ignore
     if (this.props.spec.data && this.props.spec.data.url) {

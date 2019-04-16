@@ -17,6 +17,7 @@ export interface PairCollectionDispatchProps {
   clearFocusPair: () => void;
   setPairFilters: (filterTypes: PairFilterType[]) => void;
   addCheckpoint: () => void;
+  addEmptyPair: () => void;
 }
 
 export interface PairCollectionOwnProps {}
@@ -33,6 +34,7 @@ export interface PairCollectionState {
 
 export default class PairCollection extends React.PureComponent<PairCollectionProps, PairCollectionState> {
   private prevFilterTypes: PairFilterType[];
+  private paneRef: React.RefObject<HTMLDivElement>;
 
   constructor(props: PairCollectionProps) {
     super(props);
@@ -40,6 +42,8 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
     this.state = {
       selectedPairs: new Set(),
     };
+
+    this.paneRef = React.createRef();
 
     this.toggleSelectedPairs = this.toggleSelectedPairs.bind(this);
     this.prevFilterTypes = [];
@@ -106,6 +110,17 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
           </div>
           <div styleName="button-container">
             <button
+              styleName="icon-button"
+              onClick={() => {
+                this.paneRef.current.scrollTop = this.paneRef.current.scrollHeight;
+                this.props.addEmptyPair();
+              }}
+            >
+              <span className="material-icons">add</span>
+            </button>
+          </div>
+          <div styleName="button-container">
+            <button
               className="material-icons"
               styleName="icon-button"
               onClick={() => {
@@ -150,7 +165,9 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
           <div styleName="minimap">
             <EvalMinimapContainer pairIds={this.props.pairIds} />
           </div>
-          <div styleName="pairs">{pairCards}</div>
+          <div styleName="pairs" ref={this.paneRef}>
+            {pairCards}
+          </div>
         </div>
       </div>
     );

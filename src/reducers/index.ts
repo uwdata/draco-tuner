@@ -10,10 +10,12 @@ import { appActions, pairCollectionActions, RootAction } from '../actions/index'
 import { ConstraintEdit, ConstraintEditCheckpoint, ConstraintMap, PairEvalMap } from '../model/index';
 import dracoReducer from './draco-reducer';
 import pairCollectionReducer from './pair-collection-reducer';
+import textEditorReducer from './text-editor-reducer';
 
 const combinedReducers = combineReducers({
   pairCollection: pairCollectionReducer,
   draco: dracoReducer,
+  textEditor: textEditorReducer,
 });
 
 type CombinedState = StateType<typeof combinedReducers>;

@@ -2,7 +2,7 @@ import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType } from 'typesafe-actions';
 import { PairCollectionAction, pairCollectionActions } from '../actions';
 import { EXAMPLE_PAIRS } from '../examples';
-import { PairEvalDeltaMapObject, PairEvalMapObject, PairFilterType, PairObject, SpecDictionary } from '../model';
+import { Pair, PairEvalDeltaMapObject, PairEvalMapObject, PairFilterType, PairObject, SpecDictionary } from '../model';
 
 export type PairsDictionary = { [id: string]: PairObject };
 
@@ -29,6 +29,7 @@ const pairsCollectionReducer = createReducer<PairCollectionStore, PairCollection
   [getType(pairCollectionActions.toggleFocusPair)]: toggleFocusPair,
   [getType(pairCollectionActions.setPairFilters)]: setPairFilters,
   [getType(pairCollectionActions.toggleHoverPair)]: toggleHoverPair,
+  [getType(pairCollectionActions.addEmptyPair)]: addEmptyPair,
 });
 
 export default pairsCollectionReducer;
@@ -66,4 +67,18 @@ function setPairFilters(
   action: ActionType<typeof pairCollectionActions.setPairFilters>
 ): void {
   state.filters = action.payload;
+}
+
+function addEmptyPair(state: PairCollectionStore, action: ActionType<typeof pairCollectionActions.addEmptyPair>): void {
+  const nextId =
+    Object.keys(state.pairs).reduce((max, id) => {
+      if (+id > max) {
+        return +id;
+      }
+
+      return max;
+    }, 0) + 1;
+
+  state.pairs[nextId.toString()] = Pair.getEmptyPair(nextId);
+  state.focusPair = nextId.toString();
 }
