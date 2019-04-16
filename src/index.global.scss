@@ -75,7 +75,7 @@ pre {
 
 .Pane {
   @extend %flex-base;
-  transition: width 220ms $standard-ease;
+  // transition: width 220ms $standard-ease;
 }
 
 button {
