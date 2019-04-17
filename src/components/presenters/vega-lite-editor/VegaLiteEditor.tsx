@@ -29,16 +29,4 @@ export default class VegaLiteEditor extends BaseEditor<VegaLiteEditorProps, Vega
   defineEditor(monaco: any) {}
 
   onEditorMount() {}
-
-  protected handleEditorChange(newValue: string, e: any) {
-    window.clearTimeout(this.state.updateTimeoutId);
-    const updateTimeoutId = window.setTimeout(() => {
-      this.props.updateStoreCode(newValue);
-      this.setState({ updateTimeoutId: undefined });
-    }, BaseEditor.DEBOUNCE_DURATION);
-    this.setState({
-      updateTimeoutId,
-      code: newValue,
-    });
-  }
 }
