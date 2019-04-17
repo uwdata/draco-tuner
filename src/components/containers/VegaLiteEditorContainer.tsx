@@ -10,7 +10,7 @@ import VegaLiteEditor, {
 } from '../presenters/vega-lite-editor';
 
 function mapStateToProps(state: RootState, props: VegaLiteEditorOwnProps): VegaLiteEditorStoreProps {
-  const code = state.textEditor.vegalite;
+  const code = state.textEditor.vegalite.code;
   return {
     code,
   };

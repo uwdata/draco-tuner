@@ -4,15 +4,10 @@ import SplitPane from 'react-split-pane';
 import { Dispatch } from 'redux';
 import { RootState } from '../reducers/index';
 import './app.css';
-import {
-  ConstraintTunerContainer,
-  NavbarContainer,
-  PairCollectionContainer,
-  VegaLiteEditorContainer,
-} from './containers';
+import { ConstraintTunerContainer, NavbarContainer, PairCollectionContainer, TextEditorContainer } from './containers';
 
 interface StateProps {
-  editorPane: string;
+  showEditorPane: boolean;
 }
 
 interface DispatchProps {}
@@ -25,7 +20,7 @@ interface State {}
 
 export class App extends React.PureComponent<AppProps, State> {
   render() {
-    const openEditor = !!this.props.editorPane;
+    const openEditor = this.props.showEditorPane;
 
     return (
       <div styleName="app" id="app">
@@ -34,7 +29,7 @@ export class App extends React.PureComponent<AppProps, State> {
         </div>
         <div styleName="tuner" id="tuner">
           <SplitPane split="vertical" defaultSize={openEditor ? 400 : 0} maxSize={600}>
-            <VegaLiteEditorContainer />
+            <TextEditorContainer />
             <div style={{ width: '100%', height: '100%' }}>
               <SplitPane split="vertical" primary="first" minSize={200} defaultSize="60%">
                 <PairCollectionContainer />
@@ -51,13 +46,10 @@ export class App extends React.PureComponent<AppProps, State> {
 }
 
 function mapStateToProps(state: RootState, ownProps: OwnProps): StateProps {
-  let editorPane;
-  if (!!state.pairCollection.focusPair && !!state.pairCollection.focusItem) {
-    editorPane = 'vegalite';
-  }
+  const showEditorPane = state.app.showEditor;
 
   return {
-    editorPane,
+    showEditorPane,
   };
 }
 

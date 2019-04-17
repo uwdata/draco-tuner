@@ -4,6 +4,7 @@ import _ from 'lodash';
 import * as React from 'react';
 import SplitPane from 'react-split-pane';
 import { ConstraintCostEdit, ConstraintEdit, ConstraintEditObject } from '../../../model/index';
+import { EditorType } from '../../../reducers/text-editor-reducer';
 import { EditTableContainer } from '../../containers/index';
 import './constraint-tuner.css';
 
@@ -15,6 +16,8 @@ export interface ConstraintTunerStoreProps {
 
 export interface ConstraintTunerDispatchProps {
   addConstraintEdit: (edit: ConstraintEdit) => void;
+  switchToAspEditor: (editorType?: EditorType) => void;
+  toggleShowEditor: (show: boolean) => void;
 }
 
 export interface ConstraintTunerOwnProps {}
@@ -130,7 +133,17 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
     return (
       <div styleName="constraint-tuner">
         <SplitPane split="horizontal" primary="second" defaultSize={200} maxSize={400}>
-          <div styleName="constraint-table-container">
+          <div
+            styleName="constraint-table-container"
+            tabIndex={0}
+            onFocus={() => {
+              this.props.switchToAspEditor();
+              this.props.toggleShowEditor(true);
+            }}
+            onBlur={() => {
+              this.props.toggleShowEditor(false);
+            }}
+          >
             <table styleName="constraint-table">
               <tbody>
                 <tr key="header">

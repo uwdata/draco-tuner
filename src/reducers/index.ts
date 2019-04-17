@@ -1,4 +1,3 @@
-import { json2constraints } from 'draco-vis';
 import { saveAs } from 'file-saver';
 import JSZip from 'jszip';
 import _ from 'lodash';
@@ -7,6 +6,7 @@ import { combineReducers, Reducer } from 'redux';
 import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType, StateType } from 'typesafe-actions';
 import { appActions, pairCollectionActions, RootAction, textEditorActions } from '../actions/index';
+import { AspPrograms } from '../model/asp-program';
 import {
   ConstraintEdit,
   ConstraintEditCheckpoint,
@@ -15,6 +15,7 @@ import {
   PairEvalMap,
   Spec,
 } from '../model/index';
+import appReducer from './app-reducer';
 import dracoReducer from './draco-reducer';
 import pairCollectionReducer from './pair-collection-reducer';
 import textEditorReducer from './text-editor-reducer';
@@ -23,6 +24,7 @@ const combinedReducers = combineReducers({
   pairCollection: pairCollectionReducer,
   draco: dracoReducer,
   textEditor: textEditorReducer,
+  app: appReducer,
 });
 
 type CombinedState = StateType<typeof combinedReducers>;
@@ -49,14 +51,12 @@ function downloadFiles(state: CombinedState, action: ActionType<typeof appAction
   const zip = new JSZip();
 
   const aspFolder = zip.folder('asp');
-  const constraintSet = ConstraintMap.toConstraintSet(state.draco.constraintMap);
-  const softAspSet = json2constraints(constraintSet.soft);
-  const hardAspSet = json2constraints(constraintSet.hard);
+  const asp = ConstraintMap.toAspPrograms(state.draco.constraintMap);
 
-  aspFolder.file('soft.lp', softAspSet.definitions);
-  aspFolder.file('assign_weights.lp', softAspSet.assigns);
-  aspFolder.file('weights.lp', softAspSet.weights);
-  aspFolder.file('hard.lp', hardAspSet.definitions);
+  aspFolder.file('soft.lp', AspPrograms.getProgramFromType(asp, AspPrograms.SOFT_DEFINE));
+  aspFolder.file('assign_weights.lp', AspPrograms.getProgramFromType(asp, AspPrograms.SOFT_WEIGHTS));
+  aspFolder.file('weights.lp', AspPrograms.getProgramFromType(asp, AspPrograms.SOFT_WEIGHTS));
+  aspFolder.file('hard.lp', AspPrograms.getProgramFromType(asp, AspPrograms.HARD_DEFINE));
 
   const pairs = JSON.stringify(state.pairCollection.pairs);
   zip.file('pairs.json', pairs);
@@ -112,7 +112,7 @@ function setVegaLiteCode(state: CombinedState, action: ActionType<typeof textEdi
 }
 
 function addEmptyPair(state: CombinedState, action: ActionType<typeof pairCollectionActions.addEmptyPair>): void {
-  state.textEditor.vegalite = JSON.stringify(Spec.getEmptySpec().vlSpec, null, 2);
+  state.textEditor.vegalite.code = JSON.stringify(Spec.getEmptySpec().vlSpec, null, 2);
 }
 
 function updatePairItemVegaLite(state: CombinedState, code: string): void {

@@ -1,10 +1,12 @@
 import { Constraint } from 'draco-vis';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { updateStatus } from '../../actions/app-actions';
+import { toggleShowEditor, updateStatus } from '../../actions/app-actions';
 import { addConstraintEdit } from '../../actions/draco-actions';
+import { setEditorType } from '../../actions/text-editor-actions';
 import { ConstraintEditObject, ConstraintMap, DracoSolution, ViolationMap } from '../../model';
 import { RootState } from '../../reducers';
+import { Editor, EditorType } from '../../reducers/text-editor-reducer';
 import ConstraintTuner, {
   ConstraintTunerDispatchProps,
   ConstraintTunerOwnProps,
@@ -92,6 +94,12 @@ function mapDispatchToProps(dispatch: Dispatch, props: ConstraintTunerOwnProps):
     addConstraintEdit: (edit: ConstraintEditObject): void => {
       dispatch(addConstraintEdit(edit));
       dispatch(updateStatus());
+    },
+    switchToAspEditor: (editorType?: EditorType): void => {
+      dispatch(setEditorType(Editor.ASP));
+    },
+    toggleShowEditor: (show: boolean): void => {
+      dispatch(toggleShowEditor(show));
     },
   };
 }

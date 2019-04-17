@@ -74,8 +74,15 @@ export default abstract class BaseEditor<
   }
 
   protected handleEditorChange(newValue: string, e: any) {
-    this.props.updateStoreCode(newValue);
-    this.setState({ updateTimeoutId: undefined });
+    window.clearTimeout(this.state.updateTimeoutId);
+    const updateTimeoutId = window.setTimeout(() => {
+      this.props.updateStoreCode(newValue);
+      this.setState({ updateTimeoutId: undefined });
+    }, BaseEditor.DEBOUNCE_DURATION);
+    this.setState({
+      updateTimeoutId,
+      code: newValue,
+    });
   }
 
   protected editorDidMount(editor: any) {

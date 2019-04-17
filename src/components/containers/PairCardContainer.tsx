@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { toggleShowEditor } from '../../actions/app-actions';
 import { solvePairsBegin } from '../../actions/draco-worker-actions';
 import { toggleFocusPair, toggleFocusPairItem } from '../../actions/pair-collection-actions';
 import { setVegaLiteCode } from '../../actions/text-editor-actions';
@@ -47,6 +48,9 @@ function mapDispatchToProps(dispatch: Dispatch, props: PairCardOwnProps) {
     },
     toggleFocusPairItem: (pairId: string, position: string, on: boolean) => {
       dispatch(toggleFocusPairItem(pairId, position, on));
+    },
+    toggleShowEditor: (show: boolean) => {
+      dispatch(toggleShowEditor(show));
     },
   };
 }

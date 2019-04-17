@@ -22,6 +22,7 @@ export interface PairCardDispatchProps {
   toggleFocusPair: (id: string, on: boolean) => void;
   setVegaLiteEditorCode: (code: string) => void;
   toggleFocusPairItem: (pairId: string, position: string, on: boolean) => void;
+  toggleShowEditor: (show: boolean) => void;
 }
 
 export interface PairCardOwnProps {
@@ -76,9 +77,11 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
                 onClick={() => {
                   if (this.props.focused && this.props.focusItem === 'left') {
                     this.props.toggleFocusPairItem(this.props.id, 'left', false);
+                    this.props.toggleShowEditor(false);
                   } else {
                     this.props.toggleFocusPairItem(this.props.id, 'left', true);
                     this.props.setVegaLiteEditorCode(JSON.stringify(this.props.left.vlSpec, null, 2));
+                    this.props.toggleShowEditor(true);
                   }
                 }}
               >
@@ -96,9 +99,11 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
                 onClick={() => {
                   if (this.props.focused && this.props.focusItem === 'right') {
                     this.props.toggleFocusPairItem(this.props.id, 'right', false);
+                    this.props.toggleShowEditor(false);
                   } else {
                     this.props.toggleFocusPairItem(this.props.id, 'right', true);
                     this.props.setVegaLiteEditorCode(JSON.stringify(this.props.right.vlSpec, null, 2));
+                    this.props.toggleShowEditor(true);
                   }
                 }}
               >
