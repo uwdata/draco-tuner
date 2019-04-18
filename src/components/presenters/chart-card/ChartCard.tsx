@@ -41,7 +41,9 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
           {this.state.visible ? (
             <VegaLiteChart spec={this.props.vlSpec} />
           ) : (
-            <div style={{ width: '1px', height: '1px' }} />
+            <div styleName="loading-container">
+              <div styleName="loading" />
+            </div>
           )}
         </VisibilitySensor>
       </div>
