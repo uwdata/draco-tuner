@@ -1,14 +1,15 @@
-@import 'base.scss';
+@import "base.scss";
 
 .navbar {
   @extend %flex-row;
   @extend %full-width-height;
   box-sizing: border-box;
   border-bottom: 1px solid $light-grey;
+  background-color: $light-purple;
 }
 
 .content {
-  @extend %flex-row-reverse;
+  @extend %flex-row;
   flex-grow: 1;
   align-items: center;
   box-sizing: border-box;
@@ -18,4 +19,12 @@
 .button-container {
   @extend %button-container;
   margin: 0 16px 0 16px;
+
+  .focused {
+    background-color: #fff;
+
+    &:hover {
+      background-color: $very-light-purple;
+    }
+  }
 }

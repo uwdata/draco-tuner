@@ -1,0 +1,6 @@
+@import "base.scss";
+
+.chart-collection {
+  @extend %flex-column;
+  @extend %full-width-height;
+}

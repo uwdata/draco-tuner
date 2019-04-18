@@ -33,6 +33,7 @@ export default class AspEditorPanel extends React.PureComponent<AspEditorPanelPr
 
       return (
         <div
+          key={file}
           styleName={styleName}
           onClick={() => {
             this.props.setAspEditorProgram(file);

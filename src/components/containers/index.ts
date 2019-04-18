@@ -1,5 +1,6 @@
 import AspEditorContainer from './AspEditorContainer';
 import AspEditorPanelContainer from './AspEditorPanelContainer';
+import ChartCollectionContainer from './ChartCollectionContainer';
 import ConstraintTunerContainer from './ConstraintTunerContainer';
 import EditTableContainer from './EditTableContainer';
 import EvalMinimapCellContainer from './EvalMinimapCellContainer';
@@ -22,4 +23,5 @@ export {
   TextEditorContainer,
   AspEditorContainer,
   AspEditorPanelContainer,
+  ChartCollectionContainer,
 };
