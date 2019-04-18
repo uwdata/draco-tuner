@@ -1,4 +1,5 @@
 export const EXAMPLE_PAIRS = require('./pairs.json');
+export const EXAMPLE_CHARTS = require('./charts.json');
 
 export const SCATTER: string = `data("cars.json").
 

@@ -16,6 +16,7 @@ import {
   Spec,
 } from '../model/index';
 import appReducer from './app-reducer';
+import chartCollectionReducer from './chart-collection-reducer';
 import dracoReducer from './draco-reducer';
 import pairCollectionReducer from './pair-collection-reducer';
 import textEditorReducer from './text-editor-reducer';
@@ -25,6 +26,7 @@ const combinedReducers = combineReducers({
   draco: dracoReducer,
   textEditor: textEditorReducer,
   app: appReducer,
+  chartCollection: chartCollectionReducer,
 });
 
 type CombinedState = StateType<typeof combinedReducers>;

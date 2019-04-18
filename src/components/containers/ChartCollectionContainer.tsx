@@ -8,7 +8,10 @@ import ChartCollection, {
 } from '../presenters/chart-collection';
 
 function mapStateToProps(state: RootState, ownProps: ChartCollectionOwnProps): ChartCollectionStoreProps {
-  return {};
+  const chartIds = Object.keys(state.chartCollection.charts).sort(id => +id);
+  return {
+    chartIds,
+  };
 }
 
 function mapDispatchToProps(dispatch: Dispatch, ownProps: ChartCollectionOwnProps): ChartCollectionDispatchProps {

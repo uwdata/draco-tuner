@@ -2,5 +2,7 @@
 
 .chart-card {
   @extend %flex-column;
-  @extend %full-width-height;
+  width: 128px;
+  height: 128px;
+  border: 2px solid $light-grey;
 }

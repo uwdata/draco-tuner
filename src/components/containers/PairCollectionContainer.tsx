@@ -12,7 +12,7 @@ import PairCollection, {
 } from '../presenters/pair-collection';
 
 function mapStateToProps(state: RootState, props: PairCollectionOwnProps) {
-  const unfilteredPairIds = Object.keys(state.pairCollection.pairs);
+  const unfilteredPairIds = Object.keys(state.pairCollection.pairs).sort(id => +id);
   const pairFilters = state.pairCollection.filters.map(type => PairFilter.fromType(type));
 
   const pairIds = pairFilters.reduce((pairIds: string[], filterFn) => {
