@@ -1,0 +1,6 @@
+@import "base.scss";
+
+.chart-card {
+  @extend %flex-column;
+  @extend %full-width-height;
+}

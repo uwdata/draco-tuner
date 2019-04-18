@@ -1,4 +1,5 @@
 export * from './asp-program';
+export * from './chart';
 export * from './checkpoint';
 export * from './constraint-edit';
 export * from './constraint-map';
