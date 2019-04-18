@@ -3,9 +3,10 @@ import { Dispatch } from 'redux';
 import { toggleShowEditor } from '../../actions/app-actions';
 import { solvePairsBegin } from '../../actions/draco-worker-actions';
 import { toggleFocusPair, toggleFocusPairItem } from '../../actions/pair-collection-actions';
-import { setVegaLiteCode } from '../../actions/text-editor-actions';
+import { setEditorType, setVegaLiteCode } from '../../actions/text-editor-actions';
 import { Pair, PairObject } from '../../model/pair';
 import { RootState } from '../../reducers';
+import { EditorType } from '../../reducers/text-editor-reducer';
 import PairCard, {
   PairCardDispatchProps,
   PairCardItem,
@@ -51,6 +52,9 @@ function mapDispatchToProps(dispatch: Dispatch, props: PairCardOwnProps) {
     },
     toggleShowEditor: (show: boolean) => {
       dispatch(toggleShowEditor(show));
+    },
+    setEditorType: (type: EditorType) => {
+      dispatch(setEditorType(type));
     },
   };
 }

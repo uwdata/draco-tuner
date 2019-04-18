@@ -3,6 +3,7 @@ import _ from 'lodash';
 import * as React from 'react';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
 import { PairEval, PairEvalType, PairObject } from '../../../model';
+import { Editor, EditorType } from '../../../reducers/text-editor-reducer';
 import VegaLiteChart from '../vega-lite-chart';
 import './pair-card.css';
 
@@ -23,6 +24,7 @@ export interface PairCardDispatchProps {
   setVegaLiteEditorCode: (code: string) => void;
   toggleFocusPairItem: (pairId: string, position: string, on: boolean) => void;
   toggleShowEditor: (show: boolean) => void;
+  setEditorType: (type: EditorType) => void;
 }
 
 export interface PairCardOwnProps {
@@ -81,6 +83,7 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
                   } else {
                     this.props.toggleFocusPairItem(this.props.id, 'left', true);
                     this.props.setVegaLiteEditorCode(JSON.stringify(this.props.left.vlSpec, null, 2));
+                    this.props.setEditorType(Editor.VEGA_LITE);
                     this.props.toggleShowEditor(true);
                   }
                 }}
@@ -103,6 +106,7 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
                   } else {
                     this.props.toggleFocusPairItem(this.props.id, 'right', true);
                     this.props.setVegaLiteEditorCode(JSON.stringify(this.props.right.vlSpec, null, 2));
+                    this.props.setEditorType(Editor.VEGA_LITE);
                     this.props.toggleShowEditor(true);
                   }
                 }}

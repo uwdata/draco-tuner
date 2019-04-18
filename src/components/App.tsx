@@ -29,7 +29,9 @@ export class App extends React.PureComponent<AppProps, State> {
         </div>
         <div styleName="tuner" id="tuner">
           <SplitPane split="vertical" defaultSize={openEditor ? 400 : 0} maxSize={600}>
-            <TextEditorContainer />
+            <div style={{ width: '100%', height: '100%', visibility: openEditor ? 'visible' : 'hidden' }}>
+              <TextEditorContainer />
+            </div>
             <div style={{ width: '100%', height: '100%' }}>
               <SplitPane split="vertical" primary="first" minSize={200} defaultSize="60%">
                 <PairCollectionContainer />
