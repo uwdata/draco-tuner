@@ -2,7 +2,11 @@
 
 .chart-card {
   @extend %flex-column;
-  width: 128px;
-  height: 128px;
+  box-sizing: border-box;
+  padding: 8px;
+  width: 160px;
+  height: 160px;
   border: 2px solid $light-grey;
+  border-radius: 4px;
+  margin: 8px;
 }

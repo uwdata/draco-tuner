@@ -40,6 +40,9 @@ export class App extends React.PureComponent<AppProps, State> {
       case Collection.CHARTS:
         collectionPane = <ChartCollectionContainer />;
         break;
+      case Collection.HIDDEN:
+        collectionPane = <div />;
+        break;
     }
 
     return (

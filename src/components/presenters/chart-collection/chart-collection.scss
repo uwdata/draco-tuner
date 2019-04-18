@@ -4,3 +4,37 @@
   @extend %flex-column;
   @extend %full-width-height;
 }
+
+.button-container {
+  @extend %button-container;
+}
+
+.controls {
+  @extend %flex-row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: calc(100% - 48px);
+  padding-left: 24px;
+  padding-right: 24px;
+  height: 48px;
+}
+
+.view {
+  @extend %flex-row;
+  height: calc(100% - 32px); // minus controls
+}
+
+.charts {
+  @extend %flex-row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: calc(100% - 24px - 16px);
+  padding-right: 16px;
+  height: 100%;
+  overflow: auto;
+}
+
+.minimap {
+  width: 24px;
+  height: 100%;
+}

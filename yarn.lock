@@ -1847,6 +1847,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-visibility-sensor@^5.0.1":
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/@types/react-visibility-sensor/-/react-visibility-sensor-5.0.1.tgz#614cf7c68a1e5a0ad8685d4ddcf47646e16a3cab"
+  integrity sha512-Pzyz6KtripJh2/fKyhOLFKni0+2RaI/4sFAyB+bURrpY8HLdHXRQo/V2BcMjt4u8gJYVTXIhBU5KhOXl5/70MA==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react@*", "@types/react@^16.4.7":
   version "16.4.14"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.4.14.tgz#47c604c8e46ed674bbdf4aabf82b34b9041c6a04"
@@ -11926,6 +11933,13 @@ react-vega@^6.0.1:
   integrity sha512-1CmYxe8inUWbxMRm1GYDpP6EFrsx++NZsA0nw5mEu9I+AODaP0rVc2tHqf1F9qoIdsmJomQBPLasRgc7T3KsYA==
   dependencies:
     prop-types "^15.7.2"
+
+react-visibility-sensor@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/react-visibility-sensor/-/react-visibility-sensor-5.0.2.tgz#e360fff81572cb3a2a9fd680484447a9da09a55d"
+  integrity sha512-7+1lr7oQOO2vKr5u/uxoDGFWAAy7lsDy2aJU3Zy1/OymI+TRqOBk8m2L8YE1B0UyfCDWxVAWO+aifVGqNOvqeQ==
+  dependencies:
+    prop-types "^15.6.2"
 
 react@^16.4.1:
   version "16.5.2"

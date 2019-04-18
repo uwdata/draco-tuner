@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@types/react-tooltip": "^3.3.6",
+    "@types/react-visibility-sensor": "^5.0.1",
     "@types/reduce-reducers": "^0.3.0",
     "ajv": "^6.10.0",
     "classnames": "^2.2.6",
@@ -41,6 +42,7 @@
     "react-tooltip": "^3.9.0",
     "react-vega": "^6.0.1",
     "react-vega-lite": "^6.0.1",
+    "react-visibility-sensor": "^5.0.2",
     "reduce-reducers": "^1.0.1",
     "redux": "^4.0.0",
     "redux-starter-kit": "^0.4.3",

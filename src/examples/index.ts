@@ -1,5 +1,30 @@
 export const EXAMPLE_PAIRS = require('./pairs.json');
-export const EXAMPLE_CHARTS = require('./charts.json');
+
+let chartId = 0;
+export const EXAMPLE_CHARTS = Object.keys(EXAMPLE_PAIRS).reduce(
+  (dict, pairId) => {
+    const pair = EXAMPLE_PAIRS[pairId];
+    const left = pair.left;
+    const right = pair.right;
+
+    const leftId = chartId.toString();
+    dict[leftId] = {
+      id: +leftId,
+      vlSpec: left.vlSpec,
+    };
+    chartId += 1;
+
+    const rightId = chartId.toString();
+    dict[rightId] = {
+      id: +rightId,
+      vlSpec: right.vlSpec,
+    };
+    chartId += 1;
+
+    return dict;
+  },
+  {} as any
+);
 
 export const SCATTER: string = `data("cars.json").
 
