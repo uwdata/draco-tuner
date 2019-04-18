@@ -48,7 +48,8 @@ const initialState: TextEditorStore = {
 const textEditorReducer = createReducer<TextEditorStore, TextEditorAction>(initialState, {
   [getType(textEditorActions.setVegaLiteCode)]: setVegaLiteCode,
   [getType(textEditorActions.setEditorType)]: setEditorType,
-  [getType(textEditorActions.setAspProgram)]: setAspProgram,
+  [getType(textEditorActions.setAspEditorProgram)]: setAspEditorProgram,
+  [getType(textEditorActions.setAspCode)]: setAspCode,
 });
 
 export default textEditorReducer;
@@ -61,6 +62,13 @@ function setEditorType(state: TextEditorStore, action: ActionType<typeof textEdi
   state.selectedEditor = action.payload;
 }
 
-function setAspProgram(state: TextEditorStore, action: ActionType<typeof textEditorActions.setAspProgram>): void {
+function setAspEditorProgram(
+  state: TextEditorStore,
+  action: ActionType<typeof textEditorActions.setAspEditorProgram>
+): void {
   state.aspProgram = action.payload;
+}
+
+function setAspCode(state: TextEditorStore, action: ActionType<typeof textEditorActions.setAspCode>): void {
+  state.asp = AspPrograms.setProgramWithType(state.asp, action.payload.programType, action.payload.code);
 }

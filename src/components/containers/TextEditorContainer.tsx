@@ -1,8 +1,6 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { AspProgramsType } from '../../model/asp-program';
 import { RootState } from '../../reducers';
-import { Editor, EditorType } from '../../reducers/text-editor-reducer';
 import TextEditor, {
   TextEditorDispatchProps,
   TextEditorOwnProps,
@@ -10,10 +8,7 @@ import TextEditor, {
 } from '../presenters/text-editor';
 
 function mapStateToProps(state: RootState, ownProps: TextEditorOwnProps): TextEditorStoreProps {
-  let editorType: EditorType | AspProgramsType = state.textEditor.selectedEditor;
-  if (editorType === Editor.ASP) {
-    editorType = state.textEditor.aspProgram;
-  }
+  const editorType = state.textEditor.selectedEditor;
   return {
     editorType,
   };

@@ -41,7 +41,7 @@ export class AspPrograms {
   static getProgramFromType(aspPrograms: AspProgramsObject, aspType: AspProgramsType): string {
     switch (aspType) {
       case AspPrograms.SOFT_DEFINE:
-        return aspPrograms.softAssign;
+        return aspPrograms.softDefine;
       case AspPrograms.SOFT_WEIGHTS:
         return aspPrograms.softWeights;
       case AspPrograms.SOFT_ASSIGN:

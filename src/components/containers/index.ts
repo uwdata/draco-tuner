@@ -1,4 +1,5 @@
 import AspEditorContainer from './AspEditorContainer';
+import AspEditorPanelContainer from './AspEditorPanelContainer';
 import ConstraintTunerContainer from './ConstraintTunerContainer';
 import EditTableContainer from './EditTableContainer';
 import EvalMinimapCellContainer from './EvalMinimapCellContainer';
@@ -20,4 +21,5 @@ export {
   VegaLiteEditorContainer,
   TextEditorContainer,
   AspEditorContainer,
+  AspEditorPanelContainer,
 };

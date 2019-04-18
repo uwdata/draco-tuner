@@ -136,12 +136,9 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
           <div
             styleName="constraint-table-container"
             tabIndex={0}
-            onFocus={() => {
+            onClick={() => {
               this.props.switchToAspEditor();
               this.props.toggleShowEditor(true);
-            }}
-            onBlur={() => {
-              this.props.toggleShowEditor(false);
             }}
           >
             <table styleName="constraint-table">

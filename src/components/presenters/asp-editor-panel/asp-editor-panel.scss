@@ -1,0 +1,55 @@
+@import "base.scss";
+
+.asp-editor-panel {
+  @extend %flex-column;
+  @extend %full-width-height;
+}
+
+.tabs {
+  @extend %flex-row;
+  flex-wrap: wrap;
+  background-color: $medium-purple;
+}
+
+.tab {
+  text-align: center;
+  line-height: 24px;
+  height: 24px;
+  padding: 4px 12px 4px 12px;
+  flex-grow: 1;
+  color: #fff;
+  font-weight: 400;
+  font-size: 12px;
+  filter: brightness(70%);
+  cursor: pointer;
+
+  &.focused {
+    background-color: $light-purple;
+    filter: brightness(100%);
+  }
+
+  &:hover {
+    background-color: $light-purple;
+  }
+}
+
+.editors {
+  @extend %flex-row;
+  flex-grow: 1;
+  position: relative;
+}
+
+.editor-container {
+  @extend %flex-row;
+  @extend %full-width-height;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0;
+
+  &.focused {
+    z-index: 0;
+    opacity: 1;
+  }
+}

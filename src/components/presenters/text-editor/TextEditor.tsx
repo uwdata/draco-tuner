@@ -1,12 +1,11 @@
 import classnames from 'classnames';
 import React from 'react';
-import { AspPrograms, AspProgramsType } from '../../../model/asp-program';
 import { Editor, EditorType } from '../../../reducers/text-editor-reducer';
-import { AspEditorContainer, VegaLiteEditorContainer } from '../../containers';
+import { AspEditorPanelContainer, VegaLiteEditorContainer } from '../../containers';
 import './text-editor.css';
 
 export interface TextEditorStoreProps {
-  editorType: EditorType | AspProgramsType;
+  editorType: EditorType;
 }
 
 export interface TextEditorDispatchProps {}
@@ -25,18 +24,16 @@ export default class TextEditor extends React.PureComponent<TextEditorProps, Tex
         <VegaLiteEditorContainer />
       </div>
     );
-    const aspEditors = AspPrograms.getTypes().map((type, i) => {
-      const aspEditorStyle = classnames({
-        'single-editor': true,
-        visible: this.props.editorType === type,
-      });
 
-      return (
-        <div key={type} styleName={aspEditorStyle}>
-          <AspEditorContainer programType={type} />
-        </div>
-      );
+    const aspEditorStyle = classnames({
+      'single-editor': true,
+      visible: this.props.editorType === Editor.ASP,
     });
+    const aspEditors = (
+      <div key="asp" styleName={aspEditorStyle}>
+        <AspEditorPanelContainer />
+      </div>
+    );
 
     return (
       <div styleName="text-editor">

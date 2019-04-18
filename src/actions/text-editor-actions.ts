@@ -14,6 +14,6 @@ export const setEditorType = createAction('text-editor/SET_EDITOR_TYPE', action 
   return (editorType?: EditorType) => action(editorType);
 });
 
-export const setAspProgram = createAction('text-editor/SET_ASP_PROGRAM', action => {
+export const setAspEditorProgram = createAction('text-editor/SET_ASP_EDITOR_PROGRAM', action => {
   return (programType: AspProgramsType) => action(programType);
 });
