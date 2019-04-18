@@ -27,7 +27,7 @@
 .charts {
   @extend %flex-row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
   width: calc(100% - 24px - 16px);
   padding-right: 16px;
   height: 100%;
