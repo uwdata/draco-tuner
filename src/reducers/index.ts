@@ -5,7 +5,7 @@ import reduceReducers from 'reduce-reducers';
 import { combineReducers, Reducer } from 'redux';
 import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType, StateType } from 'typesafe-actions';
-import { appActions, pairCollectionActions, RootAction, textEditorActions } from '../actions/index';
+import { appActions, dracoActions, pairCollectionActions, RootAction, textEditorActions } from '../actions/index';
 import { AspPrograms } from '../model/asp-program';
 import {
   ConstraintEdit,
@@ -38,6 +38,8 @@ const crossSliceReducer = createReducer<CombinedState, RootAction>(null, {
   [getType(appActions.updateStatus)]: updateStatus,
   [getType(textEditorActions.setVegaLiteCode)]: setVegaLiteCode,
   [getType(pairCollectionActions.addEmptyPair)]: addEmptyPair,
+  [getType(textEditorActions.setAspCode)]: setAspCode,
+  [getType(dracoActions.addConstraintEdit)]: addConstraintEdit,
 });
 
 export const rootReducer = reduceReducers(combinedReducers, crossSliceReducer as Reducer);
@@ -132,4 +134,22 @@ function updatePairItemVegaLite(state: CombinedState, code: string): void {
       }
     }
   }
+}
+
+function setAspCode(state: CombinedState, action: ActionType<typeof textEditorActions.setAspCode>): void {
+  // update constraint map.
+  try {
+    const constraintMap = ConstraintMap.fromAspPrograms(state.textEditor.asp);
+    state.draco.constraintMap = constraintMap;
+  } catch (error) {}
+}
+
+function addConstraintEdit(state: CombinedState, action: ActionType<typeof dracoActions.addConstraintEdit>): void {
+  const constraintMap = state.draco.constraintMap;
+  const oldAsp = state.textEditor.asp;
+  const newAsp = ConstraintMap.toAspPrograms(constraintMap);
+  state.textEditor.asp = {
+    ...oldAsp,
+    ...newAsp,
+  };
 }

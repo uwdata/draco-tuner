@@ -8,7 +8,7 @@ import { constraintMap } from './draco-reducer';
 
 export interface TextEditorStore {
   vegalite: VegaLiteStore;
-  asp: AspStore;
+  asp: AspProgramsObject;
   selectedEditor: EditorType;
   aspProgram: AspProgramsType;
 }
@@ -23,8 +23,6 @@ export type EditorType = typeof Editor.VEGA_LITE | typeof Editor.ASP;
 export interface VegaLiteStore {
   code: string;
 }
-
-export interface AspStore extends AspProgramsObject {}
 
 const constraintAspPrograms = ConstraintMap.toAspPrograms(constraintMap);
 

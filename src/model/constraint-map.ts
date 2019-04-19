@@ -1,6 +1,6 @@
-import { Constraint, ConstraintSet, json2constraints } from 'draco-vis';
+import { Constraint, constraints2json, ConstraintSet, json2constraints } from 'draco-vis';
 import _ from 'lodash';
-import { AspProgramsObject } from './asp-program';
+import { AspPrograms, AspProgramsObject } from './asp-program';
 
 export interface ConstraintMapObject {
   [name: string]: Constraint;
@@ -24,6 +24,22 @@ export class ConstraintMap {
       softAssign,
       hardDefine,
     };
+  }
+
+  static fromAspPrograms(aspPrograms: AspProgramsObject): ConstraintMapObject {
+    const softDefineAsp = AspPrograms.getProgramFromType(aspPrograms, AspPrograms.SOFT_DEFINE);
+    const softWeightsAsp = AspPrograms.getProgramFromType(aspPrograms, AspPrograms.SOFT_WEIGHTS);
+    const softAspSet = constraints2json(softDefineAsp, softWeightsAsp);
+
+    const hardDefineAsp = AspPrograms.getProgramFromType(aspPrograms, AspPrograms.HARD_DEFINE);
+    const hardAspSet = constraints2json(hardDefineAsp);
+
+    const constraintSet: ConstraintSet = {
+      soft: softAspSet,
+      hard: hardAspSet,
+    };
+
+    return ConstraintMap.fromConstraintSet(constraintSet);
   }
 
   static fromConstraintSet(constraintSet: ConstraintSet): ConstraintMapObject {
