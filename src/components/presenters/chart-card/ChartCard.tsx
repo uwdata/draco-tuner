@@ -34,7 +34,9 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
           partialVisibility={true}
           offset={{ top: -200, bottom: -200 }}
           onChange={isVisible => {
-            this.setState({ visible: isVisible });
+            if (!this.state.visible && isVisible) {
+              this.setState({ visible: true });
+            }
           }}
         >
           {this.state.visible ? (
