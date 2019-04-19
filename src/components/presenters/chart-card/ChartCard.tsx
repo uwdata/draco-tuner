@@ -1,11 +1,8 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import VisibilitySensor from 'react-visibility-sensor';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
 import VegaLiteChart from '../vega-lite-chart';
 import './chart-card.css';
-
-const a = ReactDOM.findDOMNode;
 
 export interface ChartCardStoreProps {
   vlSpec: TopLevelUnitSpec;

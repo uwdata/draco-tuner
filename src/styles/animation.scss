@@ -1,8 +1,8 @@
-@import 'styles/colors.scss';
+@import "styles/colors.scss";
 
-$standard-ease: cubic-bezier(0.4, 0.0, 0.2, 1);
-$decelerate-ease: cubic-bezier(0.0, 0.0, 0.2, 1);
-$accelerate-ease: cubic-bezier(0.4, 0.0, 1, 1);
+$standard-ease: cubic-bezier(0.4, 0, 0.2, 1);
+$decelerate-ease: cubic-bezier(0, 0, 0.2, 1);
+$accelerate-ease: cubic-bezier(0.4, 0, 1, 1);
 
 %focused {
   background-color: $dark-purple;
@@ -29,6 +29,32 @@ $accelerate-ease: cubic-bezier(0.4, 0.0, 1, 1);
   &.selected {
     &::after {
       @extend %focused;
+    }
+  }
+}
+
+%loading-container {
+  @extend %full-width-height;
+  @extend %flex-column;
+  @extend %in-flex-center-all;
+
+  .loading {
+    width: 16px;
+    height: 16px;
+    border-top: 2px solid $dark-purple;
+    border-left: 2px solid $dark-purple;
+    border-right: 2px solid $dark-purple;
+    border-bottom: 2px solid transparent;
+    border-radius: 50%/50%;
+    animation: reloading-animation 1000ms linear 440ms infinite;
+
+    @keyframes reloading-animation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
     }
   }
 }

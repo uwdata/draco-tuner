@@ -13,27 +13,5 @@
 }
 
 .loading-container {
-  @extend %full-width-height;
-  @extend %flex-column;
-  @extend %in-flex-center-all;
-}
-
-.loading {
-  width: 16px;
-  height: 16px;
-  border-top: 2px solid $dark-purple;
-  border-left: 2px solid $dark-purple;
-  border-right: 2px solid $dark-purple;
-  border-bottom: 2px solid transparent;
-  border-radius: 50%/50%;
-  animation: reloading-animation 1000ms linear 440ms infinite;
-
-  @keyframes reloading-animation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
+  @extend %loading-container;
 }

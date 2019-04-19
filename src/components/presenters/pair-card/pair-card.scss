@@ -104,3 +104,7 @@
     }
   }
 }
+
+.loading-container {
+  @extend %loading-container;
+}

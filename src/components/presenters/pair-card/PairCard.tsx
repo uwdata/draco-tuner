@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import _ from 'lodash';
 import * as React from 'react';
+import VisibilitySensor from 'react-visibility-sensor';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
 import { PairEval, PairEvalType, PairObject } from '../../../model';
 import { Editor, EditorType } from '../../../reducers/text-editor-reducer';
@@ -37,6 +38,7 @@ export interface PairCardProps extends PairCardStoreProps, PairCardDispatchProps
 
 export interface PairCardState {
   runId?: number;
+  visible: boolean;
 }
 
 export interface PairCardItem {
@@ -48,7 +50,19 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
   constructor(props: PairCardProps) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      visible: false,
+    };
+  }
+
+  static getDerivedStateFromProps(props: PairCardProps, state: PairCardState) {
+    if (!props.open && state.visible) {
+      return {
+        visible: false,
+      };
+    }
+
+    return state;
   }
 
   render() {
@@ -68,86 +82,108 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
       }
 
       populated = (
-        <div styleName="info">
-          <div styleName="charts">
-            <div styleName="item">
-              <div
-                styleName={classnames({
-                  'chart-container': true,
-                  focused: this.props.focused && this.props.focusItem === 'left',
-                })}
-                onClick={() => {
-                  if (this.props.focused && this.props.focusItem === 'left') {
-                    this.props.toggleFocusPairItem(this.props.id, 'left', false);
-                    this.props.toggleShowEditor(false);
-                  } else {
-                    this.props.toggleFocusPairItem(this.props.id, 'left', true);
-                    this.props.setVegaLiteEditorCode(JSON.stringify(this.props.left.vlSpec, null, 2));
-                    this.props.setEditorType(Editor.VEGA_LITE);
-                    this.props.toggleShowEditor(true);
-                  }
-                }}
-              >
-                <VegaLiteChart spec={this.props.left.vlSpec} />
+        <VisibilitySensor
+          partialVisibility={true}
+          offset={{ top: -600, bottom: -600 }}
+          onChange={isVisible => {
+            if (!this.state.visible && isVisible) {
+              this.setState({ visible: true });
+            }
+          }}
+        >
+          <div styleName="info">
+            <div styleName="charts">
+              <div styleName="item">
+                <div
+                  styleName={classnames({
+                    'chart-container': true,
+                    focused: this.props.focused && this.props.focusItem === 'left',
+                  })}
+                  onClick={() => {
+                    if (this.props.focused && this.props.focusItem === 'left') {
+                      this.props.toggleFocusPairItem(this.props.id, 'left', false);
+                      this.props.toggleShowEditor(false);
+                    } else {
+                      this.props.toggleFocusPairItem(this.props.id, 'left', true);
+                      this.props.setVegaLiteEditorCode(JSON.stringify(this.props.left.vlSpec, null, 2));
+                      this.props.setEditorType(Editor.VEGA_LITE);
+                      this.props.toggleShowEditor(true);
+                    }
+                  }}
+                >
+                  {this.state.visible ? (
+                    <VegaLiteChart spec={this.props.left.vlSpec} />
+                  ) : (
+                    <div styleName="loading-container">
+                      <div styleName="loading" />
+                    </div>
+                  )}
+                </div>
+                <div style={{ paddingTop: '16px' }}>{this.props.left.cost}</div>
               </div>
-              <div style={{ paddingTop: '16px' }}>{this.props.left.cost}</div>
-            </div>
-            <div styleName="comparator">{comp}</div>
-            <div styleName="item">
-              <div
-                styleName={classnames({
-                  'chart-container': true,
-                  focused: this.props.focused && this.props.focusItem === 'right',
-                })}
-                onClick={() => {
-                  if (this.props.focused && this.props.focusItem === 'right') {
-                    this.props.toggleFocusPairItem(this.props.id, 'right', false);
-                    this.props.toggleShowEditor(false);
-                  } else {
-                    this.props.toggleFocusPairItem(this.props.id, 'right', true);
-                    this.props.setVegaLiteEditorCode(JSON.stringify(this.props.right.vlSpec, null, 2));
-                    this.props.setEditorType(Editor.VEGA_LITE);
-                    this.props.toggleShowEditor(true);
-                  }
-                }}
-              >
-                <VegaLiteChart spec={this.props.right.vlSpec} />
+              <div styleName="comparator">{comp}</div>
+              <div styleName="item">
+                <div
+                  styleName={classnames({
+                    'chart-container': true,
+                    focused: this.props.focused && this.props.focusItem === 'right',
+                  })}
+                  onClick={() => {
+                    if (this.props.focused && this.props.focusItem === 'right') {
+                      this.props.toggleFocusPairItem(this.props.id, 'right', false);
+                      this.props.toggleShowEditor(false);
+                    } else {
+                      this.props.toggleFocusPairItem(this.props.id, 'right', true);
+                      this.props.setVegaLiteEditorCode(JSON.stringify(this.props.right.vlSpec, null, 2));
+                      this.props.setEditorType(Editor.VEGA_LITE);
+                      this.props.toggleShowEditor(true);
+                    }
+                  }}
+                >
+                  {this.state.visible ? (
+                    <VegaLiteChart spec={this.props.right.vlSpec} />
+                  ) : (
+                    <div styleName="loading-container">
+                      <div styleName="loading" />
+                    </div>
+                  )}
+                </div>
+                <div style={{ paddingTop: '16px' }}>{this.props.right.cost}</div>
               </div>
-              <div style={{ paddingTop: '16px' }}>{this.props.right.cost}</div>
             </div>
-          </div>
-          <div styleName="controls">
-            <div styleName="button-container">
-              <button
-                styleName={classnames({
-                  reloading: !_.isUndefined(this.state.runId) && !this.props.finishedRunIds.has(this.state.runId),
-                })}
-                onClick={() => {
-                  const pair: PairObject = {
-                    id: +this.props.id,
-                    comparator: this.props.comparator,
-                    left: {
-                      vlSpec: this.props.left.vlSpec,
-                    },
-                    right: {
-                      vlSpec: this.props.right.vlSpec,
-                    },
-                  };
+            <div styleName="controls">
+              <div styleName="button-container">
+                <button
+                  styleName={classnames({
+                    reloading: !_.isUndefined(this.state.runId) && !this.props.finishedRunIds.has(this.state.runId),
+                  })}
+                  onClick={() => {
+                    const pair: PairObject = {
+                      id: +this.props.id,
+                      comparator: this.props.comparator,
+                      left: {
+                        vlSpec: this.props.left.vlSpec,
+                      },
+                      right: {
+                        vlSpec: this.props.right.vlSpec,
+                      },
+                    };
 
-                  const runId = (window as any).runId;
-                  (window as any).runId += 1;
-                  this.setState({
-                    runId,
-                  });
-                  this.props.solvePair(pair, runId);
-                }}
-              >
-                <span className="material-icons">refresh</span>
-                {this.props.evalType}
-              </button>
+                    const runId = (window as any).runId;
+                    (window as any).runId += 1;
+                    this.setState({
+                      runId,
+                    });
+                    this.props.solvePair(pair, runId);
+                  }}
+                >
+                  <span className="material-icons">refresh</span>
+                  {this.props.evalType}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </VisibilitySensor>
       );
     }
 
