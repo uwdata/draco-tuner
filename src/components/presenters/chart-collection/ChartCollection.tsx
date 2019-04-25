@@ -18,17 +18,29 @@ export interface ChartCollectionProps
     ChartCollectionOwnProps {}
 export interface ChartCollectionState {
   runId?: number;
+  expandedCharts: Set<string>;
 }
 
 export default class ChartCollection extends React.PureComponent<ChartCollectionProps, ChartCollectionState> {
   constructor(props: ChartCollectionProps) {
     super(props);
-    this.state = {};
+    this.state = {
+      expandedCharts: new Set(),
+    };
+
+    this.toggleExpandChart = this.toggleExpandChart.bind(this);
   }
 
   render() {
     const charts = this.props.chartIds.map(id => {
-      return <ChartCardContainer key={id} id={id} />;
+      return (
+        <ChartCardContainer
+          expanded={this.state.expandedCharts.has(id)}
+          key={id}
+          id={id}
+          toggleExpandChart={this.toggleExpandChart}
+        />
+      );
     });
 
     const reloadButtonStyle = classnames({
@@ -60,10 +72,24 @@ export default class ChartCollection extends React.PureComponent<ChartCollection
             </button>
           </div>
           <div styleName="button-container">
-            <button className="material-icons" styleName="icon-button">
+            <button
+              onClick={() => {
+                const expandedCharts = _.clone(this.state.expandedCharts);
+                this.props.chartIds.forEach(c => expandedCharts.add(c));
+                this.setState({ expandedCharts });
+              }}
+              className="material-icons"
+              styleName="icon-button"
+            >
               unfold_more
             </button>
-            <button className="material-icons" styleName="icon-button">
+            <button
+              className="material-icons"
+              styleName="icon-button"
+              onClick={() => {
+                this.setState({ expandedCharts: new Set() });
+              }}
+            >
               unfold_less
             </button>
           </div>
@@ -77,5 +103,15 @@ export default class ChartCollection extends React.PureComponent<ChartCollection
         </div>
       </div>
     );
+  }
+
+  toggleExpandChart(id: string, on: boolean) {
+    const expandedCharts = _.clone(this.state.expandedCharts);
+    if (on) {
+      expandedCharts.add(id);
+    } else {
+      expandedCharts.delete(id);
+    }
+    this.setState({ expandedCharts });
   }
 }

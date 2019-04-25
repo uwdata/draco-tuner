@@ -3,12 +3,17 @@
 .chart-card {
   @extend %flex-column;
   box-sizing: border-box;
-  width: 160px;
-  height: 180px;
   border: 2px solid $light-grey;
   border-radius: 4px;
-  margin: 8px;
+  margin: 2px;
   flex-grow: 1;
+  overflow: hidden;
+  height: 16px;
+  width: 160px;
+
+  &.expanded {
+    height: 180px;
+  }
 }
 
 .loading-container {
@@ -19,12 +24,19 @@
   height: calc(100% - 16px - 72px - 16px);
   padding: 8px;
   width: calc(100% - 16px);
+  flex-shrink: 1;
 }
 
 .splinter {
   height: 16px;
+  flex-shrink: 0;
   border-radius: 2px 2px 0 0;
   width: 100%;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(90%);
+  }
 }
 
 .info-container {
@@ -33,6 +45,7 @@
   align-items: center;
   width: 100%;
   height: 64px;
+  flex-shrink: 1;
 }
 
 .cost-container {

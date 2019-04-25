@@ -18,6 +18,8 @@ export interface ChartCardDispatchProps {
 }
 export interface ChartCardOwnProps {
   id: string;
+  expanded: boolean;
+  toggleExpandChart: (id: string, on: boolean) => void;
 }
 export interface ChartCardProps extends ChartCardStoreProps, ChartCardDispatchProps, ChartCardOwnProps {}
 export interface ChartCardState {
@@ -40,6 +42,12 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
 
     const borderColor =
       this.props.cost === Infinity ? Splinter.RED : _.isUndefined(this.props.cost) ? Splinter.GREY : Splinter.GREEN;
+
+    const styleName = classnames({
+      'chart-card': true,
+      expanded: this.props.expanded,
+    });
+
     return (
       <VisibilitySensor
         partialVisibility={true}
@@ -50,8 +58,14 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
           }
         }}
       >
-        <div styleName="chart-card" style={{ borderColor }}>
-          <div styleName="splinter" style={{ backgroundColor: splinterColor }} />
+        <div styleName={styleName} style={{ borderColor }}>
+          <div
+            styleName="splinter"
+            style={{ backgroundColor: splinterColor }}
+            onClick={() => {
+              this.props.toggleExpandChart(this.props.id, !this.props.expanded);
+            }}
+          />
           <div styleName="chart-container">
             {this.state.visible ? (
               <VegaLiteChart spec={this.props.vlSpec} />
