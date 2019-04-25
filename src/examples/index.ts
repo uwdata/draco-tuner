@@ -1,29 +1,38 @@
+import _ from 'lodash';
+import { ChartDictionary } from '../reducers/chart-collection-reducer';
+
 export const EXAMPLE_PAIRS = require('./pairs.json');
 
 let chartId = 0;
-export const EXAMPLE_CHARTS = Object.keys(EXAMPLE_PAIRS).reduce(
-  (dict, pairId) => {
+export const EXAMPLE_CHARTS = _.uniqBy(
+  Object.keys(EXAMPLE_PAIRS).reduce((list, pairId) => {
     const pair = EXAMPLE_PAIRS[pairId];
     const left = pair.left;
     const right = pair.right;
 
     const leftId = chartId.toString();
-    dict[leftId] = {
-      id: +leftId,
+    list.push({
+      id: leftId,
       vlSpec: left.vlSpec,
-    };
+    });
     chartId += 1;
 
     const rightId = chartId.toString();
-    dict[rightId] = {
-      id: +rightId,
+    list.push({
+      id: rightId,
       vlSpec: right.vlSpec,
-    };
+    });
     chartId += 1;
 
+    return list;
+  }, []),
+  c => JSON.stringify(c.vlSpec)
+).reduce(
+  (dict, chart) => {
+    dict[chart.id] = chart;
     return dict;
   },
-  {} as any
+  {} as ChartDictionary
 );
 
 export const SCATTER: string = `data("cars.json").
