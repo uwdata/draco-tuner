@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { ChartDictionary } from '../reducers/chart-collection-reducer';
 import { PairsDictionary } from '../reducers/pair-collection-reducer';
 import { PairObject } from './pair';
 import { SpecObject } from './spec';
@@ -8,6 +9,31 @@ export interface SpecDictionaryObject {
 }
 
 export class SpecDictionary {
+  static fromCharts = (chartDict: ChartDictionary): SpecDictionaryObject => {
+    const specDict: SpecDictionaryObject = {};
+    for (const id of Object.keys(chartDict)) {
+      const chart = chartDict[id];
+      specDict[id] = chart;
+    }
+
+    return specDict;
+  };
+
+  static toChartDictionary = (specDict: SpecDictionaryObject, chartDict: ChartDictionary): ChartDictionary => {
+    const result = _.clone(chartDict);
+    for (const id of Object.keys(specDict)) {
+      const spec = specDict[id];
+      const chart = {
+        ...spec,
+        id,
+      };
+
+      result[id] = chart;
+    }
+
+    return result;
+  };
+
   static fromPairsDictionary = (pairsDict: PairsDictionary): SpecDictionaryObject => {
     const specDict: SpecDictionaryObject = {};
     for (const id of Object.keys(pairsDict)) {

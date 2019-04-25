@@ -6,6 +6,7 @@ import './chart-card.css';
 
 export interface ChartCardStoreProps {
   vlSpec: TopLevelUnitSpec;
+  cost?: number;
 }
 export interface ChartCardDispatchProps {}
 export interface ChartCardOwnProps {
@@ -44,6 +45,7 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
             </div>
           )}
         </VisibilitySensor>
+        {this.props.cost}
       </div>
     );
   }

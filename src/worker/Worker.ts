@@ -1,6 +1,6 @@
 import Draco, { Options } from 'draco-vis'; // tslint:disable-line
 import { getType } from 'typesafe-actions';
-import { DracoWorkerAction, dracoWorkerActions, pairCollectionActions } from '../actions';
+import { chartCollectionActions, DracoWorkerAction, dracoWorkerActions, pairCollectionActions } from '../actions';
 import { Spec, SpecDictionary } from '../model';
 import { DracoWorkerEvent } from './worker-event';
 
@@ -31,6 +31,18 @@ function handleAction(action: DracoWorkerAction) {
         const solvedSpecDict = solveSpecs(action.payload.specDict);
         ctx.postMessage({
           type: getType(pairCollectionActions.setPairs),
+          payload: {
+            specDict: solvedSpecDict,
+            runId: action.payload.runId,
+          },
+        });
+      }
+      break;
+    case getType(dracoWorkerActions.solveChartsBegin):
+      {
+        const solvedSpecDict = solveSpecs(action.payload.specDict);
+        ctx.postMessage({
+          type: getType(chartCollectionActions.setCharts),
           payload: {
             specDict: solvedSpecDict,
             runId: action.payload.runId,

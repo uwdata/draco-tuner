@@ -5,7 +5,14 @@ import reduceReducers from 'reduce-reducers';
 import { combineReducers, Reducer } from 'redux';
 import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType, StateType } from 'typesafe-actions';
-import { appActions, dracoActions, pairCollectionActions, RootAction, textEditorActions } from '../actions/index';
+import {
+  appActions,
+  chartCollectionActions,
+  dracoActions,
+  pairCollectionActions,
+  RootAction,
+  textEditorActions,
+} from '../actions/index';
 import { AspPrograms } from '../model/asp-program';
 import {
   ConstraintEdit,
@@ -33,6 +40,7 @@ type CombinedState = StateType<typeof combinedReducers>;
 
 const crossSliceReducer = createReducer<CombinedState, RootAction>(null, {
   [getType(pairCollectionActions.setPairs)]: setPairs,
+  [getType(chartCollectionActions.setCharts)]: setCharts,
   [getType(appActions.downloadFiles)]: downloadFiles,
   [getType(appActions.addCheckpoint)]: addCheckpoint,
   [getType(appActions.updateStatus)]: updateStatus,
@@ -47,6 +55,11 @@ export const rootReducer = reduceReducers(combinedReducers, crossSliceReducer as
 export type RootState = CombinedState;
 
 function setPairs(state: CombinedState, action: ActionType<typeof pairCollectionActions.setPairs>): void {
+  state.draco.finishedRunIds.add(action.payload.runId);
+  updateDeltaAndScore(state);
+}
+
+function setCharts(state: CombinedState, action: ActionType<typeof chartCollectionActions.setCharts>): void {
   state.draco.finishedRunIds.add(action.payload.runId);
   updateDeltaAndScore(state);
 }

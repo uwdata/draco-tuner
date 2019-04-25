@@ -1,5 +1,7 @@
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
+import { reloadChartsThunk } from '../../actions/chart-collection-actions';
 import { RootState } from '../../reducers';
 import ChartCollection, {
   ChartCollectionDispatchProps,
@@ -9,13 +11,21 @@ import ChartCollection, {
 
 function mapStateToProps(state: RootState, ownProps: ChartCollectionOwnProps): ChartCollectionStoreProps {
   const chartIds = Object.keys(state.chartCollection.charts).sort(id => +id);
+  const finishedRunIds = state.draco.finishedRunIds;
+
   return {
     chartIds,
+    finishedRunIds,
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch, ownProps: ChartCollectionOwnProps): ChartCollectionDispatchProps {
-  return {};
+function mapDispatchToProps(
+  dispatch: ThunkDispatch<{}, {}, AnyAction>,
+  ownProps: ChartCollectionOwnProps
+): ChartCollectionDispatchProps {
+  return {
+    reloadCharts: (runId: number) => dispatch(reloadChartsThunk(runId)),
+  };
 }
 
 export default connect<ChartCollectionStoreProps, ChartCollectionDispatchProps, ChartCollectionOwnProps>(
