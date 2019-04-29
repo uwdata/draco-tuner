@@ -80,7 +80,7 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
           }}
         >
           <div styleName="chart-container">
-            {(this.state.visible || this.props.focused) && this.props.expanded ? (
+            {(this.state.visible || this.props.focused) && (this.props.expanded || this.props.focused) ? (
               <VegaLiteChart spec={this.props.vlSpec} />
             ) : (
               <div styleName="loading-container">
