@@ -13,8 +13,8 @@
   @extend %flex-row;
   justify-content: space-evenly;
   align-items: center;
-  width: calc(100% - 48px);
-  padding-left: 24px;
+  width: calc(100% - 56px);
+  padding-left: 32px;
   padding-right: 24px;
   height: 48px;
 }
@@ -28,8 +28,9 @@
   @extend %flex-row;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  width: calc(100% - 24px - 16px);
+  width: calc(100% - 24px - 16px - 8px);
   padding-right: 16px;
+  padding-left: 8px;
   height: 100%;
   overflow: auto;
   align-content: start;
