@@ -11,8 +11,22 @@
   height: 16px;
   width: 160px;
 
+  .chart-container,
+  .loading-container,
+  .info-container,
+  .cost-container {
+    visibility: hidden;
+  }
+
   &.expanded {
     height: 180px;
+
+    .chart-container,
+    .loading-container,
+    .info-container,
+    .cost-container {
+      visibility: visible;
+    }
   }
 }
 

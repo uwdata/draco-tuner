@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { toggleFocusChart } from '../../actions/chart-collection-actions';
 import { solveChartsBegin } from '../../actions/draco-worker-actions';
 import { ChartObject } from '../../model/chart';
 import { Spec } from '../../model/spec';
@@ -12,10 +13,12 @@ function mapStateToProps(state: RootState, ownProps: ChartCardOwnProps): ChartCa
   const vlSpec = chart.vlSpec;
   const cost = Spec.getCost(chart, state.draco.constraintMap);
   const finishedRunIds = state.draco.finishedRunIds;
+  const focused = state.chartCollection.focusChart === ownProps.id;
   return {
     vlSpec,
     cost,
     finishedRunIds,
+    focused,
   };
 }
 
@@ -25,6 +28,9 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: ChartCardOwnProps): Ch
       const chartDict: ChartDictionary = {};
       chartDict[chart.id] = chart;
       dispatch(solveChartsBegin(chartDict, runId));
+    },
+    toggleFocusChart: (id: string, on: boolean) => {
+      dispatch(toggleFocusChart(id, on));
     },
   };
 }

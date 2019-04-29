@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import _ from 'lodash';
 import React from 'react';
-import { ChartCardContainer } from '../../containers/index';
+import { ChartCardContainer, ChartEvalMinimapContainer } from '../../containers/index';
 import './chart-collection.css';
 
 export interface ChartCollectionStoreProps {
@@ -98,7 +98,9 @@ export default class ChartCollection extends React.PureComponent<ChartCollection
           </div>
         </div>
         <div styleName="view">
-          <div styleName="minimap" />
+          <div styleName="minimap">
+            <ChartEvalMinimapContainer ids={this.props.chartIds} />
+          </div>
           <div styleName="charts">{charts}</div>
         </div>
       </div>

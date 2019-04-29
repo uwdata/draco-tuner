@@ -1,9 +1,8 @@
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { toggleFocusPair } from '../../actions/pair-collection-actions';
-import { Pair } from '../../model/pair';
+import { toggleFocusChart } from '../../actions/chart-collection-actions';
+import { Chart } from '../../model/chart';
 import { RootState } from '../../reducers';
 import EvalMinimapCell, {
   EvalMinimapCellDispatchProps,
@@ -12,16 +11,11 @@ import EvalMinimapCell, {
 } from '../presenters/eval-minimap-cell';
 
 function mapStateToProps(state: RootState, props: EvalMinimapCellOwnProps): EvalMinimapCellStoreProps {
-  const pair = state.pairCollection.pairs[props.pairId];
-  const evalType = Pair.getEval(pair, state.draco.constraintMap);
-  const focused = state.pairCollection.focusPair === props.pairId;
-  let important = false;
-  const pairEvalDeltaMap = state.pairCollection.pairEvalDeltaMap;
-  if (!_.isUndefined(pairEvalDeltaMap)) {
-    if (pairEvalDeltaMap.hasOwnProperty(props.pairId)) {
-      important = true;
-    }
-  }
+  const chart = state.chartCollection.charts[props.id];
+
+  const evalType = Chart.getEval(chart, state.draco.constraintMap);
+  const focused = state.chartCollection.focusChart === props.id;
+  const important = false;
   return {
     evalType,
     focused,
@@ -34,7 +28,7 @@ function mapDispatchToProps(
   props: EvalMinimapCellOwnProps
 ): EvalMinimapCellDispatchProps {
   return {
-    toggleFocusPair: (pairId: string, on: boolean) => dispatch(toggleFocusPair(pairId, on)),
+    toggleFocusPair: (id: string, on: boolean) => dispatch(toggleFocusChart(id, on)),
   };
 }
 

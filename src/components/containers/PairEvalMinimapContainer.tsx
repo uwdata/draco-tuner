@@ -9,7 +9,9 @@ import EvalMinimap, {
 } from '../presenters/eval-minimap';
 
 function mapStateToProps(state: RootState, props: EvalMinimapOwnProps): EvalMinimapStoreProps {
-  return {};
+  return {
+    type: EvalMinimap.PAIRS,
+  };
 }
 
 function mapDispatchToProps(

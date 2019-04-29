@@ -1,21 +1,24 @@
 import classnames from 'classnames';
 import React from 'react';
+import { ChartEval, ChartEvalType } from '../../../model/chart';
 import { PairEval, PairEvalType } from '../../../model/pair';
+import { EvalMinimapType } from '../eval-minimap/EvalMinimap';
 import { Splinter } from '../pair-card/index';
 import './eval-minimap-cell.css';
 
 export interface EvalMinimapCellStoreProps {
-  evalType: PairEvalType;
+  evalType: PairEvalType | ChartEvalType;
   focused: boolean;
   important: boolean;
 }
 
 export interface EvalMinimapCellDispatchProps {
-  toggleFocusPair: (pairId: string, on: boolean) => void;
+  toggleFocusPair: (id: string, on: boolean) => void;
 }
 
 export interface EvalMinimapCellOwnProps {
-  pairId: string;
+  id: string;
+  type: EvalMinimapType;
 }
 
 export interface EvalMinimapCellProps
@@ -30,9 +33,11 @@ export default class EvalMinimapCell extends React.PureComponent<EvalMinimapCell
     let color;
     switch (this.props.evalType) {
       case PairEval.PASS:
+      case ChartEval.PASS:
         color = Splinter.GREEN;
         break;
       case PairEval.FAIL:
+      case ChartEval.FAIL:
         color = Splinter.RED;
         break;
       case PairEval.UNSAT:
@@ -58,7 +63,7 @@ export default class EvalMinimapCell extends React.PureComponent<EvalMinimapCell
         styleName={styleName}
         style={style}
         onClick={() => {
-          this.props.toggleFocusPair(this.props.pairId, !this.props.focused);
+          this.props.toggleFocusPair(this.props.id, !this.props.focused);
         }}
       />
     );

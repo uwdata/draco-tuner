@@ -111,7 +111,7 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
                     }
                   }}
                 >
-                  {this.state.visible ? (
+                  {this.state.visible || this.props.focused ? (
                     <VegaLiteChart spec={this.props.left.vlSpec} />
                   ) : (
                     <div styleName="loading-container">

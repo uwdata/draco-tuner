@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import _ from 'lodash';
 import * as React from 'react';
 import { PairFilter, PairFilterType } from '../../../model';
-import { EvalMinimapContainer, PairCardContainer } from '../../containers';
+import { PairCardContainer, PairEvalMinimapContainer } from '../../containers';
 import './pair-collection.css';
 
 export interface PairCollectionStoreProps {
@@ -163,7 +163,7 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
         </div>
         <div styleName="view">
           <div styleName="minimap">
-            <EvalMinimapContainer pairIds={this.props.pairIds} />
+            <PairEvalMinimapContainer ids={this.props.pairIds} />
           </div>
           <div styleName="pairs" ref={this.paneRef}>
             {pairCards}
