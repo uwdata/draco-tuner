@@ -4,6 +4,7 @@ import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
 import { ChartObject } from '../../../model/chart';
+import { Editor, EditorType } from '../../../reducers/text-editor-reducer';
 import { Splinter } from '../pair-card/index';
 import VegaLiteChart from '../vega-lite-chart';
 import './chart-card.css';
@@ -17,6 +18,9 @@ export interface ChartCardStoreProps {
 export interface ChartCardDispatchProps {
   solveChart: (chart: ChartObject, runId: number) => void;
   toggleFocusChart: (id: string, on: boolean) => void;
+  setVegaLiteEditorCode: (code: string) => void;
+  toggleShowEditor: (show: boolean) => void;
+  setEditorType: (type: EditorType) => void;
 }
 export interface ChartCardOwnProps {
   id: string;
@@ -66,8 +70,16 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
           styleName="splinter"
           style={{ backgroundColor: splinterColor }}
           onClick={() => {
-            this.props.toggleExpandChart(this.props.id, !this.props.expanded);
-            this.props.toggleFocusChart(this.props.id, !this.props.focused);
+            const expand = !(this.props.expanded || this.props.focused);
+            this.props.toggleExpandChart(this.props.id, expand);
+            this.props.toggleFocusChart(this.props.id, expand);
+            if (expand) {
+              this.props.setVegaLiteEditorCode(JSON.stringify(this.props.vlSpec, null, 2));
+              this.props.setEditorType(Editor.VEGA_LITE);
+              this.props.toggleShowEditor(true);
+            } else {
+              this.props.toggleShowEditor(false);
+            }
           }}
         />
         <VisibilitySensor

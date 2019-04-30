@@ -22,7 +22,7 @@ import {
   PairEvalMap,
   Spec,
 } from '../model/index';
-import appReducer from './app-reducer';
+import appReducer, { Collection } from './app-reducer';
 import chartCollectionReducer from './chart-collection-reducer';
 import dracoReducer from './draco-reducer';
 import pairCollectionReducer from './pair-collection-reducer';
@@ -125,11 +125,30 @@ function updateDeltaAndScore(state: CombinedState) {
 }
 
 function setVegaLiteCode(state: CombinedState, action: ActionType<typeof textEditorActions.setVegaLiteCode>): void {
-  updatePairItemVegaLite(state, action.payload);
+  switch (state.app.collectionPane) {
+    case Collection.PAIRS:
+      updatePairItemVegaLite(state, action.payload);
+      break;
+    case Collection.CHARTS:
+      updateChartVegaLite(state, action.payload);
+      break;
+    default:
+  }
 }
 
 function addEmptyPair(state: CombinedState, action: ActionType<typeof pairCollectionActions.addEmptyPair>): void {
   state.textEditor.vegalite.code = JSON.stringify(Spec.getEmptySpec().vlSpec, null, 2);
+}
+
+function updateChartVegaLite(state: CombinedState, code: string): void {
+  const focusChartId = state.chartCollection.focusChart;
+  if (!_.isUndefined(focusChartId) && isValidJSON(code)) {
+    const vlSpec = JSON.parse(code);
+    if (Spec.isVlSpecValid(vlSpec)) {
+      const focusChart = state.chartCollection.charts[focusChartId];
+      focusChart.vlSpec = vlSpec;
+    }
+  }
 }
 
 function updatePairItemVegaLite(state: CombinedState, code: string): void {
@@ -138,7 +157,7 @@ function updatePairItemVegaLite(state: CombinedState, code: string): void {
   if (isValidJSON(code)) {
     const vlSpec = JSON.parse(code);
     if (!!focusPair && !!focusItem) {
-      if (Spec.isVlSpecValid(JSON.parse(code))) {
+      if (Spec.isVlSpecValid(vlSpec)) {
         if (focusItem === 'left') {
           state.pairCollection.pairs[focusPair].left.vlSpec = vlSpec;
         } else {

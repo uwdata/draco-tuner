@@ -19,3 +19,7 @@ export const reloadChartsThunk = (runId: number): ThunkAction<void, {}, {}, AnyA
 export const setCharts = createAction('chart-collection/SET_CHARTS', action => {
   return (specDict: SpecDictionaryObject, runId: number) => action({ specDict, runId });
 });
+
+export const addEmptyChart = createAction('chart-collection/ADD_EMPTY_CHART', action => {
+  return () => action();
+});

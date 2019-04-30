@@ -1,11 +1,14 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import { toggleShowEditor } from '../../actions/app-actions';
 import { toggleFocusChart } from '../../actions/chart-collection-actions';
 import { solveChartsBegin } from '../../actions/draco-worker-actions';
+import { setEditorType, setVegaLiteCode } from '../../actions/text-editor-actions';
 import { ChartObject } from '../../model/chart';
 import { Spec } from '../../model/spec';
 import { RootState } from '../../reducers';
 import { ChartDictionary } from '../../reducers/chart-collection-reducer';
+import { EditorType } from '../../reducers/text-editor-reducer';
 import ChartCard, { ChartCardDispatchProps, ChartCardOwnProps, ChartCardStoreProps } from '../presenters/chart-card';
 
 function mapStateToProps(state: RootState, ownProps: ChartCardOwnProps): ChartCardStoreProps {
@@ -31,6 +34,15 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: ChartCardOwnProps): Ch
     },
     toggleFocusChart: (id: string, on: boolean) => {
       dispatch(toggleFocusChart(id, on));
+    },
+    setVegaLiteEditorCode: (code: string) => {
+      dispatch(setVegaLiteCode(code));
+    },
+    setEditorType: (type: EditorType) => {
+      dispatch(setEditorType(type));
+    },
+    toggleShowEditor: (show: boolean) => {
+      dispatch(toggleShowEditor(show));
     },
   };
 }

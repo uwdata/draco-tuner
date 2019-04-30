@@ -10,6 +10,7 @@ export interface ChartCollectionStoreProps {
 }
 export interface ChartCollectionDispatchProps {
   reloadCharts: (runId: number) => void;
+  addEmptyChart: () => void;
 }
 export interface ChartCollectionOwnProps {}
 export interface ChartCollectionProps
@@ -67,7 +68,7 @@ export default class ChartCollection extends React.PureComponent<ChartCollection
             </button>
           </div>
           <div styleName="button-container">
-            <button styleName="icon-button">
+            <button styleName="icon-button" onClick={() => this.props.addEmptyChart()}>
               <span className="material-icons">add</span>
             </button>
           </div>

@@ -2,7 +2,7 @@ import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType } from 'typesafe-actions';
 import { ChartCollectionAction, chartCollectionActions } from '../actions';
 import { EXAMPLE_CHARTS } from '../examples';
-import { ChartObject, SpecDictionary } from '../model';
+import { Chart, ChartObject, SpecDictionary } from '../model';
 
 export interface ChartDictionary {
   [id: string]: ChartObject;
@@ -20,6 +20,7 @@ const initialState: ChartCollectionStore = {
 const chartCollectionReducer = createReducer<ChartCollectionStore, ChartCollectionAction>(initialState, {
   [getType(chartCollectionActions.setCharts)]: setCharts,
   [getType(chartCollectionActions.toggleFocusChart)]: toggleFocusChart,
+  [getType(chartCollectionActions.addEmptyChart)]: addEmptyChart,
 });
 
 export default chartCollectionReducer;
@@ -39,4 +40,16 @@ function toggleFocusChart(
   } else {
     state.focusChart = undefined;
   }
+}
+
+function addEmptyChart(
+  state: ChartCollectionStore,
+  action: ActionType<typeof chartCollectionActions.addEmptyChart>
+): void {
+  const maxId = Object.keys(state.charts).reduce((max, id) => {
+    return +id > max ? +id : max;
+  }, 0);
+
+  const id = (maxId + 1).toString();
+  state.charts[id] = Chart.getEmptyChart(id);
 }

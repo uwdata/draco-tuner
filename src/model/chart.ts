@@ -19,6 +19,13 @@ export class Chart {
 
     return ChartEval.PASS;
   };
+
+  static getEmptyChart = function(id: string): ChartObject {
+    return {
+      id,
+      ...Spec.getEmptySpec(),
+    };
+  };
 }
 
 export class ChartEval {

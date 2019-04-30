@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { reloadChartsThunk } from '../../actions/chart-collection-actions';
+import { addEmptyChart, reloadChartsThunk } from '../../actions/chart-collection-actions';
 import { RootState } from '../../reducers';
 import ChartCollection, {
   ChartCollectionDispatchProps,
@@ -25,6 +25,7 @@ function mapDispatchToProps(
 ): ChartCollectionDispatchProps {
   return {
     reloadCharts: (runId: number) => dispatch(reloadChartsThunk(runId)),
+    addEmptyChart: () => dispatch(addEmptyChart()),
   };
 }
 
