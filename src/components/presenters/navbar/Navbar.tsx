@@ -1,6 +1,5 @@
-import classnames from 'classnames';
 import * as React from 'react';
-import { Collection, CollectionType } from '../../../reducers/app-reducer';
+import { CollectionType } from '../../../reducers/app-reducer';
 import './navbar.css';
 
 export interface NavbarStoreProps {
@@ -29,34 +28,6 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
               }}
             >
               save
-            </button>
-          </div>
-          <div styleName="button-container">
-            <button
-              styleName={classnames({ focused: this.props.collectionPane === Collection.CHARTS })}
-              onClick={() => {
-                if (this.props.collectionPane === Collection.CHARTS) {
-                  this.props.setCollectionPane(Collection.HIDDEN);
-                } else {
-                  this.props.setCollectionPane(Collection.CHARTS);
-                }
-              }}
-            >
-              charts
-            </button>
-          </div>
-          <div styleName="button-container">
-            <button
-              styleName={classnames({ focused: this.props.collectionPane === Collection.PAIRS })}
-              onClick={() => {
-                if (this.props.collectionPane === Collection.PAIRS) {
-                  this.props.setCollectionPane(Collection.HIDDEN);
-                } else {
-                  this.props.setCollectionPane(Collection.PAIRS);
-                }
-              }}
-            >
-              pairs
             </button>
           </div>
         </div>

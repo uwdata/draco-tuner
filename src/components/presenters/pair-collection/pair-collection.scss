@@ -2,9 +2,7 @@
 
 .pair-collection {
   @extend %flex-column;
-  width: calc(100% - 4px);
-  height: calc(100% - 4px);
-  border: 2px solid transparent;
+  @extend %full-width-height;
 
   &:focus {
     outline: none;
@@ -24,6 +22,7 @@
     padding-left: 24px;
     padding-right: 24px;
     height: 48px;
+    overflow: hidden;
   }
 
   .view {

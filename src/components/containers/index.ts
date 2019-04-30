@@ -13,6 +13,7 @@ import PairEvalMinimapCellContainer from './PairEvalMinimapCellContainer';
 import PairEvalMinimapContainer from './PairEvalMinimapContainer';
 import TextEditorContainer from './TextEditorContainer';
 import VegaLiteEditorContainer from './VegaLiteEditorContainer';
+import ViewPaneContainer from './ViewPaneContainer';
 
 export {
   PairCardContainer,
@@ -30,4 +31,5 @@ export {
   ChartCardContainer,
   ChartEvalMinimapCellContainer,
   ChartEvalMinimapContainer,
+  ViewPaneContainer,
 };

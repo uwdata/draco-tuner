@@ -17,10 +17,12 @@
   padding-left: 32px;
   padding-right: 24px;
   height: 48px;
+  overflow: hidden;
 }
 
 .view {
   @extend %flex-row;
+  width: 100%;
   height: calc(100% - 32px); // minus controls
 }
 

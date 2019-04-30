@@ -8,10 +8,7 @@ import TextEditor, {
 } from '../presenters/text-editor';
 
 function mapStateToProps(state: RootState, ownProps: TextEditorOwnProps): TextEditorStoreProps {
-  const editorType = state.textEditor.selectedEditor;
-  return {
-    editorType,
-  };
+  return {};
 }
 
 function mapDispatchToProps(dispatch: Dispatch, ownProps: TextEditorOwnProps): TextEditorDispatchProps {

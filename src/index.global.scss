@@ -78,6 +78,10 @@ pre {
   // transition: width 220ms $standard-ease;
 }
 
+.Pane.vertical.Pane2 {
+  overflow: hidden;
+}
+
 button {
   background: inherit;
   color: inherit;

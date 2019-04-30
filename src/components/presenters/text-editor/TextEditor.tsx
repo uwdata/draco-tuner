@@ -4,13 +4,13 @@ import { Editor, EditorType } from '../../../reducers/text-editor-reducer';
 import { AspEditorPanelContainer, VegaLiteEditorContainer } from '../../containers';
 import './text-editor.css';
 
-export interface TextEditorStoreProps {
-  editorType: EditorType;
-}
+export interface TextEditorStoreProps {}
 
 export interface TextEditorDispatchProps {}
 
-export interface TextEditorOwnProps {}
+export interface TextEditorOwnProps {
+  editorType: EditorType;
+}
 
 export interface TextEditorProps extends TextEditorStoreProps, TextEditorDispatchProps, TextEditorOwnProps {}
 

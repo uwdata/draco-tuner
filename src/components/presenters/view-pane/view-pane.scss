@@ -1,0 +1,53 @@
+@import "base.scss";
+
+.pane-view {
+  @extend %flex-column;
+  @extend %full-width-height;
+}
+
+.bar {
+  @extend %flex-row;
+  @extend %in-flex-center-all;
+  width: 100%;
+  height: 24px;
+  background-color: $dark-purple;
+  color: #fff;
+  font-weight: 400;
+  font-size: 14px;
+  user-select: none;
+}
+
+.curr {
+  width: 100%;
+  height: 100%;
+
+  &:hover {
+    background-color: $medium-purple;
+  }
+}
+
+.options {
+  @extend %flex-column;
+  width: 100%;
+  min-width: 200px;
+  position: absolute;
+  z-index: 99;
+  top: 24px;
+  left: 0;
+  background-color: $dark-purple;
+
+  .option {
+    height: 24px;
+    width: 100%;
+
+    &:hover {
+      background-color: $medium-purple;
+    }
+  }
+}
+
+.view {
+  width: 100%;
+  height: calc(100% - 24px);
+  position: relative;
+}
