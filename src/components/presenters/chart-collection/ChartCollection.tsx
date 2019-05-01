@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import _ from 'lodash';
 import React from 'react';
+import { CollectionItemFilter, CollectionItemFilterObject } from '../../../model/index';
 import { ChartCardContainer, ChartEvalMinimapContainer } from '../../containers/index';
 import './chart-collection.css';
 
@@ -11,6 +12,7 @@ export interface ChartCollectionStoreProps {
 export interface ChartCollectionDispatchProps {
   reloadCharts: (runId: number) => void;
   addEmptyChart: () => void;
+  setPairFilters: (filters: CollectionItemFilterObject[]) => void;
 }
 export interface ChartCollectionOwnProps {}
 export interface ChartCollectionProps
@@ -23,6 +25,8 @@ export interface ChartCollectionState {
 }
 
 export default class ChartCollection extends React.PureComponent<ChartCollectionProps, ChartCollectionState> {
+  private prevFilters: CollectionItemFilterObject[];
+
   constructor(props: ChartCollectionProps) {
     super(props);
     this.state = {
@@ -30,6 +34,8 @@ export default class ChartCollection extends React.PureComponent<ChartCollection
     };
 
     this.toggleExpandChart = this.toggleExpandChart.bind(this);
+
+    this.prevFilters = [];
   }
 
   render() {
@@ -95,7 +101,18 @@ export default class ChartCollection extends React.PureComponent<ChartCollection
             </button>
           </div>
           <div styleName="button-container">
-            <input placeholder="filter" />
+            <input
+              placeholder="filter"
+              onChange={event => {
+                const val = event.target.value;
+                const filters = CollectionItemFilter.getObjectsFromString(val);
+
+                if (!_.isEqual(this.prevFilters, filters)) {
+                  this.prevFilters = filters;
+                  this.props.setPairFilters(filters);
+                }
+              }}
+            />
           </div>
         </div>
         <div styleName="view">

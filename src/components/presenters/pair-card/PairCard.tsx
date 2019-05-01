@@ -3,7 +3,7 @@ import _ from 'lodash';
 import * as React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
-import { PairEval, PairEvalType, PairObject } from '../../../model';
+import { CollectionItem, CollectionItemEval, CollectionItemEvalType, PairObject } from '../../../model';
 import { Editor, EditorType } from '../../../reducers/text-editor-reducer';
 import VegaLiteChart from '../vega-lite-chart';
 import './pair-card.css';
@@ -13,7 +13,7 @@ export interface PairCardStoreProps {
   right?: PairCardItem;
   comparator?: string;
   diffVector?: number[];
-  evalType?: PairEvalType;
+  evalType?: CollectionItemEvalType;
   focused?: boolean;
   finishedRunIds?: Set<number>;
   focusItem?: string;
@@ -159,6 +159,7 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
                   })}
                   onClick={() => {
                     const pair: PairObject = {
+                      type: CollectionItem.PAIR,
                       id: +this.props.id,
                       comparator: this.props.comparator,
                       left: {
@@ -193,9 +194,9 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
         style={{
           borderColor: this.props.focused
             ? Splinter.BLUE
-            : _.isUndefined(this.props.evalType) || this.props.evalType === PairEval.UNSAT
+            : _.isUndefined(this.props.evalType) || this.props.evalType === CollectionItemEval.UNSAT
             ? Splinter.GREY
-            : this.props.evalType === PairEval.PASS
+            : this.props.evalType === CollectionItemEval.PASS
             ? Splinter.GREEN
             : Splinter.RED,
         }}
@@ -220,7 +221,7 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
 interface SplinterProps {
   onClick: (...args: any[]) => void;
   vector?: number[];
-  evalType?: PairEvalType;
+  evalType?: CollectionItemEval;
 }
 
 interface SplinterState {}
@@ -247,13 +248,13 @@ export class Splinter extends React.PureComponent<SplinterProps, SplinterState> 
     let splinterColor = Splinter.WHITE;
     if (typeof this.props.evalType !== 'undefined') {
       switch (this.props.evalType) {
-        case PairEval.PASS:
+        case CollectionItemEval.PASS:
           splinterColor = Splinter.GREEN;
           break;
-        case PairEval.FAIL:
+        case CollectionItemEval.FAIL:
           splinterColor = Splinter.RED;
           break;
-        case PairEval.UNSAT:
+        case CollectionItemEval.UNSAT:
           splinterColor = Splinter.GREY;
           break;
       }

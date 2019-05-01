@@ -78,6 +78,10 @@ pre {
   // transition: width 220ms $standard-ease;
 }
 
+.SplitPane {
+  overflow: hidden;
+}
+
 .Pane.vertical.Pane2 {
   overflow: hidden;
 }

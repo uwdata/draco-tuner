@@ -1,5 +1,6 @@
 {
   "0": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -48,6 +49,7 @@
     "comparator": "<"
   },
   "1": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -96,6 +98,7 @@
     "comparator": "<"
   },
   "2": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -144,6 +147,7 @@
     "comparator": "<"
   },
   "3": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -192,6 +196,7 @@
     "comparator": "<"
   },
   "4": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "line",
@@ -240,6 +245,7 @@
     "comparator": "<"
   },
   "5": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "bar",
@@ -288,6 +294,7 @@
     "comparator": "<"
   },
   "6": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "area",
@@ -336,6 +343,7 @@
     "comparator": "<"
   },
   "7": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "bar",
@@ -392,6 +400,7 @@
     "comparator": "<"
   },
   "8": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -448,6 +457,7 @@
     "comparator": "<"
   },
   "9": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -504,6 +514,7 @@
     "comparator": "<"
   },
   "10": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -560,6 +571,7 @@
     "comparator": "<"
   },
   "11": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "line",
@@ -616,6 +628,7 @@
     "comparator": "<"
   },
   "12": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "area",
@@ -672,6 +685,7 @@
     "comparator": "<"
   },
   "13": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "bar",
@@ -728,6 +742,7 @@
     "comparator": "<"
   },
   "14": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -784,6 +799,7 @@
     "comparator": "<"
   },
   "15": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -840,6 +856,7 @@
     "comparator": "<"
   },
   "16": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -896,6 +913,7 @@
     "comparator": "<"
   },
   "17": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "line",
@@ -952,6 +970,7 @@
     "comparator": "<"
   },
   "18": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "area",
@@ -1008,6 +1027,7 @@
     "comparator": "<"
   },
   "19": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -1056,6 +1076,7 @@
     "comparator": "<"
   },
   "20": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -1104,6 +1125,7 @@
     "comparator": "<"
   },
   "21": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -1152,6 +1174,7 @@
     "comparator": "<"
   },
   "22": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -1200,6 +1223,7 @@
     "comparator": "<"
   },
   "23": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "line",
@@ -1248,6 +1272,7 @@
     "comparator": "<"
   },
   "24": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "bar",
@@ -1296,6 +1321,7 @@
     "comparator": "<"
   },
   "25": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "area",
@@ -1344,6 +1370,7 @@
     "comparator": "<"
   },
   "26": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "bar",
@@ -1402,6 +1429,7 @@
     "comparator": "<"
   },
   "27": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -1460,6 +1488,7 @@
     "comparator": "<"
   },
   "28": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -1518,6 +1547,7 @@
     "comparator": "<"
   },
   "29": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -1576,6 +1606,7 @@
     "comparator": "<"
   },
   "30": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "line",
@@ -1634,6 +1665,7 @@
     "comparator": "<"
   },
   "31": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "area",
@@ -1692,6 +1724,7 @@
     "comparator": "<"
   },
   "32": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -1740,6 +1773,7 @@
     "comparator": "<"
   },
   "33": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -1788,6 +1822,7 @@
     "comparator": "<"
   },
   "34": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -1836,6 +1871,7 @@
     "comparator": "<"
   },
   "35": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -1884,6 +1920,7 @@
     "comparator": "<"
   },
   "36": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "line",
@@ -1932,6 +1969,7 @@
     "comparator": "<"
   },
   "37": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "bar",
@@ -1980,6 +2018,7 @@
     "comparator": "<"
   },
   "38": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "area",
@@ -2028,6 +2067,7 @@
     "comparator": "<"
   },
   "39": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "line",
@@ -2086,6 +2126,7 @@
     "comparator": "<"
   },
   "40": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "area",
@@ -2144,6 +2185,7 @@
     "comparator": "<"
   },
   "41": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "bar",
@@ -2202,6 +2244,7 @@
     "comparator": "<"
   },
   "42": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -2260,6 +2303,7 @@
     "comparator": "<"
   },
   "43": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -2318,6 +2362,7 @@
     "comparator": "<"
   },
   "44": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -2382,6 +2427,7 @@
     "comparator": "<"
   },
   "45": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -2438,6 +2484,7 @@
     "comparator": "<"
   },
   "46": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -2494,6 +2541,7 @@
     "comparator": "<"
   },
   "47": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -2550,6 +2598,7 @@
     "comparator": "<"
   },
   "48": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "bar",
@@ -2608,6 +2657,7 @@
     "comparator": "<"
   },
   "49": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "bar",
@@ -2666,6 +2716,7 @@
     "comparator": "<"
   },
   "50": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "bar",
@@ -2724,6 +2775,7 @@
     "comparator": "<"
   },
   "51": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -2782,6 +2834,7 @@
     "comparator": "<"
   },
   "52": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "square",
@@ -2840,6 +2893,7 @@
     "comparator": "<"
   },
   "53": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "circle",
@@ -2898,6 +2952,7 @@
     "comparator": "<"
   },
   "54": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -2956,6 +3011,7 @@
     "comparator": "<"
   },
   "55": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -3014,6 +3070,7 @@
     "comparator": "<"
   },
   "56": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "line",
@@ -3072,6 +3129,7 @@
     "comparator": "<"
   },
   "57": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "area",
@@ -3130,6 +3188,7 @@
     "comparator": "<"
   },
   "58": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -3194,6 +3253,7 @@
     "comparator": "<"
   },
   "59": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -3258,6 +3318,7 @@
     "comparator": "<"
   },
   "60": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -3322,6 +3383,7 @@
     "comparator": "<"
   },
   "61": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -3386,6 +3448,7 @@
     "comparator": "<"
   },
   "62": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -3450,6 +3513,7 @@
     "comparator": "<"
   },
   "63": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "tick",
@@ -3514,6 +3578,7 @@
     "comparator": "<"
   },
   "64": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -3578,6 +3643,7 @@
     "comparator": "<"
   },
   "65": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -3642,6 +3708,7 @@
     "comparator": "<"
   },
   "66": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -3706,6 +3773,7 @@
     "comparator": "<"
   },
   "67": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -3770,6 +3838,7 @@
     "comparator": "<"
   },
   "68": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -3826,6 +3895,7 @@
     "comparator": "<"
   },
   "69": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -3882,6 +3952,7 @@
     "comparator": "<"
   },
   "70": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -3938,6 +4009,7 @@
     "comparator": "<"
   },
   "71": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -3996,6 +4068,7 @@
     "comparator": "<"
   },
   "72": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4052,6 +4125,7 @@
     "comparator": "<"
   },
   "73": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4108,6 +4182,7 @@
     "comparator": "<"
   },
   "74": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4164,6 +4239,7 @@
     "comparator": "<"
   },
   "75": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4222,6 +4298,7 @@
     "comparator": "<"
   },
   "76": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4278,6 +4355,7 @@
     "comparator": "<"
   },
   "77": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4334,6 +4412,7 @@
     "comparator": "<"
   },
   "78": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4390,6 +4469,7 @@
     "comparator": "<"
   },
   "79": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4448,6 +4528,7 @@
     "comparator": "<"
   },
   "80": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4504,6 +4585,7 @@
     "comparator": "<"
   },
   "81": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4560,6 +4642,7 @@
     "comparator": "<"
   },
   "82": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4616,6 +4699,7 @@
     "comparator": "<"
   },
   "83": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4674,6 +4758,7 @@
     "comparator": "<"
   },
   "84": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4730,6 +4815,7 @@
     "comparator": "<"
   },
   "85": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4786,6 +4872,7 @@
     "comparator": "<"
   },
   "86": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4842,6 +4929,7 @@
     "comparator": "<"
   },
   "87": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4900,6 +4988,7 @@
     "comparator": "<"
   },
   "88": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -4964,6 +5053,7 @@
     "comparator": "<"
   },
   "89": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -5028,6 +5118,7 @@
     "comparator": "<"
   },
   "90": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -5092,6 +5183,7 @@
     "comparator": "<"
   },
   "91": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -5156,6 +5248,7 @@
     "comparator": "<"
   },
   "92": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -5220,6 +5313,7 @@
     "comparator": "<"
   },
   "93": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",
@@ -5284,6 +5378,7 @@
     "comparator": "<"
   },
   "94": {
+    "type": "pair",
     "left": {
       "vlSpec": {
         "mark": "point",

@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { CollectionItem } from '../model/index';
 import { ChartDictionary } from '../reducers/chart-collection-reducer';
 
 export const EXAMPLE_PAIRS = require('./pairs.json');
@@ -12,6 +13,7 @@ export const EXAMPLE_CHARTS = _.uniqBy(
 
     const leftId = chartId.toString();
     list.push({
+      type: CollectionItem.CHART,
       id: leftId,
       vlSpec: left.vlSpec,
     });
@@ -19,6 +21,7 @@ export const EXAMPLE_CHARTS = _.uniqBy(
 
     const rightId = chartId.toString();
     list.push({
+      type: CollectionItem.CHART,
       id: rightId,
       vlSpec: right.vlSpec,
     });

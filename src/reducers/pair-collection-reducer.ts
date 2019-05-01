@@ -2,13 +2,20 @@ import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType } from 'typesafe-actions';
 import { PairCollectionAction, pairCollectionActions } from '../actions';
 import { EXAMPLE_PAIRS } from '../examples';
-import { Pair, PairEvalDeltaMapObject, PairEvalMapObject, PairFilterType, PairObject, SpecDictionary } from '../model';
+import {
+  CollectionItemFilterObject,
+  Pair,
+  PairEvalDeltaMapObject,
+  PairEvalMapObject,
+  PairObject,
+  SpecDictionary,
+} from '../model';
 
 export type PairsDictionary = { [id: string]: PairObject };
 
 export interface PairCollectionStore {
   pairs: PairsDictionary;
-  filters: PairFilterType[];
+  filters: CollectionItemFilterObject[];
   focusPair?: string;
   focusItem?: string;
   hoverPair?: string;
@@ -29,6 +36,7 @@ const pairsCollectionReducer = createReducer<PairCollectionStore, PairCollection
   [getType(pairCollectionActions.setPairs)]: setPairs,
   [getType(pairCollectionActions.toggleFocusPair)]: toggleFocusPair,
   [getType(pairCollectionActions.setPairFilters)]: setPairFilters,
+  [getType(pairCollectionActions.addPairFilters)]: addPairFilters,
   [getType(pairCollectionActions.toggleHoverPair)]: toggleHoverPair,
   [getType(pairCollectionActions.addEmptyPair)]: addEmptyPair,
   [getType(pairCollectionActions.toggleFocusPairItem)]: toggleFocusPairItem,
@@ -69,6 +77,13 @@ function setPairFilters(
   action: ActionType<typeof pairCollectionActions.setPairFilters>
 ): void {
   state.filters = action.payload;
+}
+
+function addPairFilters(
+  state: PairCollectionStore,
+  action: ActionType<typeof pairCollectionActions.setPairFilters>
+): void {
+  state.filters = state.filters.concat(action.payload);
 }
 
 function addEmptyPair(state: PairCollectionStore, action: ActionType<typeof pairCollectionActions.addEmptyPair>): void {

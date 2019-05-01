@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import _ from 'lodash';
 import * as React from 'react';
-import { PairFilter, PairFilterType } from '../../../model';
+import { CollectionItemFilter, CollectionItemFilterObject } from '../../../model';
 import { PairCardContainer, PairEvalMinimapContainer } from '../../containers';
 import './pair-collection.css';
 
@@ -15,7 +15,7 @@ export interface PairCollectionStoreProps {
 export interface PairCollectionDispatchProps {
   reloadPairs: (runId: number) => void;
   clearFocusPair: () => void;
-  setPairFilters: (filterTypes: PairFilterType[]) => void;
+  setPairFilters: (filterTypes: CollectionItemFilterObject[]) => void;
   addCheckpoint: () => void;
   addEmptyPair: () => void;
 }
@@ -33,7 +33,7 @@ export interface PairCollectionState {
 }
 
 export default class PairCollection extends React.PureComponent<PairCollectionProps, PairCollectionState> {
-  private prevFilterTypes: PairFilterType[];
+  private prevFilters: CollectionItemFilterObject[];
   private paneRef: React.RefObject<HTMLDivElement>;
 
   constructor(props: PairCollectionProps) {
@@ -46,7 +46,7 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
     this.paneRef = React.createRef();
 
     this.toggleSelectedPairs = this.toggleSelectedPairs.bind(this);
-    this.prevFilterTypes = [];
+    this.prevFilters = [];
   }
 
   render() {
@@ -151,11 +151,11 @@ export default class PairCollection extends React.PureComponent<PairCollectionPr
               placeholder="filter"
               onChange={event => {
                 const val = event.target.value;
-                const filterTypes = PairFilter.getTypesFromString(val);
+                const filters = CollectionItemFilter.getObjectsFromString(val);
 
-                if (!_.isEqual(this.prevFilterTypes, filterTypes)) {
-                  this.prevFilterTypes = filterTypes;
-                  this.props.setPairFilters(filterTypes);
+                if (!_.isEqual(this.prevFilters, filters)) {
+                  this.prevFilters = filters;
+                  this.props.setPairFilters(filters);
                 }
               }}
             />

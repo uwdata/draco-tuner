@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { createAction } from 'typesafe-actions';
-import { SpecDictionaryObject } from '../model/index';
+import { CollectionItemFilterObject, SpecDictionaryObject } from '../model/index';
 import { RootState } from '../reducers/index';
 import { solveChartsBegin } from './draco-worker-actions';
 
@@ -22,4 +22,12 @@ export const setCharts = createAction('chart-collection/SET_CHARTS', action => {
 
 export const addEmptyChart = createAction('chart-collection/ADD_EMPTY_CHART', action => {
   return () => action();
+});
+
+export const setChartFilters = createAction('chart-collection/SET_PAIR_FILTERS', action => {
+  return (filterTypes: CollectionItemFilterObject[]) => action(filterTypes);
+});
+
+export const addChartFilters = createAction('chart-collection/SET_PAIR_FILTERS', action => {
+  return (filterTypes: CollectionItemFilterObject[]) => action(filterTypes);
 });

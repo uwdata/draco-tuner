@@ -1,9 +1,10 @@
 import { PairsDictionary } from '../reducers/pair-collection-reducer';
+import { CollectionItemEval, CollectionItemEvalType } from './collection-item';
 import { ConstraintMapObject } from './constraint-map';
-import { Pair, PairEval, PairEvalType } from './pair';
+import { Pair } from './pair';
 
 export interface PairEvalMapObject {
-  [id: string]: PairEvalType;
+  [id: string]: CollectionItemEvalType;
 }
 
 export class PairEvalMap {
@@ -43,7 +44,7 @@ export class PairEvalMap {
   static toScore(evalMap: PairEvalMapObject): number {
     const score = Object.keys(evalMap).reduce((score, pairId) => {
       const pairEval = evalMap[pairId];
-      if (pairEval === PairEval.PASS) {
+      if (pairEval === CollectionItemEval.PASS) {
         return score + 1;
       }
       return score;
@@ -61,7 +62,7 @@ export class PairEvalDeltaMap {
   static toScore(evalDeltaMap: PairEvalDeltaMapObject): number {
     const score = Object.keys(evalDeltaMap).reduce((score, pairId) => {
       const { before, after } = evalDeltaMap[pairId];
-      return score + PairEval.toScore(after) - PairEval.toScore(before);
+      return score + CollectionItemEval.toScore(after) - CollectionItemEval.toScore(before);
     }, 0);
 
     return score;
@@ -69,6 +70,6 @@ export class PairEvalDeltaMap {
 }
 
 export interface PairEvalDelta {
-  before: PairEvalType;
-  after: PairEvalType;
+  before: CollectionItemEvalType;
+  after: CollectionItemEvalType;
 }

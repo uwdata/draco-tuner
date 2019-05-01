@@ -1,7 +1,7 @@
 import { AnyAction } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { createAction } from 'typesafe-actions';
-import { PairFilterType, SpecDictionaryObject } from '../model';
+import { CollectionItemFilterObject, SpecDictionaryObject } from '../model';
 import { RootState } from '../reducers';
 import { reloadPairsBegin } from './draco-worker-actions';
 
@@ -21,7 +21,11 @@ export const toggleFocusPair = createAction('pair-collection/TOGGLE_FOCUS_PAIR',
 });
 
 export const setPairFilters = createAction('pair-collection/SET_PAIR_FILTERS', action => {
-  return (filterTypes: PairFilterType[]) => action(filterTypes);
+  return (filterTypes: CollectionItemFilterObject[]) => action(filterTypes);
+});
+
+export const addPairFilters = createAction('pair-collection/SET_PAIR_FILTERS', action => {
+  return (filterTypes: CollectionItemFilterObject[]) => action(filterTypes);
 });
 
 export const toggleHoverPair = createAction('pair-collection/TOGGLE_HOVER_PAIR', action => {

@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { toggleShowEditor, updateStatus } from '../../actions/app-actions';
+import { toggleFocusConstraint } from '../../actions/constraint-tuner-actions';
 import { addConstraintEdit } from '../../actions/draco-actions';
 import { setEditorType } from '../../actions/text-editor-actions';
 import { ConstraintEditObject, ConstraintMap, DracoSolution, ViolationMap } from '../../model';
@@ -93,10 +94,13 @@ function mapStateToProps(state: RootState, props: ConstraintTunerOwnProps): Cons
     }
   }
 
+  const focusConstraint = state.constraintTuner.focusConstraint;
+
   return {
     constraints,
     focusLeftViolationCounts,
     focusRightViolationCounts,
+    focusConstraint,
   };
 }
 
@@ -111,6 +115,9 @@ function mapDispatchToProps(dispatch: Dispatch, props: ConstraintTunerOwnProps):
     },
     toggleShowEditor: (show: boolean): void => {
       dispatch(toggleShowEditor(show));
+    },
+    toggleFocusConstraint: (id: string, on: boolean) => {
+      dispatch(toggleFocusConstraint(id, on));
     },
   };
 }

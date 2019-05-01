@@ -3,7 +3,7 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { addCheckpoint, updateStatus } from '../../actions/app-actions';
 import { addEmptyPair, reloadPairsThunk, setPairFilters, toggleFocusPair } from '../../actions/pair-collection-actions';
-import { PairFilter, PairFilterType } from '../../model';
+import { CollectionItemFilter, CollectionItemFilterObject } from '../../model';
 import { RootState } from '../../reducers';
 import PairCollection, {
   PairCollectionDispatchProps,
@@ -13,12 +13,12 @@ import PairCollection, {
 
 function mapStateToProps(state: RootState, props: PairCollectionOwnProps) {
   const unfilteredPairIds = Object.keys(state.pairCollection.pairs).sort(id => +id);
-  const pairFilters = state.pairCollection.filters.map(type => PairFilter.fromType(type));
 
-  const pairIds = pairFilters.reduce((pairIds: string[], filterFn) => {
+  const pairIds = state.pairCollection.filters.reduce((pairIds: string[], filterObj) => {
+    const filterFn = CollectionItemFilter.fromObj(filterObj);
     return pairIds.filter(pairId => {
       const pair = state.pairCollection.pairs[pairId];
-      return filterFn(pair, { constraintMap: state.draco.constraintMap });
+      return filterFn(pair, { ...filterObj.opt, constraintMap: state.draco.constraintMap });
     });
   }, unfilteredPairIds);
 
@@ -41,7 +41,7 @@ function mapDispatchToProps(
   return {
     reloadPairs: (runId: number) => dispatch(reloadPairsThunk(runId)),
     clearFocusPair: () => dispatch(toggleFocusPair(null, false)),
-    setPairFilters: (filterTypes: PairFilterType[]) => dispatch(setPairFilters(filterTypes)),
+    setPairFilters: (filters: CollectionItemFilterObject[]) => dispatch(setPairFilters(filters)),
     addCheckpoint: () => {
       dispatch(addCheckpoint());
       dispatch(updateStatus());

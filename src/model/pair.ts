@@ -1,9 +1,10 @@
 import _ from 'lodash';
 import { PairCardItem } from '../components/presenters/pair-card/index';
+import { CollectionItem, CollectionItemEval, CollectionItemEvalType, CollectionItemObject } from './collection-item';
 import { ConstraintMapObject } from './constraint-map';
 import { Spec, SpecObject } from './spec';
 
-export interface PairObject {
+export interface PairObject extends CollectionItemObject {
   id: number;
   comparator: string;
   left: SpecObject;
@@ -20,6 +21,7 @@ export class Pair {
       left,
       right,
       comparator: '<',
+      type: CollectionItem.PAIR,
     };
   }
 
@@ -36,7 +38,7 @@ export class Pair {
     return items;
   }
 
-  static getEval(pair: PairObject, constraintMap: ConstraintMapObject): PairEvalType {
+  static getEval(pair: PairObject, constraintMap: ConstraintMapObject): CollectionItemEvalType {
     const leftCost = Spec.getCost(pair.left, constraintMap);
     const rightCost = Spec.getCost(pair.right, constraintMap);
 
@@ -45,42 +47,12 @@ export class Pair {
     }
 
     if (leftCost === Infinity) {
-      return PairEval.UNSAT;
+      return CollectionItemEval.UNSAT;
     }
 
     if (pair.comparator === '<') {
-      return PairEval.fromBoolean(leftCost < rightCost);
+      return CollectionItemEval.fromBoolean(leftCost < rightCost);
     }
-    return PairEval.fromBoolean(leftCost === rightCost);
+    return CollectionItemEval.fromBoolean(leftCost === rightCost);
   }
 }
-
-export class PairEval {
-  static PASS: 'pass' = 'pass';
-  static FAIL: 'fail' = 'fail';
-  static UNSAT: 'unsat' = 'unsat';
-
-  static fromBoolean(bool: boolean): PairEvalType {
-    switch (bool) {
-      case true:
-        return PairEval.PASS;
-      case false:
-        return PairEval.FAIL;
-      default:
-        return PairEval.UNSAT;
-    }
-  }
-
-  static toScore(pairEval: PairEvalType): number {
-    switch (pairEval) {
-      case PairEval.PASS:
-        return 1;
-      case undefined:
-      case PairEval.FAIL:
-      case PairEval.UNSAT:
-        return 0;
-    }
-  }
-}
-
-export type PairEvalType = typeof PairEval.PASS | typeof PairEval.FAIL | typeof PairEval.UNSAT;

@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { addEmptyChart, reloadChartsThunk } from '../../actions/chart-collection-actions';
+import { addEmptyChart, reloadChartsThunk, setChartFilters } from '../../actions/chart-collection-actions';
+import { CollectionItemFilter, CollectionItemFilterObject } from '../../model/index';
 import { RootState } from '../../reducers';
 import ChartCollection, {
   ChartCollectionDispatchProps,
@@ -10,7 +11,16 @@ import ChartCollection, {
 } from '../presenters/chart-collection';
 
 function mapStateToProps(state: RootState, ownProps: ChartCollectionOwnProps): ChartCollectionStoreProps {
-  const chartIds = Object.keys(state.chartCollection.charts).sort(id => +id);
+  const unfilteredChartIds = Object.keys(state.chartCollection.charts).sort(id => +id);
+
+  const chartIds = state.chartCollection.filters.reduce((chartIds: string[], filterObj) => {
+    const filterFn = CollectionItemFilter.fromObj(filterObj);
+    return chartIds.filter(chartId => {
+      const chart = state.chartCollection.charts[chartId];
+      return filterFn(chart, { ...filterObj.opt, constraintMap: state.draco.constraintMap });
+    });
+  }, unfilteredChartIds);
+
   const finishedRunIds = state.draco.finishedRunIds;
 
   return {
@@ -26,6 +36,7 @@ function mapDispatchToProps(
   return {
     reloadCharts: (runId: number) => dispatch(reloadChartsThunk(runId)),
     addEmptyChart: () => dispatch(addEmptyChart()),
+    setPairFilters: (filters: CollectionItemFilterObject[]) => dispatch(setChartFilters(filters)),
   };
 }
 

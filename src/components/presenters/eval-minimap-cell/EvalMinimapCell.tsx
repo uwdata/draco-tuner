@@ -1,13 +1,12 @@
 import classnames from 'classnames';
 import React from 'react';
-import { ChartEval, ChartEvalType } from '../../../model/chart';
-import { PairEval, PairEvalType } from '../../../model/pair';
+import { CollectionItemEval } from '../../../model';
 import { EvalMinimapType } from '../eval-minimap/EvalMinimap';
 import { Splinter } from '../pair-card/index';
 import './eval-minimap-cell.css';
 
 export interface EvalMinimapCellStoreProps {
-  evalType: PairEvalType | ChartEvalType;
+  evalType: CollectionItemEval;
   focused: boolean;
   important: boolean;
 }
@@ -32,15 +31,13 @@ export default class EvalMinimapCell extends React.PureComponent<EvalMinimapCell
   render() {
     let color;
     switch (this.props.evalType) {
-      case PairEval.PASS:
-      case ChartEval.PASS:
+      case CollectionItemEval.PASS:
         color = Splinter.GREEN;
         break;
-      case PairEval.FAIL:
-      case ChartEval.FAIL:
+      case CollectionItemEval.FAIL:
         color = Splinter.RED;
         break;
-      case PairEval.UNSAT:
+      case CollectionItemEval.UNSAT:
         color = Splinter.GREY;
         break;
       default:

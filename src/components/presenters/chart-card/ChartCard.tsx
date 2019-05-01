@@ -4,6 +4,7 @@ import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
 import { ChartObject } from '../../../model/chart';
+import { CollectionItem } from '../../../model/index';
 import { Editor, EditorType } from '../../../reducers/text-editor-reducer';
 import { Splinter } from '../pair-card/index';
 import VegaLiteChart from '../vega-lite-chart';
@@ -48,7 +49,7 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
 
   render() {
     const splinterColor =
-      this.props.cost === Infinity ? Splinter.RED : _.isUndefined(this.props.cost) ? Splinter.WHITE : Splinter.GREEN;
+      this.props.cost === Infinity ? Splinter.GREY : _.isUndefined(this.props.cost) ? Splinter.WHITE : Splinter.GREEN;
 
     let borderColor;
 
@@ -56,7 +57,7 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
       borderColor = Splinter.BLUE;
     } else {
       borderColor =
-        this.props.cost === Infinity ? Splinter.RED : _.isUndefined(this.props.cost) ? Splinter.GREY : Splinter.GREEN;
+        this.props.cost === Infinity ? Splinter.GREY : _.isUndefined(this.props.cost) ? Splinter.GREY : Splinter.GREEN;
     }
 
     const styleName = classnames({
@@ -116,6 +117,7 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
                 });
 
                 const chart: ChartObject = {
+                  type: CollectionItem.CHART,
                   vlSpec: this.props.vlSpec,
                   id: this.props.id,
                 };

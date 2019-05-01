@@ -42,6 +42,11 @@ export class App extends React.PureComponent<AppProps, State> {
       }
     }
 
+    if (!this.props.showCenter && !this.props.showLeft && !this.props.showRight) {
+      leftSize = '33%';
+      centerSize = '50%';
+    }
+
     return (
       <div styleName="app" id="app">
         <div styleName="navbar">

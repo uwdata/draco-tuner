@@ -1,36 +1,31 @@
 import _ from 'lodash';
+import { CollectionItem, CollectionItemEval, CollectionItemEvalType, CollectionItemObject } from './collection-item';
 import { ConstraintMapObject } from './constraint-map';
 import { Spec, SpecObject } from './spec';
 
-export interface ChartObject extends SpecObject {
+export interface ChartObject extends SpecObject, CollectionItemObject {
   id: string;
 }
 
 export class Chart {
-  static getEval = function(chart: ChartObject, constraintMap: ConstraintMapObject): ChartEvalType {
+  static getEval = function(chart: ChartObject, constraintMap: ConstraintMapObject): CollectionItemEvalType {
     if (_.isUndefined(chart.sol)) {
       return undefined;
     }
 
     const cost = Spec.getCost(chart, constraintMap);
     if (cost === Infinity) {
-      return ChartEval.FAIL;
+      return CollectionItemEval.UNSAT;
     }
 
-    return ChartEval.PASS;
+    return CollectionItemEval.PASS;
   };
 
   static getEmptyChart = function(id: string): ChartObject {
     return {
       id,
       ...Spec.getEmptySpec(),
+      type: CollectionItem.CHART,
     };
   };
 }
-
-export class ChartEval {
-  static PASS: 'pass' = 'pass';
-  static FAIL: 'fail' = 'fail';
-}
-
-export type ChartEvalType = typeof ChartEval.PASS | typeof ChartEval.FAIL;

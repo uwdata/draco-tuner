@@ -12,12 +12,14 @@ export interface ConstraintTunerStoreProps {
   constraints: Constraint[];
   focusLeftViolationCounts?: number[];
   focusRightViolationCounts?: number[];
+  focusConstraint?: string;
 }
 
 export interface ConstraintTunerDispatchProps {
   addConstraintEdit: (edit: ConstraintEdit) => void;
   switchToAspEditor: (editorType?: EditorType) => void;
   toggleShowEditor: (show: boolean) => void;
+  toggleFocusConstraint: (id: string, on: boolean) => void;
 }
 
 export interface ConstraintTunerOwnProps {}
@@ -79,13 +81,21 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
         }
       }
 
+      const isFocusedConstraint = this.props.focusConstraint === constraint.name;
       const styleNames = classnames({
         focused: focused && (hasLeftFocus || hasRightFocus),
         unfocused: !focused && (hasLeftFocus || hasRightFocus),
+        'is-focused-constraint': isFocusedConstraint,
       });
 
       return (
-        <tr key={constraint.name} styleName={styleNames}>
+        <tr
+          key={constraint.name}
+          styleName={styleNames}
+          onClick={() => {
+            this.props.toggleFocusConstraint(constraint.name, !isFocusedConstraint);
+          }}
+        >
           <td>{constraint.name}</td>
           <td>
             <input

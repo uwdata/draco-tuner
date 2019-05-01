@@ -39,18 +39,41 @@
     }
   }
 
-  tr.focused {
-    td,
-    input {
-      background-color: $light-blue;
-      border-color: $medium-grey;
-    }
-  }
+  tr {
+    cursor: pointer;
 
-  tr.unfocused {
-    td,
-    input {
-      background-color: #fff;
+    &:hover {
+      td,
+      input {
+        background-color: $medium-blue;
+      }
+    }
+
+    &.focused {
+      td,
+      input {
+        background-color: $light-blue;
+        border-color: $medium-grey;
+      }
+    }
+
+    &.is-focused-constraint {
+      td,
+      input {
+        background-color: $dark-blue;
+        color: #fff;
+      }
+
+      input {
+        border-color: #fff;
+      }
+    }
+
+    &.unfocused {
+      td,
+      input {
+        background-color: #fff;
+      }
     }
   }
 

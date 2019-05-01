@@ -2,7 +2,7 @@ import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType } from 'typesafe-actions';
 import { ChartCollectionAction, chartCollectionActions } from '../actions';
 import { EXAMPLE_CHARTS } from '../examples';
-import { Chart, ChartObject, SpecDictionary } from '../model';
+import { Chart, ChartObject, CollectionItemFilterObject, SpecDictionary } from '../model';
 
 export interface ChartDictionary {
   [id: string]: ChartObject;
@@ -11,16 +11,20 @@ export interface ChartDictionary {
 export interface ChartCollectionStore {
   charts: ChartDictionary;
   focusChart?: string;
+  filters: CollectionItemFilterObject[];
 }
 
 const initialState: ChartCollectionStore = {
   charts: EXAMPLE_CHARTS,
+  filters: [],
 };
 
 const chartCollectionReducer = createReducer<ChartCollectionStore, ChartCollectionAction>(initialState, {
   [getType(chartCollectionActions.setCharts)]: setCharts,
   [getType(chartCollectionActions.toggleFocusChart)]: toggleFocusChart,
   [getType(chartCollectionActions.addEmptyChart)]: addEmptyChart,
+  [getType(chartCollectionActions.setChartFilters)]: setChartFilters,
+  [getType(chartCollectionActions.addChartFilters)]: addChartFilters,
 });
 
 export default chartCollectionReducer;
@@ -52,4 +56,18 @@ function addEmptyChart(
 
   const id = (maxId + 1).toString();
   state.charts[id] = Chart.getEmptyChart(id);
+}
+
+function setChartFilters(
+  state: ChartCollectionStore,
+  action: ActionType<typeof chartCollectionActions.setChartFilters>
+): void {
+  state.filters = action.payload;
+}
+
+function addChartFilters(
+  state: ChartCollectionStore,
+  action: ActionType<typeof chartCollectionActions.addChartFilters>
+): void {
+  state.filters = state.filters.concat(action.payload);
 }
