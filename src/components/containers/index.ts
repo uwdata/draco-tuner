@@ -8,6 +8,7 @@ import ConstraintInspectorAspEditorContainer from './ConstraintInspectorAspEdito
 import ConstraintInspectorContainer from './ConstraintInspectorContainer';
 import ConstraintTunerAspEditorContainer from './ConstraintTunerAspEditorContainer';
 import ConstraintTunerContainer from './ConstraintTunerContainer';
+import ConstraintTunerDescriptionEditorContainer from './ConstraintTunerDescriptionEditorContainer';
 import EditTableContainer from './EditTableContainer';
 import NavbarContainer from './NavbarContainer';
 import PairCardContainer from './PairCardContainer';
@@ -38,4 +39,5 @@ export {
   ConstraintInspectorContainer,
   ConstraintInspectorAspEditorContainer,
   ConstraintTunerAspEditorContainer,
+  ConstraintTunerDescriptionEditorContainer,
 };

@@ -65,7 +65,7 @@ export default class EditTable extends React.PureComponent<EditTableProps, EditT
         );
       }
 
-      if (ConstraintEdit.isAspEdit(edit)) {
+      if (ConstraintEdit.isAspEdit(edit) || ConstraintEdit.isDescriptionEdit(edit)) {
         return (
           <tr
             key={i}

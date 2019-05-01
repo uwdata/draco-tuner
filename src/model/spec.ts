@@ -43,6 +43,7 @@ export class Spec {
   }
 
   static toAsp(spec: SpecObject, lock: boolean): string[] {
+    // @ts-ignore
     const result = vl2asp(spec.vlSpec);
     if (lock) {
       return lockasp(result);

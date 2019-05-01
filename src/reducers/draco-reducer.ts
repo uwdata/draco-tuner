@@ -110,6 +110,8 @@ function updateConstraintMap(state: DracoStore): void {
       state.constraintMap[edit.targetId].weight = edit.before;
     } else if (ConstraintEdit.isAspEdit(edit)) {
       state.constraintMap[edit.targetId].asp = edit.before;
+    } else if (ConstraintEdit.isDescriptionEdit(edit)) {
+      state.constraintMap[edit.targetId].description = edit.before;
     }
   });
 
@@ -118,6 +120,8 @@ function updateConstraintMap(state: DracoStore): void {
       state.constraintMap[edit.targetId].weight = edit.after;
     } else if (ConstraintEdit.isAspEdit(edit)) {
       state.constraintMap[edit.targetId].asp = edit.after;
+    } else if (ConstraintEdit.isDescriptionEdit(edit)) {
+      state.constraintMap[edit.targetId].description = edit.after;
     }
   });
 }

@@ -11,7 +11,11 @@ import {
   ConstraintEditObject,
 } from '../../../model/index';
 import { EditorType } from '../../../reducers/text-editor-reducer';
-import { ConstraintTunerAspEditorContainer, EditTableContainer } from '../../containers/index';
+import {
+  ConstraintTunerAspEditorContainer,
+  ConstraintTunerDescriptionEditorContainer,
+  EditTableContainer,
+} from '../../containers/index';
 import './constraint-tuner.css';
 
 export interface ConstraintTunerStoreProps {
@@ -174,7 +178,16 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
               })}
             >
               {this.props.focusConstraint ? (
-                <ConstraintTunerAspEditorContainer id={this.props.focusConstraint} />
+                <div styleName="editors">
+                  <div styleName="subtitle">Description</div>
+                  <div styleName="editor">
+                    <ConstraintTunerDescriptionEditorContainer id={this.props.focusConstraint} />
+                  </div>
+                  <div styleName="subtitle">Asp</div>
+                  <div styleName="editor">
+                    <ConstraintTunerAspEditorContainer id={this.props.focusConstraint} />
+                  </div>
+                </div>
               ) : null}
             </div>
             <div
