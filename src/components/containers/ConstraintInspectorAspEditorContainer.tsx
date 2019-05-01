@@ -13,7 +13,7 @@ function mapStateToProps(state: RootState, ownProps: AspEditorOwnProps): AspEdit
 
 function mapDispatchToProps(dispatch: Dispatch, ownProps: AspEditorOwnProps): AspEditorDispatchProps {
   return {
-    updateStoreCode: (code: string) => {
+    updateStoreCode: (code: string, before: string) => {
       dispatch(setAspClause(code, ownProps.id));
     },
   };

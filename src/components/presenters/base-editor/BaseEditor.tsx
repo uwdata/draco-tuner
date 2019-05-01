@@ -8,7 +8,7 @@ export interface BaseStoreProps {
 }
 
 export interface BaseDispatchProps {
-  updateStoreCode: (code: string, opt?: any) => void;
+  updateStoreCode: (code: string, before: string) => void;
 }
 
 export interface BaseOwnProps {}
@@ -76,7 +76,7 @@ export default abstract class BaseEditor<
   protected handleEditorChange(newValue: string, e: any) {
     window.clearTimeout(this.state.updateTimeoutId);
     const updateTimeoutId = window.setTimeout(() => {
-      this.props.updateStoreCode(newValue);
+      this.props.updateStoreCode(newValue, this.state.code);
       this.setState({ updateTimeoutId: undefined });
     }, BaseEditor.DEBOUNCE_DURATION);
     this.setState({

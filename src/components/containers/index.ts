@@ -6,6 +6,7 @@ import ChartEvalMinimapCellContainer from './ChartEvalMinimapCellContainer';
 import ChartEvalMinimapContainer from './ChartEvalMinimapContainer';
 import ConstraintInspectorAspEditorContainer from './ConstraintInspectorAspEditorContainer';
 import ConstraintInspectorContainer from './ConstraintInspectorContainer';
+import ConstraintTunerAspEditorContainer from './ConstraintTunerAspEditorContainer';
 import ConstraintTunerContainer from './ConstraintTunerContainer';
 import EditTableContainer from './EditTableContainer';
 import NavbarContainer from './NavbarContainer';
@@ -36,4 +37,5 @@ export {
   ViewPaneContainer,
   ConstraintInspectorContainer,
   ConstraintInspectorAspEditorContainer,
+  ConstraintTunerAspEditorContainer,
 };

@@ -13,11 +13,18 @@ export interface ConstraintCostEdit extends ConstraintEditBase {
   after: number;
 }
 
-export type ConstraintEditObject = ConstraintEditCheckpoint | ConstraintCostEdit;
+export interface ConstraintAspEdit extends ConstraintEditBase {
+  targetId: string;
+  before: string;
+  after: string;
+}
+
+export type ConstraintEditObject = ConstraintEditCheckpoint | ConstraintCostEdit | ConstraintAspEdit;
 
 export class ConstraintEdit {
   static COST: 'cost' = 'cost';
   static CHECKPOINT: 'checkpoint' = 'checkpoint';
+  static ASP: 'asp' = 'asp';
 
   static isCheckpoint(edit: ConstraintEditObject): edit is ConstraintEditCheckpoint {
     return edit.type === ConstraintEdit.CHECKPOINT;
@@ -26,6 +33,13 @@ export class ConstraintEdit {
   static isCostEdit(edit: ConstraintEditObject): edit is ConstraintCostEdit {
     return edit.type === ConstraintEdit.COST;
   }
+
+  static isAspEdit(edit: ConstraintEditObject): edit is ConstraintAspEdit {
+    return edit.type === ConstraintEdit.ASP;
+  }
 }
 
-export type ConstraintEditType = typeof ConstraintEdit.COST | typeof ConstraintEdit.CHECKPOINT;
+export type ConstraintEditType =
+  | typeof ConstraintEdit.COST
+  | typeof ConstraintEdit.CHECKPOINT
+  | typeof ConstraintEdit.ASP;

@@ -126,8 +126,8 @@ function setViewPane(state: AppStore, action: ActionType<typeof appActions.setVi
   }
 
   if (view === View.COLLECTION_CHARTS) {
-    state.collectionPane === Collection.CHARTS;
+    state.collectionPane = Collection.CHARTS;
   } else if (view === View.COLLECTION_PAIRS) {
-    state.collectionPane === Collection.PAIRS;
+    state.collectionPane = Collection.PAIRS;
   }
 }

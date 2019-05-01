@@ -21,7 +21,7 @@ function mapDispatchToProps(
   props: VegaLiteEditorOwnProps
 ): VegaLiteEditorDispatchProps {
   return {
-    updateStoreCode: (code: string) => dispatch(setVegaLiteCode(code)),
+    updateStoreCode: (code: string, before: string) => dispatch(setVegaLiteCode(code)),
   };
 }
 

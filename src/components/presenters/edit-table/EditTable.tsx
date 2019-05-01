@@ -64,6 +64,24 @@ export default class EditTable extends React.PureComponent<EditTableProps, EditT
           </tr>
         );
       }
+
+      if (ConstraintEdit.isAspEdit(edit)) {
+        return (
+          <tr
+            key={i}
+            styleName={styleNames}
+            onClick={() => {
+              this.props.revertToEdit(i);
+            }}
+          >
+            <td>{edit.type}</td>
+            <td>{edit.targetId}</td>
+            <td>{edit.before}</td>
+            <td>{edit.after}</td>
+            <td>--</td>
+          </tr>
+        );
+      }
     });
 
     return (

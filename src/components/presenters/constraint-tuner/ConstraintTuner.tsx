@@ -11,7 +11,7 @@ import {
   ConstraintEditObject,
 } from '../../../model/index';
 import { EditorType } from '../../../reducers/text-editor-reducer';
-import { EditTableContainer } from '../../containers/index';
+import { ConstraintTunerAspEditorContainer, EditTableContainer } from '../../containers/index';
 import './constraint-tuner.css';
 
 export interface ConstraintTunerStoreProps {
@@ -166,25 +166,37 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
     return (
       <div styleName="constraint-tuner">
         <SplitPane split="horizontal" primary="second" defaultSize={200} maxSize={400}>
-          <div
-            styleName="constraint-table-container"
-            tabIndex={0}
-            onClick={() => {
-              this.props.switchToAspEditor();
-              this.props.toggleShowEditor(true);
-            }}
-          >
-            <table styleName="constraint-table">
-              <tbody>
-                <tr key="header">
-                  <th>name</th>
-                  <th>cost</th>
-                  {hasLeftFocus ? <th>left # violations</th> : null}
-                  {hasRightFocus ? <th>right # violations</th> : null}
-                </tr>
-                {constraintRows}
-              </tbody>
-            </table>
+          <div styleName="constraints">
+            <div
+              styleName={classnames({
+                focus: true,
+                expanded: !_.isUndefined(this.props.focusConstraint),
+              })}
+            >
+              {this.props.focusConstraint ? (
+                <ConstraintTunerAspEditorContainer id={this.props.focusConstraint} />
+              ) : null}
+            </div>
+            <div
+              styleName="constraint-table-container"
+              tabIndex={0}
+              onClick={() => {
+                this.props.switchToAspEditor();
+                this.props.toggleShowEditor(true);
+              }}
+            >
+              <table styleName="constraint-table">
+                <tbody>
+                  <tr key="header">
+                    <th>name</th>
+                    <th>cost</th>
+                    {hasLeftFocus ? <th>left # violations</th> : null}
+                    {hasRightFocus ? <th>right # violations</th> : null}
+                  </tr>
+                  {constraintRows}
+                </tbody>
+              </table>
+            </div>
           </div>
           <EditTableContainer />
         </SplitPane>

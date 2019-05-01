@@ -108,12 +108,16 @@ function updateConstraintMap(state: DracoStore): void {
   state.edits.slice(0, editIndex).forEach(edit => {
     if (ConstraintEdit.isCostEdit(edit)) {
       state.constraintMap[edit.targetId].weight = edit.before;
+    } else if (ConstraintEdit.isAspEdit(edit)) {
+      state.constraintMap[edit.targetId].asp = edit.before;
     }
   });
 
   _.reverse(state.edits.slice(editIndex, state.edits.length)).forEach(edit => {
     if (ConstraintEdit.isCostEdit(edit)) {
       state.constraintMap[edit.targetId].weight = edit.after;
+    } else if (ConstraintEdit.isAspEdit(edit)) {
+      state.constraintMap[edit.targetId].asp = edit.after;
     }
   });
 }
