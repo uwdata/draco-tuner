@@ -1,5 +1,5 @@
 import Ajv from 'ajv';
-import Draco, { Options, SolutionSet, Violation, vl2asp } from 'draco-vis';
+import Draco, { lockasp, Options, SolutionSet, Violation, vl2asp } from 'draco-vis';
 import _ from 'lodash';
 import { TopLevelSpec } from 'vega-lite/build/src/spec';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
@@ -32,21 +32,26 @@ export class Spec {
     return !!vegaLiteValidator(vlSpec);
   }
 
-  static dracoSolve(spec: SpecObject, draco: Draco, opt?: Options): SpecObject {
+  static dracoSolve(spec: SpecObject, draco: Draco, lock: boolean, opt?: Options): SpecObject {
     const result = _.clone(spec);
-    const sol = draco.solve(Spec.toAspString(spec), opt);
+    const aspQuery = Spec.toAspString(spec, lock);
+
+    const sol = draco.solve(aspQuery, opt);
 
     result.sol = DracoSolution.fromSolutionSet(sol);
     return result;
   }
 
-  static toAsp(spec: SpecObject): string[] {
+  static toAsp(spec: SpecObject, lock: boolean): string[] {
     const result = vl2asp(spec.vlSpec);
+    if (lock) {
+      return lockasp(result);
+    }
     return result;
   }
 
-  static toAspString(spec: SpecObject): string {
-    const result = aspToString(Spec.toAsp(spec));
+  static toAspString(spec: SpecObject, lock: boolean): string {
+    const result = aspToString(Spec.toAsp(spec, lock));
     return result;
   }
 

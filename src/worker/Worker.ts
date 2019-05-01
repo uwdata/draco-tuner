@@ -29,7 +29,7 @@ function handleAction(action: DracoWorkerAction) {
     case getType(dracoWorkerActions.reloadPairsBegin):
     case getType(dracoWorkerActions.solvePairsBegin):
       {
-        const solvedSpecDict = solveSpecs(action.payload.specDict, action.payload.aspProgramStrings);
+        const solvedSpecDict = solveSpecs(action.payload.specDict, action.payload.aspProgramStrings, true);
         ctx.postMessage({
           type: getType(pairCollectionActions.setPairs),
           payload: {
@@ -41,7 +41,7 @@ function handleAction(action: DracoWorkerAction) {
       break;
     case getType(dracoWorkerActions.solveChartsBegin):
       {
-        const solvedSpecDict = solveSpecs(action.payload.specDict, action.payload.aspProgramStrings);
+        const solvedSpecDict = solveSpecs(action.payload.specDict, action.payload.aspProgramStrings, true);
         ctx.postMessage({
           type: getType(chartCollectionActions.setCharts),
           payload: {
@@ -55,13 +55,13 @@ function handleAction(action: DracoWorkerAction) {
   }
 }
 
-function solveSpecs(specDict: SpecDictionary, asp: { [s: string]: string }): SpecDictionary {
+function solveSpecs(specDict: SpecDictionary, asp: { [s: string]: string }, lock: boolean): SpecDictionary {
   const result: SpecDictionary = {};
   draco.updateAsp(asp);
   for (const id of Object.keys(specDict)) {
     const spec = specDict[id];
     const newOptions = { ...dracoOptions, models: 1, weights: [{ name: 'max_extra_encs', value: 0 }] };
-    const solvedSpec = Spec.dracoSolve(spec, draco, newOptions);
+    const solvedSpec = Spec.dracoSolve(spec, draco, lock, newOptions);
     result[id] = solvedSpec;
   }
 
