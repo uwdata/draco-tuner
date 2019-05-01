@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import { ChartDictionary } from '../reducers/chart-collection-reducer';
 import { PairsDictionary } from '../reducers/pair-collection-reducer';
+import { CollectionItem } from './collection-item';
 import { PairObject } from './pair';
 import { SpecObject } from './spec';
 
@@ -26,6 +27,7 @@ export class SpecDictionary {
       const chart = {
         ...spec,
         id,
+        type: CollectionItem.CHART,
       };
 
       result[id] = chart;
