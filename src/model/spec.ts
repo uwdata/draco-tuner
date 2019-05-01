@@ -64,6 +64,9 @@ export class Spec {
     const cost = Object.keys(sol.violations).reduce((c, vname) => {
       const numViolations = sol.violations[vname].length;
       const weight = constraintMap[vname].weight;
+      if (_.isUndefined(weight)) {
+        return Infinity;
+      }
       return c + weight * numViolations;
     }, 0);
 

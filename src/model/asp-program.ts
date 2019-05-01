@@ -14,15 +14,15 @@ export interface AspProgramsObject {
 }
 
 export class AspPrograms {
-  static SOFT_DEFINE: 'softdefine' = 'softdefine';
-  static SOFT_WEIGHTS: 'softweights' = 'softweights';
-  static SOFT_ASSIGN: 'softassign' = 'softassign';
-  static HARD_DEFINE: 'harddefine' = 'harddefine';
-  static HARD_INTEGRITY: 'hardintegrity' = 'hardintegrity';
-  static DEFINE: 'define' = 'define';
-  static OPTIMIZE: 'optimize' = 'optimize';
-  static OUTPUT: 'output' = 'output';
-  static TOPK_LUA: 'topklua' = 'topklua';
+  static SOFT_DEFINE: 'SOFT' = 'SOFT';
+  static SOFT_WEIGHTS: 'WEIGHTS' = 'WEIGHTS';
+  static SOFT_ASSIGN: 'ASSIGN_WEIGHTS' = 'ASSIGN_WEIGHTS';
+  static HARD_DEFINE: 'HARD' = 'HARD';
+  static HARD_INTEGRITY: 'HARD_INTEGRITY' = 'HARD_INTEGRITY';
+  static DEFINE: 'DEFINE' = 'DEFINE';
+  static OPTIMIZE: 'OPTIMIZE' = 'OPTIMIZE';
+  static OUTPUT: 'OUTPUT' = 'OUTPUT';
+  static TOPK_LUA: 'TOPK_LUA' = 'TOPK_LUA';
 
   static getTypes(): AspProgramsType[] {
     return [
@@ -36,6 +36,19 @@ export class AspPrograms {
       AspPrograms.OUTPUT,
       AspPrograms.TOPK_LUA,
     ];
+  }
+
+  static toStringDict(aspPrograms: AspProgramsObject): { [s: string]: string } {
+    const programs = AspPrograms.getTypes().reduce(
+      (dict, type) => {
+        const program = AspPrograms.getProgramFromType(aspPrograms, type);
+        dict[type] = program;
+        return dict;
+      },
+      {} as any
+    );
+
+    return programs;
   }
 
   static getProgramFromType(aspPrograms: AspProgramsObject, aspType: AspProgramsType): string {

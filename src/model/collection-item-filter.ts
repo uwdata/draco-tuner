@@ -54,22 +54,22 @@ export class CollectionItemFilter {
   }
 
   static BY_PASS_TYPE: 'bypass' = 'bypass';
-  static byPass(item: CollectionItemObject, opt?: { constraintMap: ConstraintMapObject }): boolean {
+  static byPass(item: CollectionItemObject, opt?: CollectionItemFilterOptObject): boolean {
     return byEvalType(item, CollectionItemEval.PASS, opt);
   }
 
   static BY_FAIL_TYPE: 'byfail' = 'byfail';
-  static byFail(item: CollectionItemObject, opt?: { constraintMap: ConstraintMapObject }): boolean {
+  static byFail(item: CollectionItemObject, opt?: CollectionItemFilterOptObject): boolean {
     return byEvalType(item, CollectionItemEval.FAIL, opt);
   }
 
   static BY_UNSAT_TYPE: 'byunsat' = 'byunsat';
-  static byUnsat(item: CollectionItemObject, opt?: { constraintMap: ConstraintMapObject }): boolean {
+  static byUnsat(item: CollectionItemObject, opt?: CollectionItemFilterOptObject): boolean {
     return byEvalType(item, CollectionItemEval.UNSAT, opt);
   }
 
   static BY_CONSTRAINTS: 'byconstraints' = 'byconstraints';
-  static byConstraints(item: CollectionItemObject, opt?: { constraintList: string[] }): boolean {
+  static byConstraints(item: CollectionItemObject, opt?: CollectionItemFilterOptObject): boolean {
     const violationMap = CollectionItem.getViolationMap(item);
     return opt.constraintList.every(name => {
       return violationMap.hasOwnProperty(name);
@@ -80,7 +80,7 @@ export class CollectionItemFilter {
 function byEvalType(
   item: CollectionItemObject,
   evalType: CollectionItemEvalType,
-  opt?: { constraintMap: ConstraintMapObject }
+  opt?: CollectionItemFilterOptObject
 ): boolean {
   if (_.isUndefined(opt) || _.isUndefined(opt.constraintMap)) {
     throw new Error('Filter requires a constraintMap in opt.');

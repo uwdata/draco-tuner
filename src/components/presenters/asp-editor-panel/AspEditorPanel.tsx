@@ -51,7 +51,7 @@ export default class AspEditorPanel extends React.PureComponent<AspEditorPanelPr
 
       return (
         <div styleName={styleName} key={file}>
-          <AspEditorContainer programType={file} />
+          <AspEditorContainer id={file} />
         </div>
       );
     });

@@ -1,12 +1,11 @@
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
-import { setAspCode } from '../../actions/text-editor-actions';
-import { AspPrograms, AspProgramsType } from '../../model/asp-program';
+import { setAspClause } from '../../actions/constraint-inspector-actions';
 import { RootState } from '../../reducers';
 import AspEditor, { AspEditorDispatchProps, AspEditorOwnProps, AspEditorStoreProps } from '../presenters/asp-editor';
 
 function mapStateToProps(state: RootState, ownProps: AspEditorOwnProps): AspEditorStoreProps {
-  const code = AspPrograms.getProgramFromType(state.textEditor.asp, ownProps.id as AspProgramsType);
+  const code = state.constraintInspector.aspClauses[ownProps.id].code;
   return {
     code,
   };
@@ -15,7 +14,7 @@ function mapStateToProps(state: RootState, ownProps: AspEditorOwnProps): AspEdit
 function mapDispatchToProps(dispatch: Dispatch, ownProps: AspEditorOwnProps): AspEditorDispatchProps {
   return {
     updateStoreCode: (code: string) => {
-      dispatch(setAspCode(code, ownProps.id as AspProgramsType));
+      dispatch(setAspClause(code, ownProps.id));
     },
   };
 }

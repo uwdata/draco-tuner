@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import { toggleShowEditor } from '../../actions/app-actions';
-import { solvePairsBegin } from '../../actions/draco-worker-actions';
-import { toggleFocusPair, toggleFocusPairItem } from '../../actions/pair-collection-actions';
+import { solvePairsThunk, toggleFocusPair, toggleFocusPairItem } from '../../actions/pair-collection-actions';
 import { setEditorType, setVegaLiteCode } from '../../actions/text-editor-actions';
 import { Pair, PairObject } from '../../model/pair';
 import { RootState } from '../../reducers';
@@ -36,10 +36,10 @@ function mapStateToProps(rootState: RootState, props: PairCardOwnProps): PairCar
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch, props: PairCardOwnProps) {
+function mapDispatchToProps(dispatch: ThunkDispatch<{}, {}, AnyAction>, props: PairCardOwnProps) {
   return {
     solvePair: (pair: PairObject, runId: number) => {
-      dispatch(solvePairsBegin([pair], runId));
+      dispatch(solvePairsThunk([pair], runId));
     },
     toggleFocusPair: (id: string, on: boolean) => {
       dispatch(toggleFocusPair(id, on));

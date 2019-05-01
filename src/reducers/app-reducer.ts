@@ -22,6 +22,7 @@ export class View {
   static COLLECTION_CHARTS: 'collection-charts' = 'collection-charts';
   static COLLECTION_PAIRS: 'collection-pairs' = 'collection-pairs';
   static CONSTRAINT_TUNER: 'constraint-tuner' = 'constraint-tuner';
+  static CONSTRAINT_INSPECTOR: 'constraint-inspector' = 'constraint-inspector';
   static EDITOR_VEGALITE: 'editor-vegalite' = 'editor-vegalite';
   static EDITOR_ASP: 'editor-asp' = 'editor-asp';
   static HIDDEN: 'hidden' = 'hidden';
@@ -31,6 +32,7 @@ export class View {
     View.COLLECTION_CHARTS,
     View.COLLECTION_PAIRS,
     View.CONSTRAINT_TUNER,
+    View.CONSTRAINT_INSPECTOR,
     View.EDITOR_VEGALITE,
     View.EDITOR_ASP,
     View.NONE,
@@ -45,6 +47,8 @@ export class View {
         return 'Pair Collection';
       case View.CONSTRAINT_TUNER:
         return 'Constraint Tuner';
+      case View.CONSTRAINT_INSPECTOR:
+        return 'Constraint Inspector';
       case View.EDITOR_VEGALITE:
         return 'Vega-Lite Editor';
       case View.EDITOR_ASP:
@@ -61,6 +65,7 @@ export type ViewType =
   | typeof View.COLLECTION_CHARTS
   | typeof View.COLLECTION_PAIRS
   | typeof View.CONSTRAINT_TUNER
+  | typeof View.CONSTRAINT_INSPECTOR
   | typeof View.EDITOR_VEGALITE
   | typeof View.EDITOR_ASP
   | typeof View.HIDDEN
@@ -79,7 +84,7 @@ const initialState: AppStore = {
   showEditor: false,
   showCollection: true,
   collectionPane: Collection.CHARTS,
-  viewLeft: View.NONE,
+  viewLeft: View.CONSTRAINT_INSPECTOR,
   viewCenter: View.COLLECTION_CHARTS,
   viewRight: View.CONSTRAINT_TUNER,
 };

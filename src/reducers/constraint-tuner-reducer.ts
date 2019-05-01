@@ -1,6 +1,6 @@
 import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType } from 'typesafe-actions';
-import { ConstraintTunerActions, constraintTunerActions } from '../actions';
+import { ConstraintTunerAction, constraintTunerActions } from '../actions';
 
 export interface ConstraintTunerStore {
   focusConstraint?: string;
@@ -8,7 +8,7 @@ export interface ConstraintTunerStore {
 
 const initialState = {};
 
-const constraintTunerReducer = createReducer<ConstraintTunerStore, ConstraintTunerActions>(initialState, {
+const constraintTunerReducer = createReducer<ConstraintTunerStore, ConstraintTunerAction>(initialState, {
   [getType(constraintTunerActions.toggleFocusConstraint)]: toggleFocusConstraint,
 });
 

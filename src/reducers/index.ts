@@ -24,6 +24,7 @@ import {
 } from '../model/index';
 import appReducer, { Collection } from './app-reducer';
 import chartCollectionReducer from './chart-collection-reducer';
+import constraintInspecorReducer from './constraint-inspector-reducer';
 import constraintTunerReducer from './constraint-tuner-reducer';
 import dracoReducer from './draco-reducer';
 import pairCollectionReducer from './pair-collection-reducer';
@@ -36,6 +37,7 @@ const combinedReducers = combineReducers({
   app: appReducer,
   chartCollection: chartCollectionReducer,
   constraintTuner: constraintTunerReducer,
+  constraintInspector: constraintInspecorReducer,
 });
 
 type CombinedState = StateType<typeof combinedReducers>;

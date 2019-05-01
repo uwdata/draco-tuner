@@ -1,7 +1,8 @@
 import { AnyAction } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { createAction } from 'typesafe-actions';
-import { CollectionItemFilterObject, SpecDictionaryObject } from '../model/index';
+import { AspPrograms, CollectionItemFilterObject, SpecDictionaryObject } from '../model/index';
+import { ChartDictionary } from '../reducers/chart-collection-reducer';
 import { RootState } from '../reducers/index';
 import { solveChartsBegin } from './draco-worker-actions';
 
@@ -11,8 +12,19 @@ export const toggleFocusChart = createAction('chart-collection/TOGGLE_FOCUS_CHAR
 
 export const reloadChartsThunk = (runId: number): ThunkAction<void, {}, {}, AnyAction> => {
   return (dispatch: ThunkDispatch<{}, {}, AnyAction>, getState: () => RootState) => {
-    const charts = getState().chartCollection.charts;
-    dispatch(solveChartsBegin(charts, runId));
+    const state = getState();
+    const charts = state.chartCollection.charts;
+    const aspProgramStrings = AspPrograms.toStringDict(state.textEditor.asp);
+
+    dispatch(solveChartsBegin(charts, runId, aspProgramStrings));
+  };
+};
+
+export const solveChartsThunk = (charts: ChartDictionary, runId: number): ThunkAction<void, {}, {}, AnyAction> => {
+  return (dispatch: ThunkDispatch<{}, {}, AnyAction>, getState: () => RootState) => {
+    const state = getState();
+    const aspProgramStrings = AspPrograms.toStringDict(state.textEditor.asp);
+    dispatch(solveChartsBegin(charts, runId, aspProgramStrings));
   };
 };
 

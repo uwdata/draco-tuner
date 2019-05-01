@@ -1,0 +1,39 @@
+@import "base.scss";
+
+.constraint-inspector {
+  @extend %flex-column;
+  @extend %full-width-height;
+}
+
+.section {
+  @extend %flex-column;
+  width: 100%;
+  align-items: center;
+}
+
+.clause {
+  @extend %flex-column;
+  width: 100%;
+}
+
+.editor {
+  @extend %flex-column;
+  width: 100%;
+  height: 40px;
+}
+
+.subsection-title {
+  @extend %flex-row;
+
+  box-sizing: border-box;
+  align-items: center;
+  width: 100%;
+  height: 32px;
+  padding-left: 16px;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.button-container {
+  @extend %button-container;
+}

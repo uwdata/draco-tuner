@@ -1,14 +1,24 @@
 import { AnyAction } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { createAction } from 'typesafe-actions';
-import { CollectionItemFilterObject, SpecDictionaryObject } from '../model';
+import { AspPrograms, CollectionItemFilterObject, PairObject, SpecDictionaryObject } from '../model';
 import { RootState } from '../reducers';
-import { reloadPairsBegin } from './draco-worker-actions';
+import { reloadPairsBegin, solvePairsBegin } from './draco-worker-actions';
 
 export const reloadPairsThunk = (runId: number): ThunkAction<void, {}, {}, AnyAction> => {
   return (dispatch: ThunkDispatch<{}, {}, AnyAction>, getState: () => RootState) => {
-    const pairs = getState().pairCollection.pairs;
-    dispatch(reloadPairsBegin(pairs, runId));
+    const state = getState();
+    const pairs = state.pairCollection.pairs;
+    const aspProgramStrings = AspPrograms.toStringDict(state.textEditor.asp);
+    dispatch(reloadPairsBegin(pairs, runId, aspProgramStrings));
+  };
+};
+
+export const solvePairsThunk = (pairs: PairObject[], runId: number): ThunkAction<void, {}, {}, AnyAction> => {
+  return (dispatch: ThunkDispatch<{}, {}, AnyAction>, getState: () => RootState) => {
+    const state = getState();
+    const aspProgramStrings = AspPrograms.toStringDict(state.textEditor.asp);
+    dispatch(solvePairsBegin(pairs, runId, aspProgramStrings));
   };
 };
 

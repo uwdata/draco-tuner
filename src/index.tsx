@@ -16,7 +16,17 @@ const createStoreWithMiddleware = applyMiddleware(
   // @ts-ignore
 )(createStore);
 
-export const store = createStoreWithMiddleware(rootReducer);
+const persistedJSON = localStorage.getItem('reduxState');
+const persistedState = persistedJSON ? JSON.parse(persistedJSON) : undefined;
+if (persistedState) {
+  persistedState.draco.finishedRunIds = new Set<number>();
+}
+
+export const store = createStoreWithMiddleware(rootReducer, persistedState);
+
+store.subscribe(() => {
+  localStorage.setItem('reduxState', JSON.stringify(store.getState()));
+});
 
 export const withReduxSettings = {
   Provider,
@@ -25,6 +35,7 @@ export const withReduxSettings = {
 
 // @ts-ignore
 window.store = store;
+(window as any).runId = 0;
 
 render(
   <Provider store={store}>

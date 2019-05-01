@@ -146,6 +146,9 @@ export default connect<ConstraintTunerStoreProps, ConstraintTunerDispatchProps, 
 function extractSortWeight(violations: ViolationMap, multiplier: boolean) {
   return (c: Constraint) => {
     if (violations.hasOwnProperty(c.name)) {
+      if (_.isUndefined(c.weight)) {
+        return -Infinity;
+      }
       return -violations[c.name].length * (multiplier ? c.weight : 1);
     }
     return 0;

@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { AnyAction } from 'redux';
+import { ThunkDispatch } from 'redux-thunk';
 import { toggleShowEditor } from '../../actions/app-actions';
-import { toggleFocusChart } from '../../actions/chart-collection-actions';
-import { solveChartsBegin } from '../../actions/draco-worker-actions';
+import { solveChartsThunk, toggleFocusChart } from '../../actions/chart-collection-actions';
 import { setEditorType, setVegaLiteCode } from '../../actions/text-editor-actions';
 import { ChartObject } from '../../model/chart';
 import { Spec } from '../../model/spec';
@@ -25,12 +25,15 @@ function mapStateToProps(state: RootState, ownProps: ChartCardOwnProps): ChartCa
   };
 }
 
-function mapDispatchToProps(dispatch: Dispatch, ownProps: ChartCardOwnProps): ChartCardDispatchProps {
+function mapDispatchToProps(
+  dispatch: ThunkDispatch<{}, {}, AnyAction>,
+  ownProps: ChartCardOwnProps
+): ChartCardDispatchProps {
   return {
     solveChart: (chart: ChartObject, runId: number) => {
       const chartDict: ChartDictionary = {};
       chartDict[chart.id] = chart;
-      dispatch(solveChartsBegin(chartDict, runId));
+      dispatch(solveChartsThunk(chartDict, runId));
     },
     toggleFocusChart: (id: string, on: boolean) => {
       dispatch(toggleFocusChart(id, on));

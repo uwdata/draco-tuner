@@ -3,6 +3,7 @@ import { View, ViewPositionType, ViewType } from '../../../reducers/app-reducer'
 import { Editor } from '../../../reducers/text-editor-reducer';
 import {
   ChartCollectionContainer,
+  ConstraintInspectorContainer,
   ConstraintTunerContainer,
   PairCollectionContainer,
   TextEditorContainer,
@@ -91,6 +92,8 @@ function getComponentFromViewType(type: ViewType) {
       return <PairCollectionContainer />;
     case View.CONSTRAINT_TUNER:
       return <ConstraintTunerContainer />;
+    case View.CONSTRAINT_INSPECTOR:
+      return <ConstraintInspectorContainer />;
     case View.EDITOR_VEGALITE:
       return <TextEditorContainer editorType={Editor.VEGA_LITE} />;
     case View.EDITOR_ASP:

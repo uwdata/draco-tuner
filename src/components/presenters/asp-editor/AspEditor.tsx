@@ -1,4 +1,3 @@
-import { AspProgramsType } from '../../../model/asp-program';
 import BaseEditor, { BaseDispatchProps, BaseEditorState, BaseStoreProps } from '../base-editor/BaseEditor';
 import { ASP_FORMAT, ASP_THEME } from './asp';
 
@@ -9,7 +8,7 @@ export interface AspEditorStoreProps extends BaseStoreProps {
 export interface AspEditorDispatchProps extends BaseDispatchProps {}
 
 export interface AspEditorOwnProps {
-  programType: AspProgramsType;
+  id: string;
 }
 
 export interface AspEditorProps extends AspEditorStoreProps, AspEditorDispatchProps, AspEditorOwnProps {}
