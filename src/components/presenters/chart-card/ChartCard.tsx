@@ -66,21 +66,29 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
     });
 
     return (
-      <div styleName={styleName} style={{ borderColor }} ref={this.cardRef}>
+      <div
+        styleName={styleName}
+        style={{ borderColor }}
+        ref={this.cardRef}
+        onClick={() => {
+          const willFocus = !this.props.focused;
+
+          this.props.toggleFocusChart(this.props.id, willFocus);
+          if (willFocus) {
+            this.props.setVegaLiteEditorCode(JSON.stringify(this.props.vlSpec, null, 2));
+            this.props.setEditorType(Editor.VEGA_LITE);
+            this.props.toggleShowEditor(true);
+          } else {
+            this.props.toggleShowEditor(false);
+          }
+        }}
+      >
         <div
           styleName="splinter"
           style={{ backgroundColor: splinterColor }}
           onClick={() => {
             const expand = !(this.props.expanded || this.props.focused);
             this.props.toggleExpandChart(this.props.id, expand);
-            this.props.toggleFocusChart(this.props.id, expand);
-            if (expand) {
-              this.props.setVegaLiteEditorCode(JSON.stringify(this.props.vlSpec, null, 2));
-              this.props.setEditorType(Editor.VEGA_LITE);
-              this.props.toggleShowEditor(true);
-            } else {
-              this.props.toggleShowEditor(false);
-            }
           }}
         />
         <VisibilitySensor

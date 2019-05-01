@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType } from 'typesafe-actions';
 import { PairCollectionAction, pairCollectionActions } from '../actions';
@@ -37,6 +38,7 @@ const pairsCollectionReducer = createReducer<PairCollectionStore, PairCollection
   [getType(pairCollectionActions.toggleFocusPair)]: toggleFocusPair,
   [getType(pairCollectionActions.setPairFilters)]: setPairFilters,
   [getType(pairCollectionActions.addPairFilters)]: addPairFilters,
+  [getType(pairCollectionActions.removePairFilters)]: removePairFilters,
   [getType(pairCollectionActions.toggleHoverPair)]: toggleHoverPair,
   [getType(pairCollectionActions.addEmptyPair)]: addEmptyPair,
   [getType(pairCollectionActions.toggleFocusPairItem)]: toggleFocusPairItem,
@@ -111,4 +113,15 @@ function toggleFocusPairItem(
     state.focusPair = action.payload.pairId;
     state.focusItem = action.payload.position;
   }
+}
+
+function removePairFilters(
+  state: PairCollectionStore,
+  action: ActionType<typeof pairCollectionActions.removePairFilters>
+): void {
+  state.filters = state.filters.filter(filter => {
+    action.payload.every(toRemove => {
+      return !_.isEqual(toRemove, filter);
+    });
+  });
 }

@@ -48,6 +48,8 @@ export class CollectionItemFilter {
         return CollectionItemFilter.byFail;
       case CollectionItemFilter.BY_UNSAT_TYPE:
         return CollectionItemFilter.byUnsat;
+      case CollectionItemFilter.BY_CONSTRAINTS:
+        return CollectionItemFilter.byConstraints;
     }
   }
 
@@ -67,7 +69,7 @@ export class CollectionItemFilter {
   }
 
   static BY_CONSTRAINTS: 'byconstraints' = 'byconstraints';
-  static byConstraint(item: CollectionItemObject, opt?: { constraintList: string[] }): boolean {
+  static byConstraints(item: CollectionItemObject, opt?: { constraintList: string[] }): boolean {
     const violationMap = CollectionItem.getViolationMap(item);
     return opt.constraintList.every(name => {
       return violationMap.hasOwnProperty(name);
@@ -96,4 +98,5 @@ function byEvalType(
 export type CollectionItemFilterType =
   | typeof CollectionItemFilter.BY_PASS_TYPE
   | typeof CollectionItemFilter.BY_FAIL_TYPE
-  | typeof CollectionItemFilter.BY_UNSAT_TYPE;
+  | typeof CollectionItemFilter.BY_UNSAT_TYPE
+  | typeof CollectionItemFilter.BY_CONSTRAINTS;

@@ -3,7 +3,13 @@ import { Constraint } from 'draco-vis';
 import _ from 'lodash';
 import * as React from 'react';
 import SplitPane from 'react-split-pane';
-import { ConstraintCostEdit, ConstraintEdit, ConstraintEditObject } from '../../../model/index';
+import {
+  CollectionItemFilter,
+  CollectionItemFilterObject,
+  ConstraintCostEdit,
+  ConstraintEdit,
+  ConstraintEditObject,
+} from '../../../model/index';
 import { EditorType } from '../../../reducers/text-editor-reducer';
 import { EditTableContainer } from '../../containers/index';
 import './constraint-tuner.css';
@@ -20,6 +26,8 @@ export interface ConstraintTunerDispatchProps {
   switchToAspEditor: (editorType?: EditorType) => void;
   toggleShowEditor: (show: boolean) => void;
   toggleFocusConstraint: (id: string, on: boolean) => void;
+  addFilters: (filter: CollectionItemFilterObject[]) => void;
+  removeFilters: (filter: CollectionItemFilterObject[]) => void;
 }
 
 export interface ConstraintTunerOwnProps {}
@@ -94,6 +102,21 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
           styleName={styleNames}
           onClick={() => {
             this.props.toggleFocusConstraint(constraint.name, !isFocusedConstraint);
+            if (!isFocusedConstraint) {
+              this.props.addFilters([
+                {
+                  type: CollectionItemFilter.BY_CONSTRAINTS,
+                  opt: { constraintList: [constraint.name] },
+                },
+              ]);
+            } else {
+              this.props.removeFilters([
+                {
+                  type: CollectionItemFilter.BY_CONSTRAINTS,
+                  opt: { constraintList: [constraint.name] },
+                },
+              ]);
+            }
           }}
         >
           <td>{constraint.name}</td>

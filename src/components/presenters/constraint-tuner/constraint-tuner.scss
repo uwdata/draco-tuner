@@ -49,6 +49,13 @@
       }
     }
 
+    &.unfocused {
+      td,
+      input {
+        background-color: #fff;
+      }
+    }
+
     &.focused {
       td,
       input {
@@ -66,13 +73,6 @@
 
       input {
         border-color: #fff;
-      }
-    }
-
-    &.unfocused {
-      td,
-      input {
-        background-color: #fff;
       }
     }
   }

@@ -78,7 +78,7 @@ export interface AppStore {
 const initialState: AppStore = {
   showEditor: false,
   showCollection: true,
-  collectionPane: Collection.PAIRS,
+  collectionPane: Collection.CHARTS,
   viewLeft: View.NONE,
   viewCenter: View.COLLECTION_CHARTS,
   viewRight: View.CONSTRAINT_TUNER,
@@ -118,5 +118,11 @@ function setViewPane(state: AppStore, action: ActionType<typeof appActions.setVi
     case ViewPosition.RIGHT:
       state.viewRight = view;
       break;
+  }
+
+  if (view === View.COLLECTION_CHARTS) {
+    state.collectionPane === Collection.CHARTS;
+  } else if (view === View.COLLECTION_PAIRS) {
+    state.collectionPane === Collection.PAIRS;
   }
 }

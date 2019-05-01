@@ -3,10 +3,18 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import { toggleShowEditor, updateStatus } from '../../actions/app-actions';
+import { addChartFilters, removeChartFilters } from '../../actions/chart-collection-actions';
 import { toggleFocusConstraint } from '../../actions/constraint-tuner-actions';
 import { addConstraintEdit } from '../../actions/draco-actions';
+import { addPairFilters, removePairFilters } from '../../actions/pair-collection-actions';
 import { setEditorType } from '../../actions/text-editor-actions';
-import { ConstraintEditObject, ConstraintMap, DracoSolution, ViolationMap } from '../../model';
+import {
+  CollectionItemFilterObject,
+  ConstraintEditObject,
+  ConstraintMap,
+  DracoSolution,
+  ViolationMap,
+} from '../../model';
 import { RootState } from '../../reducers';
 import { Collection } from '../../reducers/app-reducer';
 import { Editor, EditorType } from '../../reducers/text-editor-reducer';
@@ -118,6 +126,14 @@ function mapDispatchToProps(dispatch: Dispatch, props: ConstraintTunerOwnProps):
     },
     toggleFocusConstraint: (id: string, on: boolean) => {
       dispatch(toggleFocusConstraint(id, on));
+    },
+    addFilters: (filters: CollectionItemFilterObject[]) => {
+      dispatch(addChartFilters(filters));
+      dispatch(addPairFilters(filters));
+    },
+    removeFilters: (filters: CollectionItemFilterObject[]) => {
+      dispatch(removeChartFilters(filters));
+      dispatch(removePairFilters(filters));
     },
   };
 }

@@ -24,7 +24,11 @@ export const setPairFilters = createAction('pair-collection/SET_PAIR_FILTERS', a
   return (filterTypes: CollectionItemFilterObject[]) => action(filterTypes);
 });
 
-export const addPairFilters = createAction('pair-collection/SET_PAIR_FILTERS', action => {
+export const addPairFilters = createAction('pair-collection/ADD_PAIR_FILTERS', action => {
+  return (filterTypes: CollectionItemFilterObject[]) => action(filterTypes);
+});
+
+export const removePairFilters = createAction('chart-collection/REMOVE_PAIR_FILTERS', action => {
   return (filterTypes: CollectionItemFilterObject[]) => action(filterTypes);
 });
 

@@ -24,10 +24,14 @@ export const addEmptyChart = createAction('chart-collection/ADD_EMPTY_CHART', ac
   return () => action();
 });
 
-export const setChartFilters = createAction('chart-collection/SET_PAIR_FILTERS', action => {
+export const setChartFilters = createAction('chart-collection/SET_CHART_FILTERS', action => {
   return (filterTypes: CollectionItemFilterObject[]) => action(filterTypes);
 });
 
-export const addChartFilters = createAction('chart-collection/SET_PAIR_FILTERS', action => {
+export const addChartFilters = createAction('chart-collection/ADD_CHART_FILTERS', action => {
+  return (filterTypes: CollectionItemFilterObject[]) => action(filterTypes);
+});
+
+export const removeChartFilters = createAction('chart-collection/REMOVE_CHART_FILTERS', action => {
   return (filterTypes: CollectionItemFilterObject[]) => action(filterTypes);
 });

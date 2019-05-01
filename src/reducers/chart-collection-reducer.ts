@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { createReducer } from 'redux-starter-kit';
 import { ActionType, getType } from 'typesafe-actions';
 import { ChartCollectionAction, chartCollectionActions } from '../actions';
@@ -25,6 +26,7 @@ const chartCollectionReducer = createReducer<ChartCollectionStore, ChartCollecti
   [getType(chartCollectionActions.addEmptyChart)]: addEmptyChart,
   [getType(chartCollectionActions.setChartFilters)]: setChartFilters,
   [getType(chartCollectionActions.addChartFilters)]: addChartFilters,
+  [getType(chartCollectionActions.removeChartFilters)]: removeChartFilters,
 });
 
 export default chartCollectionReducer;
@@ -70,4 +72,15 @@ function addChartFilters(
   action: ActionType<typeof chartCollectionActions.addChartFilters>
 ): void {
   state.filters = state.filters.concat(action.payload);
+}
+
+function removeChartFilters(
+  state: ChartCollectionStore,
+  action: ActionType<typeof chartCollectionActions.removeChartFilters>
+): void {
+  state.filters = state.filters.filter(filter => {
+    action.payload.every(toRemove => {
+      return !_.isEqual(toRemove, filter);
+    });
+  });
 }
