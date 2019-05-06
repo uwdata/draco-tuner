@@ -3,7 +3,7 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const package = require(path.resolve(__dirname, "../package.json"));
+const package = require(path.resolve(__dirname, "./package.json"));
 const webpack = require("webpack");
 
 module.exports = {
