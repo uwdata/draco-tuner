@@ -86,6 +86,13 @@ function downloadFiles(state: CombinedState, action: ActionType<typeof appAction
 
   const pairs = JSON.stringify(state.pairCollection.pairs);
   zip.file('pairs.json', pairs);
+
+  const charts = JSON.stringify(state.chartCollection.charts);
+  zip.file('charts.json', charts);
+
+  const constraints = JSON.stringify(state.draco.constraintMap);
+  zip.file('constraints.json', constraints);
+
   zip.generateAsync({ type: 'blob' }).then(content => saveAs(content, 'draco.zip'));
 }
 

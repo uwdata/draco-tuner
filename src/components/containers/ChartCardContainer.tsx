@@ -4,10 +4,9 @@ import { ThunkDispatch } from 'redux-thunk';
 import { toggleShowEditor } from '../../actions/app-actions';
 import { solveChartsThunk, toggleFocusChart } from '../../actions/chart-collection-actions';
 import { setEditorType, setVegaLiteCode } from '../../actions/text-editor-actions';
-import { ChartObject } from '../../model/chart';
+import { ChartDictionary, ChartObject } from '../../model/chart';
 import { Spec } from '../../model/spec';
 import { RootState } from '../../reducers';
-import { ChartDictionary } from '../../reducers/chart-collection-reducer';
 import { EditorType } from '../../reducers/text-editor-reducer';
 import ChartCard, { ChartCardDispatchProps, ChartCardOwnProps, ChartCardStoreProps } from '../presenters/chart-card';
 
