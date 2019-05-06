@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { downloadFiles, setCollectionPane } from '../../actions/app-actions';
+import { downloadFiles, save, setCollectionPane } from '../../actions/app-actions';
 import { RootState } from '../../reducers';
 import { CollectionType } from '../../reducers/app-reducer';
 import Navbar, { NavbarDispatchProps, NavbarOwnProps, NavbarStoreProps } from '../presenters/navbar';
@@ -19,6 +19,7 @@ function mapDispatchToProps(dispatch: ThunkDispatch<{}, {}, AnyAction>, props: N
     setCollectionPane: (collectionType: CollectionType) => {
       dispatch(setCollectionPane(collectionType));
     },
+    save: () => dispatch(save()),
   };
 }
 

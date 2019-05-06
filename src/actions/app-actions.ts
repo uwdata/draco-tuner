@@ -2,6 +2,8 @@ import { createAction } from 'typesafe-actions';
 import { CollectionType, ViewPosition, ViewType } from '../reducers/app-reducer';
 
 export const downloadFiles = createAction('app/DOWNLOAD_FILES', action => () => action());
+export const save = createAction('app/SAVE', action => () => action());
+
 export const addCheckpoint = createAction('app/ADD_CHECKPOINT', action => {
   return () => action();
 });

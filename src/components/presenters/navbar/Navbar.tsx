@@ -7,6 +7,7 @@ export interface NavbarStoreProps {
 }
 export interface NavbarDispatchProps {
   downloadFiles: () => void;
+  save: () => void;
   setCollectionPane: (collectionType: CollectionType) => void;
 }
 export interface NavbarOwnProps {}
@@ -25,6 +26,17 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
               styleName="icon-button"
               onClick={() => {
                 this.props.downloadFiles();
+              }}
+            >
+              get_app
+            </button>
+          </div>
+          <div styleName="button-container">
+            <button
+              className="material-icons"
+              styleName="icon-button"
+              onClick={() => {
+                this.props.save();
               }}
             >
               save

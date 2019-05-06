@@ -129,6 +129,7 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
               styleName="cost-input"
               type="number"
               value={constraint.weight}
+              onClick={e => e.stopPropagation()}
               onChange={event => {
                 const before = constraint.weight;
                 const after = +event.target.value;

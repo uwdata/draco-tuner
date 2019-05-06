@@ -117,7 +117,8 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
               styleName={classnames({
                 reloading: !_.isUndefined(this.state.runId) && !this.props.finishedRunIds.has(this.state.runId),
               })}
-              onClick={() => {
+              onClick={e => {
+                e.stopPropagation();
                 const runId = (window as any).runId;
                 (window as any).runId += 1;
                 this.setState({

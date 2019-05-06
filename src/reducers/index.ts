@@ -52,6 +52,7 @@ const crossSliceReducer = createReducer<CombinedState, RootAction>(null, {
   [getType(pairCollectionActions.addEmptyPair)]: addEmptyPair,
   [getType(textEditorActions.setAspCode)]: setAspCode,
   [getType(dracoActions.addConstraintEdit)]: addConstraintEdit,
+  [getType(appActions.save)]: save,
 });
 
 export const rootReducer = reduceReducers(combinedReducers, crossSliceReducer as Reducer);
@@ -66,6 +67,10 @@ function setPairs(state: CombinedState, action: ActionType<typeof pairCollection
 function setCharts(state: CombinedState, action: ActionType<typeof chartCollectionActions.setCharts>): void {
   state.draco.finishedRunIds.add(action.payload.runId);
   updateDeltaAndScore(state);
+}
+
+function save(state: CombinedState, action: ActionType<typeof appActions.save>): void {
+  localStorage.setItem('reduxState', JSON.stringify(state));
 }
 
 function downloadFiles(state: CombinedState, action: ActionType<typeof appActions.downloadFiles>): void {
