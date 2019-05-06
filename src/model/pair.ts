@@ -11,7 +11,12 @@ export interface PairObject extends CollectionItemObject {
   right: SpecObject;
 }
 
+export type PairPositionType = typeof Pair.LEFT | typeof Pair.RIGHT;
+
 export class Pair {
+  static LEFT: 'left' = 'left';
+  static RIGHT: 'right' = 'right';
+
   static getEmptyPair(id: number): PairObject {
     const left = Spec.getEmptySpec();
     const right = Spec.getEmptySpec();
@@ -54,5 +59,14 @@ export class Pair {
       return CollectionItemEval.fromBoolean(leftCost < rightCost);
     }
     return CollectionItemEval.fromBoolean(leftCost === rightCost);
+  }
+
+  static getCost(pair: PairObject, constraintMap: ConstraintMapObject, pos: PairPositionType): number {
+    switch (pos) {
+      case Pair.LEFT:
+        return Spec.getCost(pair.left, constraintMap);
+      case Pair.RIGHT:
+        return Spec.getCost(pair.right, constraintMap);
+    }
   }
 }

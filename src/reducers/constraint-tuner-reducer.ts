@@ -6,11 +6,14 @@ export interface ConstraintTunerStore {
   focusConstraint?: string;
 }
 
-const initialState = {};
+export const CONSTRAINT_TUNER_REDUCER_INITIAL_STATE = {};
 
-const constraintTunerReducer = createReducer<ConstraintTunerStore, ConstraintTunerAction>(initialState, {
-  [getType(constraintTunerActions.toggleFocusConstraint)]: toggleFocusConstraint,
-});
+const constraintTunerReducer = createReducer<ConstraintTunerStore, ConstraintTunerAction>(
+  CONSTRAINT_TUNER_REDUCER_INITIAL_STATE,
+  {
+    [getType(constraintTunerActions.toggleFocusConstraint)]: toggleFocusConstraint,
+  }
+);
 
 export default constraintTunerReducer;
 

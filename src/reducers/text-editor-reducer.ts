@@ -26,7 +26,7 @@ export interface VegaLiteStore {
 
 const constraintAspPrograms = ConstraintMap.toAspPrograms(constraintMap);
 
-const initialState: TextEditorStore = {
+export const TEXT_EDITOR_REDUCER_INITIAL_STATE: TextEditorStore = {
   vegalite: {
     code: '',
   },
@@ -43,7 +43,7 @@ const initialState: TextEditorStore = {
   aspProgram: AspPrograms.SOFT_DEFINE,
 };
 
-const textEditorReducer = createReducer<TextEditorStore, TextEditorAction>(initialState, {
+export const textEditorReducer = createReducer<TextEditorStore, TextEditorAction>(TEXT_EDITOR_REDUCER_INITIAL_STATE, {
   [getType(textEditorActions.setVegaLiteCode)]: setVegaLiteCode,
   [getType(textEditorActions.setEditorType)]: setEditorType,
   [getType(textEditorActions.setAspEditorProgram)]: setAspEditorProgram,

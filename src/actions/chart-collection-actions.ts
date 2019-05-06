@@ -1,8 +1,13 @@
 import { AnyAction } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { createAction } from 'typesafe-actions';
-import { AspPrograms, CollectionItemFilterObject, SpecDictionaryObject } from '../model/index';
-import { ChartDictionary } from '../reducers/chart-collection-reducer';
+import {
+  AspPrograms,
+  ChartDictionary,
+  CollectionItemFilterObject,
+  CollectionItemSortObject,
+  SpecDictionaryObject,
+} from '../model/index';
 import { RootState } from '../reducers/index';
 import { solveChartsBegin } from './draco-worker-actions';
 
@@ -46,4 +51,8 @@ export const addChartFilters = createAction('chart-collection/ADD_CHART_FILTERS'
 
 export const removeChartFilters = createAction('chart-collection/REMOVE_CHART_FILTERS', action => {
   return (filterTypes: CollectionItemFilterObject[]) => action(filterTypes);
+});
+
+export const setChartSorts = createAction('chart-collection/SET_CHART_SORTS', action => {
+  return (sortTypes: CollectionItemSortObject[]) => action(sortTypes);
 });

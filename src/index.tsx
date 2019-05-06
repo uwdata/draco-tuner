@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import * as React from 'react';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
@@ -9,6 +10,13 @@ import '../src/index.global.css';
 import App from './components/App';
 import './index.global.css';
 import { rootReducer } from './reducers';
+import { APP_REDUCER_INITIAL_STATE } from './reducers/app-reducer';
+import { CHART_COLLECTION_REDUCER_INITIAL_STATE } from './reducers/chart-collection-reducer';
+import { CONSTRAINT_INSPECTOR_INITIAL_STATE } from './reducers/constraint-inspector-reducer';
+import { CONSTRAINT_TUNER_REDUCER_INITIAL_STATE } from './reducers/constraint-tuner-reducer';
+import { DRACO_REDUCER_INITIAL_STATE } from './reducers/draco-reducer';
+import { PAIR_COLLECTION_REDUCER_INITIAL_STATE } from './reducers/pair-collection-reducer';
+import { TEXT_EDITOR_REDUCER_INITIAL_STATE } from './reducers/text-editor-reducer';
 
 const createStoreWithMiddleware = applyMiddleware(
   reduxWorkerMiddleware(new Worker()),
@@ -17,16 +25,43 @@ const createStoreWithMiddleware = applyMiddleware(
 )(createStore);
 
 const persistedJSON = localStorage.getItem('reduxState');
-const persistedState = persistedJSON ? JSON.parse(persistedJSON) : undefined;
+let persistedState = persistedJSON ? JSON.parse(persistedJSON) : undefined;
+
+if (!_.isUndefined(persistedState) && persistedState.app.__version__ !== VERSION) {
+  persistedState = {
+    app: {
+      ...APP_REDUCER_INITIAL_STATE,
+    },
+    chartCollection: {
+      ...CHART_COLLECTION_REDUCER_INITIAL_STATE,
+      charts: persistedState.chartCollection.charts,
+    },
+    constraintInspector: {
+      ...CONSTRAINT_INSPECTOR_INITIAL_STATE,
+    },
+    constraintTuner: {
+      ...CONSTRAINT_TUNER_REDUCER_INITIAL_STATE,
+    },
+    draco: {
+      ...DRACO_REDUCER_INITIAL_STATE,
+      constraintMap: persistedState.draco.constraintMap,
+    },
+    pairCollection: {
+      ...PAIR_COLLECTION_REDUCER_INITIAL_STATE,
+      pairs: persistedState.pairCollection.pairs,
+    },
+    textEditor: {
+      ...TEXT_EDITOR_REDUCER_INITIAL_STATE,
+      asp: persistedState.textEditor.asp,
+    },
+  };
+}
+
 if (persistedState) {
   persistedState.draco.finishedRunIds = new Set<number>();
 }
 
 export const store = createStoreWithMiddleware(rootReducer, persistedState);
-
-store.subscribe(() => {
-  localStorage.setItem('reduxState', JSON.stringify(store.getState()));
-});
 
 export const withReduxSettings = {
   Provider,

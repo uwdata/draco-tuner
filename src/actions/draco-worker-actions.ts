@@ -1,6 +1,5 @@
 import { createAction } from 'typesafe-actions';
-import { PairObject, SpecDictionary } from '../model';
-import { ChartDictionary } from '../reducers/chart-collection-reducer';
+import { ChartDictionary, PairObject, SpecDictionary } from '../model';
 import { PairsDictionary } from '../reducers/pair-collection-reducer';
 
 export const reloadPairsBegin = createAction('draco-worker/RELOAD_PAIRS_BEGIN', action => {

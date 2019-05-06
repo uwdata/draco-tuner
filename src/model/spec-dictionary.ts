@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { ChartDictionary } from '../reducers/chart-collection-reducer';
 import { PairsDictionary } from '../reducers/pair-collection-reducer';
+import { ChartDictionary } from './chart';
 import { CollectionItem } from './collection-item';
 import { PairObject } from './pair';
 import { SpecObject } from './spec';

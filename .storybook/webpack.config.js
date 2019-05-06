@@ -2,6 +2,8 @@ const path = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const MonacoWebpackPlugin = require("monaco-editor-webpack-plugin");
+const webpack = require("webpack");
+const package = require(path.resolve(__dirname, "../package.json"));
 
 module.exports = ({ config, mode }) => {
   config.output["globalObject"] = "this";
@@ -98,6 +100,12 @@ module.exports = ({ config, mode }) => {
   config.plugins.push(
     new MonacoWebpackPlugin({
       languages: ["json", "javascript", "typescript"]
+    })
+  );
+
+  config.plugins.push(
+    new webpack.DefinePlugin({
+      VERSION: JSON.stringify(package.version)
     })
   );
 

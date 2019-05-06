@@ -72,6 +72,7 @@ export type ViewType =
   | typeof View.NONE;
 
 export interface AppStore {
+  __version__: string;
   showEditor: boolean;
   showCollection: boolean;
   collectionPane: CollectionType;
@@ -80,7 +81,8 @@ export interface AppStore {
   viewRight: ViewType;
 }
 
-const initialState: AppStore = {
+export const APP_REDUCER_INITIAL_STATE: AppStore = {
+  __version__: VERSION,
   showEditor: false,
   showCollection: true,
   collectionPane: Collection.CHARTS,
@@ -89,7 +91,7 @@ const initialState: AppStore = {
   viewRight: View.CONSTRAINT_TUNER,
 };
 
-const appReducer = createReducer<AppStore, AppAction>(initialState, {
+const appReducer = createReducer<AppStore, AppAction>(APP_REDUCER_INITIAL_STATE, {
   [getType(appActions.toggleShowEditor)]: toggleShowEditor,
   [getType(appActions.toggleShowCollection)]: toggleShowCollection,
   [getType(appActions.setCollectionPane)]: setCollectionPane,

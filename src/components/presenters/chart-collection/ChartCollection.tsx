@@ -1,7 +1,12 @@
 import classnames from 'classnames';
 import _ from 'lodash';
 import React from 'react';
-import { CollectionItemFilter, CollectionItemFilterObject } from '../../../model/index';
+import {
+  CollectionItemFilter,
+  CollectionItemFilterObject,
+  CollectionItemSort,
+  CollectionItemSortObject,
+} from '../../../model/index';
 import { ChartCardContainer, ChartEvalMinimapContainer } from '../../containers/index';
 import './chart-collection.css';
 
@@ -12,7 +17,8 @@ export interface ChartCollectionStoreProps {
 export interface ChartCollectionDispatchProps {
   reloadCharts: (runId: number) => void;
   addEmptyChart: () => void;
-  setPairFilters: (filters: CollectionItemFilterObject[]) => void;
+  setChartFilters: (filters: CollectionItemFilterObject[]) => void;
+  setChartSorts: (sorts: CollectionItemSortObject[]) => void;
 }
 export interface ChartCollectionOwnProps {}
 export interface ChartCollectionProps
@@ -21,28 +27,30 @@ export interface ChartCollectionProps
     ChartCollectionOwnProps {}
 export interface ChartCollectionState {
   runId?: number;
-  expandedCharts: Set<string>;
+  hiddenCharts: Set<string>;
 }
 
 export default class ChartCollection extends React.PureComponent<ChartCollectionProps, ChartCollectionState> {
   private prevFilters: CollectionItemFilterObject[];
+  private prevSorts: CollectionItemSortObject[];
 
   constructor(props: ChartCollectionProps) {
     super(props);
     this.state = {
-      expandedCharts: new Set(),
+      hiddenCharts: new Set(),
     };
 
     this.toggleExpandChart = this.toggleExpandChart.bind(this);
 
     this.prevFilters = [];
+    this.prevSorts = [];
   }
 
   render() {
     const charts = this.props.chartIds.map(id => {
       return (
         <ChartCardContainer
-          expanded={this.state.expandedCharts.has(id)}
+          expanded={!this.state.hiddenCharts.has(id)}
           key={id}
           id={id}
           toggleExpandChart={this.toggleExpandChart}
@@ -81,9 +89,7 @@ export default class ChartCollection extends React.PureComponent<ChartCollection
           <div styleName="button-container">
             <button
               onClick={() => {
-                const expandedCharts = _.clone(this.state.expandedCharts);
-                this.props.chartIds.forEach(c => expandedCharts.add(c));
-                this.setState({ expandedCharts });
+                this.setState({ hiddenCharts: new Set() });
               }}
               className="material-icons"
               styleName="icon-button"
@@ -94,7 +100,9 @@ export default class ChartCollection extends React.PureComponent<ChartCollection
               className="material-icons"
               styleName="icon-button"
               onClick={() => {
-                this.setState({ expandedCharts: new Set() });
+                const hiddenCharts = _.clone(this.state.hiddenCharts);
+                this.props.chartIds.forEach(c => hiddenCharts.add(c));
+                this.setState({ hiddenCharts });
               }}
             >
               unfold_less
@@ -109,7 +117,21 @@ export default class ChartCollection extends React.PureComponent<ChartCollection
 
                 if (!_.isEqual(this.prevFilters, filters)) {
                   this.prevFilters = filters;
-                  this.props.setPairFilters(filters);
+                  this.props.setChartFilters(filters);
+                }
+              }}
+            />
+          </div>
+          <div styleName="button-container">
+            <input
+              placeholder="sort"
+              onChange={event => {
+                const val = event.target.value;
+                const sorts = CollectionItemSort.getObjectsFromString(val);
+
+                if (!_.isEqual(this.prevSorts, sorts)) {
+                  this.prevSorts = sorts;
+                  this.props.setChartSorts(sorts);
                 }
               }}
             />
@@ -126,12 +148,12 @@ export default class ChartCollection extends React.PureComponent<ChartCollection
   }
 
   toggleExpandChart(id: string, on: boolean) {
-    const expandedCharts = _.clone(this.state.expandedCharts);
-    if (on) {
-      expandedCharts.add(id);
+    const hiddenCharts = _.clone(this.state.hiddenCharts);
+    if (!on) {
+      hiddenCharts.add(id);
     } else {
-      expandedCharts.delete(id);
+      hiddenCharts.delete(id);
     }
-    this.setState({ expandedCharts });
+    this.setState({ hiddenCharts });
   }
 }

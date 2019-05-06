@@ -1,8 +1,19 @@
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
-import { addEmptyChart, reloadChartsThunk, setChartFilters } from '../../actions/chart-collection-actions';
-import { CollectionItemFilter, CollectionItemFilterObject } from '../../model/index';
+import {
+  addEmptyChart,
+  reloadChartsThunk,
+  setChartFilters,
+  setChartSorts,
+} from '../../actions/chart-collection-actions';
+import {
+  CollectionItemFilter,
+  CollectionItemFilterObject,
+  CollectionItemSort,
+  CollectionItemSortObject,
+} from '../../model/index';
 import { RootState } from '../../reducers';
 import ChartCollection, {
   ChartCollectionDispatchProps,
@@ -13,13 +24,23 @@ import ChartCollection, {
 function mapStateToProps(state: RootState, ownProps: ChartCollectionOwnProps): ChartCollectionStoreProps {
   const unfilteredChartIds = Object.keys(state.chartCollection.charts).sort(id => +id);
 
-  const chartIds = state.chartCollection.filters.reduce((chartIds: string[], filterObj) => {
+  let chartIds = state.chartCollection.filters.reduce((chartIds: string[], filterObj) => {
     const filterFn = CollectionItemFilter.fromObj(filterObj);
     return chartIds.filter(chartId => {
       const chart = state.chartCollection.charts[chartId];
       return filterFn(chart, { ...filterObj.opt, constraintMap: state.draco.constraintMap });
     });
   }, unfilteredChartIds);
+
+  const sortObjects = state.chartCollection.sorts.concat([{ type: CollectionItemSort.BY_ID_ASC }]);
+  const sortBy = sortObjects.map(sortObj => {
+    return (chartId: string) => {
+      const chart = state.chartCollection.charts[chartId];
+      const sortFn = CollectionItemSort.fromObj(sortObj);
+      return sortFn(chart, { constraintMap: state.draco.constraintMap });
+    };
+  });
+  chartIds = _.sortBy(chartIds, sortBy);
 
   const finishedRunIds = state.draco.finishedRunIds;
 
@@ -36,7 +57,8 @@ function mapDispatchToProps(
   return {
     reloadCharts: (runId: number) => dispatch(reloadChartsThunk(runId)),
     addEmptyChart: () => dispatch(addEmptyChart()),
-    setPairFilters: (filters: CollectionItemFilterObject[]) => dispatch(setChartFilters(filters)),
+    setChartFilters: (filters: CollectionItemFilterObject[]) => dispatch(setChartFilters(filters)),
+    setChartSorts: (sorts: CollectionItemSortObject[]) => dispatch(setChartSorts(sorts)),
   };
 }
 

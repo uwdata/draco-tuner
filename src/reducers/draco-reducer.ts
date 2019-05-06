@@ -24,7 +24,7 @@ export interface DracoStore {
 const dummyDraco = new Draco();
 export const constraintMap = ConstraintMap.fromConstraintSet(dummyDraco.getConstraintSet());
 
-const initialState: DracoStore = {
+export const DRACO_REDUCER_INITIAL_STATE: DracoStore = {
   constraintMap,
   finishedRunIds: new Set(),
   edits: [],
@@ -34,7 +34,7 @@ const initialState: DracoStore = {
 };
 
 // @ts-ignore
-const dracoReducer = createReducer<DracoStore, DracoAction>(initialState, {
+const dracoReducer = createReducer<DracoStore, DracoAction>(DRACO_REDUCER_INITIAL_STATE, {
   [getType(dracoActions.setConstraintMap)]: setConstraintMap,
   [getType(dracoActions.addConstraintEdit)]: addConstraintEdit,
   [getType(dracoActions.revertToEdit)]: revertToEdit,

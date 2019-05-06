@@ -11,7 +11,7 @@ export interface AspEditorStore {
   id: string;
 }
 
-const initialState = {
+export const CONSTRAINT_INSPECTOR_INITIAL_STATE = {
   aspClauses: {
     '0': {
       id: '0',
@@ -20,12 +20,15 @@ const initialState = {
   },
 };
 
-const cosntraintInspectorReducer = createReducer<ConstraintInspectorStore, ConstraintInspectorAction>(initialState, {
-  [getType(constraintInspectorActions.setAspClause)]: setAspClause,
-  [getType(constraintInspectorActions.addAspClause)]: addAspClause,
-});
+const constraintInspectorReducer = createReducer<ConstraintInspectorStore, ConstraintInspectorAction>(
+  CONSTRAINT_INSPECTOR_INITIAL_STATE,
+  {
+    [getType(constraintInspectorActions.setAspClause)]: setAspClause,
+    [getType(constraintInspectorActions.addAspClause)]: addAspClause,
+  }
+);
 
-export default cosntraintInspectorReducer;
+export default constraintInspectorReducer;
 
 function setAspClause(
   state: ConstraintInspectorStore,

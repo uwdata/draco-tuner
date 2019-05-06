@@ -26,23 +26,26 @@ export interface PairCollectionStore {
   score: number;
 }
 
-const initialState: PairCollectionStore = {
+export const PAIR_COLLECTION_REDUCER_INITIAL_STATE: PairCollectionStore = {
   pairs: EXAMPLE_PAIRS,
   filters: [],
   score: 0,
 };
 
 // @ts-ignore
-const pairsCollectionReducer = createReducer<PairCollectionStore, PairCollectionAction>(initialState, {
-  [getType(pairCollectionActions.setPairs)]: setPairs,
-  [getType(pairCollectionActions.toggleFocusPair)]: toggleFocusPair,
-  [getType(pairCollectionActions.setPairFilters)]: setPairFilters,
-  [getType(pairCollectionActions.addPairFilters)]: addPairFilters,
-  [getType(pairCollectionActions.removePairFilters)]: removePairFilters,
-  [getType(pairCollectionActions.toggleHoverPair)]: toggleHoverPair,
-  [getType(pairCollectionActions.addEmptyPair)]: addEmptyPair,
-  [getType(pairCollectionActions.toggleFocusPairItem)]: toggleFocusPairItem,
-});
+const pairsCollectionReducer = createReducer<PairCollectionStore, PairCollectionAction>(
+  PAIR_COLLECTION_REDUCER_INITIAL_STATE,
+  {
+    [getType(pairCollectionActions.setPairs)]: setPairs,
+    [getType(pairCollectionActions.toggleFocusPair)]: toggleFocusPair,
+    [getType(pairCollectionActions.setPairFilters)]: setPairFilters,
+    [getType(pairCollectionActions.addPairFilters)]: addPairFilters,
+    [getType(pairCollectionActions.removePairFilters)]: removePairFilters,
+    [getType(pairCollectionActions.toggleHoverPair)]: toggleHoverPair,
+    [getType(pairCollectionActions.addEmptyPair)]: addEmptyPair,
+    [getType(pairCollectionActions.toggleFocusPairItem)]: toggleFocusPairItem,
+  }
+);
 
 export default pairsCollectionReducer;
 

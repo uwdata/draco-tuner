@@ -21,6 +21,14 @@ export class Chart {
     return CollectionItemEval.PASS;
   };
 
+  static getCost = function(chart: ChartObject, constraintMap: ConstraintMapObject): number {
+    if (_.isUndefined(chart.sol)) {
+      return undefined;
+    }
+
+    return Spec.getCost(chart, constraintMap);
+  };
+
   static getEmptyChart = function(id: string): ChartObject {
     return {
       id,
@@ -28,4 +36,8 @@ export class Chart {
       type: CollectionItem.CHART,
     };
   };
+}
+
+export interface ChartDictionary {
+  [id: string]: ChartObject;
 }

@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import { CollectionItem } from '../model/index';
-import { ChartDictionary } from '../reducers/chart-collection-reducer';
+import { ChartDictionary, CollectionItem } from '../model';
 
 export const EXAMPLE_PAIRS = require('./pairs.json');
 

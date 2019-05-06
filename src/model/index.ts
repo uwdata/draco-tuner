@@ -3,6 +3,7 @@ export * from './chart';
 export * from './checkpoint';
 export * from './collection-item';
 export * from './collection-item-filter';
+export * from './collection-item-sort';
 export * from './constraint-edit';
 export * from './constraint-map';
 export * from './pair';

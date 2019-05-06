@@ -11,13 +11,22 @@
 
 .controls {
   @extend %flex-row;
-  justify-content: space-evenly;
   align-items: center;
+  justify-content: space-evenly;
   width: calc(100% - 56px);
   padding-left: 32px;
   padding-right: 24px;
-  height: 48px;
+  height: 96px;
+  flex-wrap: wrap;
   overflow: hidden;
+
+  * {
+    flex-shrink: 1;
+  }
+
+  input {
+    margin: 0 16px 0 16px;
+  }
 }
 
 .view {
