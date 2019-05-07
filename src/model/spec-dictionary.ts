@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import { PairsDictionary } from '../reducers/pair-collection-reducer';
 import { ChartDictionary } from './chart';
-import { CollectionItem } from './collection-item';
 import { PairObject } from './pair';
 import { SpecObject } from './spec';
 
@@ -24,13 +23,11 @@ export class SpecDictionary {
     const result = _.clone(chartDict);
     for (const id of Object.keys(specDict)) {
       const spec = specDict[id];
-      const chart = {
-        ...spec,
-        id,
-        type: CollectionItem.CHART,
-      };
 
-      result[id] = chart;
+      result[id] = {
+        ...result[id],
+        ...spec,
+      };
     }
 
     return result;

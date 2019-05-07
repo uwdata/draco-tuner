@@ -194,11 +194,18 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
       );
     }
 
+    const evalColor = CollectionItemEval.toColor(this.props.evalType);
+
+    const borderColor = this.props.focused
+      ? CollectionItemEval.BLUE
+      : evalColor === CollectionItemEval.WHITE
+      ? CollectionItemEval.GREY
+      : evalColor;
     return (
       <div
         styleName={classnames(style)}
         style={{
-          borderColor: this.props.focused ? CollectionItemEval.BLUE : CollectionItemEval.toColor(this.props.evalType),
+          borderColor,
         }}
       >
         <Splinter
