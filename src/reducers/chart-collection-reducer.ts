@@ -28,6 +28,7 @@ const chartCollectionReducer = createReducer<ChartCollectionStore, ChartCollecti
     [getType(chartCollectionActions.addChartFilters)]: addChartFilters,
     [getType(chartCollectionActions.removeChartFilters)]: removeChartFilters,
     [getType(chartCollectionActions.setChartSorts)]: setChartSorts,
+    [getType(chartCollectionActions.resetCharts)]: resetCharts,
   }
 );
 
@@ -37,6 +38,10 @@ function setCharts(state: ChartCollectionStore, action: ActionType<typeof chartC
   const specDict = action.payload.specDict;
   const chartDictionary = SpecDictionary.toChartDictionary(specDict, state.charts);
   state.charts = chartDictionary;
+}
+
+function resetCharts(state: ChartCollectionStore, action: ActionType<typeof chartCollectionActions.resetCharts>): void {
+  state.charts = action.payload;
 }
 
 function toggleFocusChart(

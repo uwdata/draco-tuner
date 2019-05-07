@@ -28,3 +28,11 @@
     }
   }
 }
+
+input[type="file"] {
+  display: none;
+}
+
+label {
+  cursor: pointer;
+}

@@ -37,6 +37,10 @@ export const setCharts = createAction('chart-collection/SET_CHARTS', action => {
   return (specDict: SpecDictionaryObject, runId: number) => action({ specDict, runId });
 });
 
+export const resetCharts = createAction('chart-collection/RESET_CHARTS', action => {
+  return (charts: ChartDictionary) => action(charts);
+});
+
 export const addEmptyChart = createAction('chart-collection/ADD_EMPTY_CHART', action => {
   return () => action();
 });

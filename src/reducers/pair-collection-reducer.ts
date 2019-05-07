@@ -44,6 +44,7 @@ const pairsCollectionReducer = createReducer<PairCollectionStore, PairCollection
     [getType(pairCollectionActions.toggleHoverPair)]: toggleHoverPair,
     [getType(pairCollectionActions.addEmptyPair)]: addEmptyPair,
     [getType(pairCollectionActions.toggleFocusPairItem)]: toggleFocusPairItem,
+    [getType(pairCollectionActions.resetPairs)]: resetPairs,
   }
 );
 
@@ -53,6 +54,10 @@ function setPairs(state: PairCollectionStore, action: ActionType<typeof pairColl
   const specDict = action.payload.specDict;
   const pairsDictionary = SpecDictionary.toPairsDictionary(specDict, state.pairs);
   state.pairs = pairsDictionary;
+}
+
+function resetPairs(state: PairCollectionStore, action: ActionType<typeof pairCollectionActions.resetPairs>): void {
+  state.pairs = action.payload;
 }
 
 function toggleFocusPair(

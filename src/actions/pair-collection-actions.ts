@@ -3,6 +3,7 @@ import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import { createAction } from 'typesafe-actions';
 import { AspPrograms, CollectionItemFilterObject, PairObject, SpecDictionaryObject } from '../model';
 import { RootState } from '../reducers';
+import { PairsDictionary } from '../reducers/pair-collection-reducer';
 import { reloadPairsBegin, solvePairsBegin } from './draco-worker-actions';
 
 export const reloadPairsThunk = (runId: number): ThunkAction<void, {}, {}, AnyAction> => {
@@ -24,6 +25,10 @@ export const solvePairsThunk = (pairs: PairObject[], runId: number): ThunkAction
 
 export const setPairs = createAction('pairs-collection/SET_PAIRS', action => {
   return (specDict: SpecDictionaryObject, runId: number) => action({ specDict, runId });
+});
+
+export const resetPairs = createAction('pairs-collection/RESET_PAIRS', action => {
+  return (pairs: PairsDictionary) => action(pairs);
 });
 
 export const toggleFocusPair = createAction('pair-collection/TOGGLE_FOCUS_PAIR', action => {
