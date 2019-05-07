@@ -21,8 +21,10 @@
 }
 
 .render {
+  box-sizing: border-box;
   height: 240px;
   width: 100%;
+  padding: 16px;
 }
 
 .log {

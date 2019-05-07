@@ -44,7 +44,7 @@ export const TEXT_EDITOR_REDUCER_INITIAL_STATE: TextEditorStore = {
   vegalite: {
     code: '',
     parsedVlSpec: null,
-    log: 'invalid spec',
+    status: VegaLiteStatus.INVALID_VEGALITE,
   },
   asp: {
     ...constraintAspPrograms,

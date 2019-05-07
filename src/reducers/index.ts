@@ -21,7 +21,7 @@ import constraintInspecorReducer from './constraint-inspector-reducer';
 import constraintTunerReducer from './constraint-tuner-reducer';
 import dracoReducer from './draco-reducer';
 import pairCollectionReducer from './pair-collection-reducer';
-import textEditorReducer from './text-editor-reducer';
+import textEditorReducer, { VegaLiteStatus } from './text-editor-reducer';
 
 const combinedReducers = combineReducers({
   pairCollection: pairCollectionReducer,
@@ -151,7 +151,7 @@ function addEmptyPair(state: CombinedState, action: ActionType<typeof pairCollec
 
 function updateChartVegaLite(state: CombinedState, code: string): void {
   const focusChartId = state.chartCollection.focusChart;
-  if (!_.isUndefined(focusChartId) && state.textEditor.vegalite.log === 'ok') {
+  if (!_.isUndefined(focusChartId) && state.textEditor.vegalite.status === VegaLiteStatus.OK) {
     const vlSpec = state.textEditor.vegalite.parsedVlSpec;
     const focusChart = state.chartCollection.charts[focusChartId];
     focusChart.vlSpec = vlSpec;
@@ -161,7 +161,7 @@ function updateChartVegaLite(state: CombinedState, code: string): void {
 function updatePairItemVegaLite(state: CombinedState, code: string): void {
   const focusPair = state.pairCollection.focusPair;
   const focusItem = state.pairCollection.focusItem;
-  if (state.textEditor.vegalite.log === 'ok') {
+  if (state.textEditor.vegalite.status === VegaLiteStatus.OK) {
     const vlSpec = state.textEditor.vegalite.parsedVlSpec;
     if (!!focusPair && !!focusItem) {
       if (focusItem === 'left') {
