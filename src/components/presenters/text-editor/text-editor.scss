@@ -26,9 +26,17 @@
 }
 
 .log {
+  @extend %flex-row;
+
+  align-items: center;
   height: 24px;
   font-family: "Roboto Mono", monospace;
   font-size: 12px;
   width: calc(100% - 16px);
   padding-left: 16px;
+  background-color: $light-red;
+
+  &.pass {
+    background-color: $light-blue;
+  }
 }

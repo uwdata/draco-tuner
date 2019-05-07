@@ -24,8 +24,19 @@ export type EditorType = typeof Editor.VEGA_LITE | typeof Editor.ASP;
 export interface VegaLiteStore {
   code: string;
   parsedVlSpec: TopLevelUnitSpec;
-  log: string;
+  status: VegaLiteStatus;
 }
+
+export class VegaLiteStatus {
+  static OK: 'ok' = 'ok';
+  static INVALID_JSON: 'invalid json' = 'invalid json';
+  static INVALID_VEGALITE: 'invalid vegalite' = 'invalid vegalite';
+}
+
+export type VegaLiteStatusType =
+  | typeof VegaLiteStatus.OK
+  | typeof VegaLiteStatus.INVALID_JSON
+  | typeof VegaLiteStatus.INVALID_VEGALITE;
 
 const constraintAspPrograms = ConstraintMap.toAspPrograms(constraintMap);
 
@@ -66,12 +77,12 @@ function setVegaLiteCode(state: TextEditorStore, action: ActionType<typeof textE
     const potentialSpec = JSON.parse(code);
     if (Spec.isVlSpecValid(potentialSpec)) {
       state.vegalite.parsedVlSpec = potentialSpec;
-      state.vegalite.log = 'ok';
+      state.vegalite.status = VegaLiteStatus.OK;
     } else {
-      state.vegalite.log = 'invalid spec';
+      state.vegalite.status = VegaLiteStatus.INVALID_VEGALITE;
     }
   } else {
-    state.vegalite.log = 'invalid json';
+    state.vegalite.status = VegaLiteStatus.INVALID_JSON;
   }
 }
 

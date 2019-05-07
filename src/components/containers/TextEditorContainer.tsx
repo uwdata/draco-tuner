@@ -9,10 +9,10 @@ import TextEditor, {
 
 function mapStateToProps(state: RootState, ownProps: TextEditorOwnProps): TextEditorStoreProps {
   const vlSpec = state.textEditor.vegalite.parsedVlSpec;
-  const vlLog = state.textEditor.vegalite.log;
+  const vlStatus = state.textEditor.vegalite.status;
   return {
     vlSpec,
-    vlLog,
+    vlStatus,
   };
 }
 
