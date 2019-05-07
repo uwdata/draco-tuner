@@ -3,7 +3,13 @@ import _ from 'lodash';
 import * as React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
-import { CollectionItem, CollectionItemEval, CollectionItemEvalType, PairObject } from '../../../model';
+import {
+  CollectionItem,
+  CollectionItemComparatorType,
+  CollectionItemEval,
+  CollectionItemEvalType,
+  PairObject,
+} from '../../../model';
 import { Editor, EditorType } from '../../../reducers/text-editor-reducer';
 import VegaLiteChart from '../vega-lite-chart';
 import './pair-card.css';
@@ -11,7 +17,7 @@ import './pair-card.css';
 export interface PairCardStoreProps {
   left?: PairCardItem;
   right?: PairCardItem;
-  comparator?: string;
+  comparator?: CollectionItemComparatorType;
   diffVector?: number[];
   evalType?: CollectionItemEvalType;
   focused?: boolean;
@@ -70,7 +76,7 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
     const style: any = { 'pair-card': true };
     if (this.props.open || this.props.focused) {
       style['open'] = true;
-      let comp = this.props.comparator;
+      let comp = this.props.comparator.toString();
       if (comp === '<') {
         if (this.props.left.cost >= this.props.right.cost) {
           comp = '≮';
@@ -192,13 +198,7 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
       <div
         styleName={classnames(style)}
         style={{
-          borderColor: this.props.focused
-            ? Splinter.BLUE
-            : _.isUndefined(this.props.evalType) || this.props.evalType === CollectionItemEval.UNSAT
-            ? Splinter.GREY
-            : this.props.evalType === CollectionItemEval.PASS
-            ? Splinter.GREEN
-            : Splinter.RED,
+          borderColor: this.props.focused ? CollectionItemEval.BLUE : CollectionItemEval.toColor(this.props.evalType),
         }}
       >
         <Splinter
@@ -221,44 +221,25 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
 interface SplinterProps {
   onClick: (...args: any[]) => void;
   vector?: number[];
-  evalType?: CollectionItemEval;
+  evalType?: CollectionItemEvalType;
 }
 
 interface SplinterState {}
 
 export class Splinter extends React.PureComponent<SplinterProps, SplinterState> {
-  static BLUE = '#75a8f9';
-  static RED = '#f97486';
-  static WHITE = '#fff';
-  static GREEN = '#aff7b3';
-  static ORANGE = '#ffcd51';
-  static LIGHTBLUE = '#eaf4ff';
-  static GREY = '#d8d8d8';
-
   render() {
     let diffViz;
 
     if (this.props.vector) {
       diffViz = this.props.vector.map((val, i) => {
-        const color = val === -1 ? Splinter.BLUE : val === 1 ? Splinter.RED : Splinter.WHITE;
+        const color =
+          val === -1 ? CollectionItemEval.BLUE : val === 1 ? CollectionItemEval.RED : CollectionItemEval.WHITE;
         return <div key={i} styleName="cell" style={{ backgroundColor: color }} />;
       });
     }
 
-    let splinterColor = Splinter.WHITE;
-    if (typeof this.props.evalType !== 'undefined') {
-      switch (this.props.evalType) {
-        case CollectionItemEval.PASS:
-          splinterColor = Splinter.GREEN;
-          break;
-        case CollectionItemEval.FAIL:
-          splinterColor = Splinter.RED;
-          break;
-        case CollectionItemEval.UNSAT:
-          splinterColor = Splinter.GREY;
-          break;
-      }
-    }
+    const splinterColor = CollectionItemEval.toColor(this.props.evalType);
+
     return (
       <div styleName="splinter" style={{ backgroundColor: splinterColor }} onClick={this.props.onClick}>
         {diffViz}

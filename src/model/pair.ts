@@ -1,12 +1,19 @@
 import _ from 'lodash';
 import { PairCardItem } from '../components/presenters/pair-card/index';
-import { CollectionItem, CollectionItemEval, CollectionItemEvalType, CollectionItemObject } from './collection-item';
+import {
+  CollectionItem,
+  CollectionItemComparator,
+  CollectionItemComparatorType,
+  CollectionItemEval,
+  CollectionItemEvalType,
+  CollectionItemObject,
+} from './collection-item';
 import { ConstraintMapObject } from './constraint-map';
 import { Spec, SpecObject } from './spec';
 
 export interface PairObject extends CollectionItemObject {
   id: number;
-  comparator: string;
+  comparator: CollectionItemComparatorType;
   left: SpecObject;
   right: SpecObject;
 }
@@ -25,7 +32,7 @@ export class Pair {
       id,
       left,
       right,
-      comparator: '<',
+      comparator: CollectionItemComparator.LESS_THAN,
       type: CollectionItem.PAIR,
     };
   }
@@ -55,8 +62,11 @@ export class Pair {
       return CollectionItemEval.UNSAT;
     }
 
-    if (pair.comparator === '<') {
+    if (pair.comparator === CollectionItemComparator.LESS_THAN) {
       return CollectionItemEval.fromBoolean(leftCost < rightCost);
+    }
+    if (pair.comparator === CollectionItemComparator.LESS_THAN_OR_EQUAL) {
+      return CollectionItemEval.fromBoolean(leftCost <= rightCost);
     }
     return CollectionItemEval.fromBoolean(leftCost === rightCost);
   }

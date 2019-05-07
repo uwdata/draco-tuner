@@ -4,9 +4,14 @@ import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
 import { ChartObject } from '../../../model/chart';
-import { CollectionItem } from '../../../model/index';
+import {
+  CollectionItem,
+  CollectionItemComparator,
+  CollectionItemComparatorType,
+  CollectionItemEval,
+  CollectionItemEvalType,
+} from '../../../model/index';
 import { Editor, EditorType } from '../../../reducers/text-editor-reducer';
-import { Splinter } from '../pair-card/index';
 import VegaLiteChart from '../vega-lite-chart';
 import './chart-card.css';
 
@@ -15,6 +20,8 @@ export interface ChartCardStoreProps {
   cost?: number;
   finishedRunIds: Set<number>;
   focused: boolean;
+  comparator: CollectionItemComparatorType;
+  itemEval: CollectionItemEvalType;
 }
 export interface ChartCardDispatchProps {
   solveChart: (chart: ChartObject, runId: number) => void;
@@ -22,6 +29,7 @@ export interface ChartCardDispatchProps {
   setVegaLiteEditorCode: (code: string) => void;
   toggleShowEditor: (show: boolean) => void;
   setEditorType: (type: EditorType) => void;
+  updateChart: (chart: ChartObject) => void;
 }
 export interface ChartCardOwnProps {
   id: string;
@@ -48,16 +56,14 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
   }
 
   render() {
-    const splinterColor =
-      this.props.cost === Infinity ? Splinter.GREY : _.isUndefined(this.props.cost) ? Splinter.WHITE : Splinter.GREEN;
+    const splinterColor = CollectionItemEval.toColor(this.props.itemEval);
 
     let borderColor;
 
     if (this.props.focused) {
-      borderColor = Splinter.BLUE;
+      borderColor = CollectionItemEval.BLUE;
     } else {
-      borderColor =
-        this.props.cost === Infinity ? Splinter.GREY : _.isUndefined(this.props.cost) ? Splinter.GREY : Splinter.GREEN;
+      borderColor = CollectionItemEval.toColor(this.props.itemEval);
     }
 
     const styleName = classnames({
@@ -111,7 +117,29 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
           </div>
         </VisibilitySensor>
         <div styleName="info-container">
-          <div styleName="cost-container">{this.props.cost}</div>
+          <div styleName="cost-container">
+            <span styleName="cost">{this.props.cost ? this.props.cost : '_'}</span>
+            <button
+              styleName="comparator"
+              onClick={e => {
+                e.stopPropagation();
+                const chart = this.buildChartObject();
+                switch (chart.comparator) {
+                  case CollectionItemComparator.LESS_THAN:
+                    chart.comparator = CollectionItemComparator.EQUAL;
+                    break;
+                  case CollectionItemComparator.EQUAL:
+                    chart.comparator = CollectionItemComparator.LESS_THAN;
+                    break;
+                }
+
+                this.props.updateChart(chart);
+              }}
+            >
+              {this.props.comparator}
+            </button>
+            <span styleName="target">{Infinity}</span>
+          </div>
           <div styleName="button-container">
             <button
               styleName={classnames({
@@ -125,11 +153,7 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
                   runId,
                 });
 
-                const chart: ChartObject = {
-                  type: CollectionItem.CHART,
-                  vlSpec: this.props.vlSpec,
-                  id: this.props.id,
-                };
+                const chart = this.buildChartObject();
                 this.props.solveChart(chart, runId);
               }}
             >
@@ -139,5 +163,14 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
         </div>
       </div>
     );
+  }
+
+  private buildChartObject(): ChartObject {
+    return {
+      type: CollectionItem.CHART,
+      vlSpec: this.props.vlSpec,
+      comparator: this.props.comparator,
+      id: this.props.id,
+    };
   }
 }

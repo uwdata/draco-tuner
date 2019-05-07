@@ -83,9 +83,43 @@ export class CollectionItemEval {
         return 0;
     }
   }
+
+  static toColor(itemEval: CollectionItemEvalType): string {
+    switch (itemEval) {
+      case undefined:
+        return CollectionItemEval.WHITE;
+      case CollectionItemEval.PASS:
+        return CollectionItemEval.GREEN;
+      case CollectionItemEval.FAIL:
+        return CollectionItemEval.RED;
+      case CollectionItemEval.UNSAT:
+        return CollectionItemEval.GREY;
+      default:
+        return CollectionItemEval.WHITE;
+    }
+  }
+
+  static BLUE = '#75a8f9';
+  static RED = '#f97486';
+  static WHITE = '#fff';
+  static GREEN = '#aff7b3';
+  static ORANGE = '#ffcd51';
+  static LIGHTBLUE = '#eaf4ff';
+  static GREY = '#d8d8d8';
 }
 
 export type CollectionItemEvalType =
   | typeof CollectionItemEval.PASS
   | typeof CollectionItemEval.FAIL
   | typeof CollectionItemEval.UNSAT;
+
+export class CollectionItemComparator {
+  static LESS_THAN: '<' = '<';
+  static LESS_THAN_OR_EQUAL: '<=' = '<=';
+  static EQUAL: '=' = '=';
+}
+
+export type CollectionItemComparatorType =
+  | typeof CollectionItemComparator.LESS_THAN
+  | typeof CollectionItemComparator.LESS_THAN_OR_EQUAL
+  | typeof CollectionItemComparator.EQUAL;

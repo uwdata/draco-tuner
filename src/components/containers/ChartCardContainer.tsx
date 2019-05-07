@@ -2,9 +2,9 @@ import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { toggleShowEditor } from '../../actions/app-actions';
-import { solveChartsThunk, toggleFocusChart } from '../../actions/chart-collection-actions';
+import { solveChartsThunk, toggleFocusChart, updateCharts } from '../../actions/chart-collection-actions';
 import { setEditorType, setVegaLiteCode } from '../../actions/text-editor-actions';
-import { ChartDictionary, ChartObject } from '../../model/chart';
+import { Chart, ChartDictionary, ChartObject } from '../../model/chart';
 import { Spec } from '../../model/spec';
 import { RootState } from '../../reducers';
 import { EditorType } from '../../reducers/text-editor-reducer';
@@ -16,11 +16,16 @@ function mapStateToProps(state: RootState, ownProps: ChartCardOwnProps): ChartCa
   const cost = Spec.getCost(chart, state.draco.constraintMap);
   const finishedRunIds = state.draco.finishedRunIds;
   const focused = state.chartCollection.focusChart === ownProps.id;
+  const comparator = chart.comparator;
+  const itemEval = Chart.getEval(chart, state.draco.constraintMap);
+
   return {
     vlSpec,
     cost,
     finishedRunIds,
     focused,
+    comparator,
+    itemEval,
   };
 }
 
@@ -45,6 +50,9 @@ function mapDispatchToProps(
     },
     toggleShowEditor: (show: boolean) => {
       dispatch(toggleShowEditor(show));
+    },
+    updateChart: (chart: ChartObject) => {
+      dispatch(updateCharts({ [chart.id]: chart }));
     },
   };
 }

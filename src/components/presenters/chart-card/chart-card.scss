@@ -10,6 +10,7 @@
   overflow: hidden;
   height: 16px;
   width: 160px;
+  user-select: none;
 
   .chart-container,
   .loading-container,
@@ -72,4 +73,29 @@
   button {
     color: $light-purple;
   }
+}
+
+.cost {
+  color: $medium-grey;
+  font-weight: 400;
+}
+
+.comparator {
+  border-radius: 4px;
+  font-weight: 400;
+  color: $medium-grey;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $light-purple;
+    color: #fff;
+  }
+}
+
+.target {
+  color: $light-grey;
 }

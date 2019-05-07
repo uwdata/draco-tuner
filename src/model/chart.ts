@@ -1,10 +1,18 @@
 import _ from 'lodash';
-import { CollectionItem, CollectionItemEval, CollectionItemEvalType, CollectionItemObject } from './collection-item';
+import {
+  CollectionItem,
+  CollectionItemComparator,
+  CollectionItemComparatorType,
+  CollectionItemEval,
+  CollectionItemEvalType,
+  CollectionItemObject,
+} from './collection-item';
 import { ConstraintMapObject } from './constraint-map';
 import { Spec, SpecObject } from './spec';
 
 export interface ChartObject extends SpecObject, CollectionItemObject {
   id: string;
+  comparator: CollectionItemComparatorType;
 }
 
 export class Chart {
@@ -14,11 +22,17 @@ export class Chart {
     }
 
     const cost = Spec.getCost(chart, constraintMap);
-    if (cost === Infinity) {
-      return CollectionItemEval.UNSAT;
-    }
 
-    return CollectionItemEval.PASS;
+    switch (chart.comparator) {
+      case CollectionItemComparator.EQUAL:
+        return CollectionItemEval.fromBoolean(cost === Infinity);
+      case CollectionItemComparator.LESS_THAN:
+        return CollectionItemEval.fromBoolean(cost < Infinity);
+      case CollectionItemComparator.LESS_THAN_OR_EQUAL:
+        return CollectionItemEval.fromBoolean(cost <= Infinity);
+      default:
+        return CollectionItemEval.UNSAT;
+    }
   };
 
   static getCost = function(chart: ChartObject, constraintMap: ConstraintMapObject): number {
@@ -34,6 +48,7 @@ export class Chart {
       id,
       ...Spec.getEmptySpec(),
       type: CollectionItem.CHART,
+      comparator: CollectionItemComparator.LESS_THAN,
     };
   };
 }

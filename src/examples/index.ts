@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { ChartDictionary, CollectionItem } from '../model';
+import { ChartDictionary, CollectionItem, CollectionItemComparator } from '../model';
 
 export const EXAMPLE_PAIRS = require('./pairs.json');
 
@@ -14,6 +14,7 @@ export const EXAMPLE_CHARTS = _.uniqBy(
     list.push({
       type: CollectionItem.CHART,
       id: leftId,
+      comparator: CollectionItemComparator.LESS_THAN,
       vlSpec: left.vlSpec,
     });
     chartId += 1;
@@ -22,6 +23,7 @@ export const EXAMPLE_CHARTS = _.uniqBy(
     list.push({
       type: CollectionItem.CHART,
       id: rightId,
+      comparator: CollectionItemComparator.LESS_THAN,
       vlSpec: right.vlSpec,
     });
     chartId += 1;

@@ -29,6 +29,7 @@ const chartCollectionReducer = createReducer<ChartCollectionStore, ChartCollecti
     [getType(chartCollectionActions.removeChartFilters)]: removeChartFilters,
     [getType(chartCollectionActions.setChartSorts)]: setChartSorts,
     [getType(chartCollectionActions.resetCharts)]: resetCharts,
+    [getType(chartCollectionActions.updateCharts)]: updateCharts,
   }
 );
 
@@ -97,4 +98,19 @@ function setChartSorts(
   action: ActionType<typeof chartCollectionActions.setChartSorts>
 ): void {
   state.sorts = action.payload;
+}
+
+function updateCharts(
+  state: ChartCollectionStore,
+  action: ActionType<typeof chartCollectionActions.updateCharts>
+): void {
+  const chartDict = action.payload;
+  Object.keys(chartDict).forEach(chartId => {
+    const originalChart = state.charts[chartId];
+
+    state.charts[chartId] = {
+      ...originalChart,
+      ...chartDict[chartId],
+    };
+  });
 }

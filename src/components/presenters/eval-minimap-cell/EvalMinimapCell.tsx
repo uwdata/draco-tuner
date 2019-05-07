@@ -1,12 +1,11 @@
 import classnames from 'classnames';
 import React from 'react';
-import { CollectionItemEval } from '../../../model';
+import { CollectionItemEval, CollectionItemEvalType } from '../../../model';
 import { EvalMinimapType } from '../eval-minimap/EvalMinimap';
-import { Splinter } from '../pair-card/index';
 import './eval-minimap-cell.css';
 
 export interface EvalMinimapCellStoreProps {
-  evalType: CollectionItemEval;
+  evalType: CollectionItemEvalType;
   focused: boolean;
   important: boolean;
 }
@@ -29,24 +28,10 @@ export interface EvalMinimapCellState {}
 
 export default class EvalMinimapCell extends React.PureComponent<EvalMinimapCellProps, EvalMinimapCellState> {
   render() {
-    let color;
-    switch (this.props.evalType) {
-      case CollectionItemEval.PASS:
-        color = Splinter.GREEN;
-        break;
-      case CollectionItemEval.FAIL:
-        color = Splinter.RED;
-        break;
-      case CollectionItemEval.UNSAT:
-        color = Splinter.GREY;
-        break;
-      default:
-        color = Splinter.WHITE;
-        break;
-    }
+    let color = CollectionItemEval.toColor(this.props.evalType);
 
     if (this.props.focused) {
-      color = Splinter.BLUE;
+      color = CollectionItemEval.BLUE;
     }
 
     const style = { backgroundColor: color };
