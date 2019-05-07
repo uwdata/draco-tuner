@@ -8,7 +8,12 @@ import TextEditor, {
 } from '../presenters/text-editor';
 
 function mapStateToProps(state: RootState, ownProps: TextEditorOwnProps): TextEditorStoreProps {
-  return {};
+  const vlSpec = state.textEditor.vegalite.parsedVlSpec;
+  const vlLog = state.textEditor.vegalite.log;
+  return {
+    vlSpec,
+    vlLog,
+  };
 }
 
 function mapDispatchToProps(dispatch: Dispatch, ownProps: TextEditorOwnProps): TextEditorDispatchProps {

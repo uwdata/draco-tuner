@@ -19,3 +19,16 @@
     z-index: 1;
   }
 }
+
+.render {
+  height: 240px;
+  width: 100%;
+}
+
+.log {
+  height: 24px;
+  font-family: "Roboto Mono", monospace;
+  font-size: 12px;
+  width: calc(100% - 16px);
+  padding-left: 16px;
+}

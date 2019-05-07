@@ -1,10 +1,15 @@
 import classnames from 'classnames';
+import { TopLevelUnitSpec } from 'draco-vis/node_modules/vega-lite/build/src/spec/unit';
 import React from 'react';
 import { Editor, EditorType } from '../../../reducers/text-editor-reducer';
 import { AspEditorPanelContainer, VegaLiteEditorContainer } from '../../containers';
+import VegaLiteChart from '../vega-lite-chart/index';
 import './text-editor.css';
 
-export interface TextEditorStoreProps {}
+export interface TextEditorStoreProps {
+  vlSpec: TopLevelUnitSpec;
+  vlLog: string;
+}
 
 export interface TextEditorDispatchProps {}
 
@@ -21,7 +26,11 @@ export default class TextEditor extends React.PureComponent<TextEditorProps, Tex
     const vlStyle = classnames({ 'single-editor': true, visible: this.props.editorType === Editor.VEGA_LITE });
     const vegaLiteEditor = (
       <div key="vegalite" styleName={vlStyle}>
+        <div styleName="render">
+          <VegaLiteChart spec={this.props.vlSpec} renderer="svg" />
+        </div>
         <VegaLiteEditorContainer />
+        <div styleName="log">{this.props.vlLog}</div>
       </div>
     );
 

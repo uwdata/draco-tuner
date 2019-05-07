@@ -14,14 +14,7 @@ import {
   textEditorActions,
 } from '../actions/index';
 import { AspPrograms } from '../model/asp-program';
-import {
-  ConstraintEdit,
-  ConstraintEditCheckpoint,
-  ConstraintMap,
-  isValidJSON,
-  PairEvalMap,
-  Spec,
-} from '../model/index';
+import { ConstraintEdit, ConstraintEditCheckpoint, ConstraintMap, PairEvalMap, Spec } from '../model/index';
 import appReducer, { Collection } from './app-reducer';
 import chartCollectionReducer from './chart-collection-reducer';
 import constraintInspecorReducer from './constraint-inspector-reducer';
@@ -158,27 +151,23 @@ function addEmptyPair(state: CombinedState, action: ActionType<typeof pairCollec
 
 function updateChartVegaLite(state: CombinedState, code: string): void {
   const focusChartId = state.chartCollection.focusChart;
-  if (!_.isUndefined(focusChartId) && isValidJSON(code)) {
-    const vlSpec = JSON.parse(code);
-    if (Spec.isVlSpecValid(vlSpec)) {
-      const focusChart = state.chartCollection.charts[focusChartId];
-      focusChart.vlSpec = vlSpec;
-    }
+  if (!_.isUndefined(focusChartId) && state.textEditor.vegalite.log === 'ok') {
+    const vlSpec = state.textEditor.vegalite.parsedVlSpec;
+    const focusChart = state.chartCollection.charts[focusChartId];
+    focusChart.vlSpec = vlSpec;
   }
 }
 
 function updatePairItemVegaLite(state: CombinedState, code: string): void {
   const focusPair = state.pairCollection.focusPair;
   const focusItem = state.pairCollection.focusItem;
-  if (isValidJSON(code)) {
-    const vlSpec = JSON.parse(code);
+  if (state.textEditor.vegalite.log === 'ok') {
+    const vlSpec = state.textEditor.vegalite.parsedVlSpec;
     if (!!focusPair && !!focusItem) {
-      if (Spec.isVlSpecValid(vlSpec)) {
-        if (focusItem === 'left') {
-          state.pairCollection.pairs[focusPair].left.vlSpec = vlSpec;
-        } else {
-          state.pairCollection.pairs[focusPair].right.vlSpec = vlSpec;
-        }
+      if (focusItem === 'left') {
+        state.pairCollection.pairs[focusPair].left.vlSpec = vlSpec;
+      } else {
+        state.pairCollection.pairs[focusPair].right.vlSpec = vlSpec;
       }
     }
   }

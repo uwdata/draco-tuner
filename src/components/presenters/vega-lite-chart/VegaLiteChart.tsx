@@ -14,6 +14,7 @@ export const datasets = {
 
 interface PassedProps {
   spec: TopLevelUnitSpec;
+  renderer?: 'svg' | 'canvas';
 }
 
 interface Props extends PassedProps {}
@@ -49,7 +50,7 @@ class VegaLiteChart extends React.PureComponent<Props, State> {
         <VegaLite
           spec={this.props.spec}
           data={data}
-          renderer="canvas"
+          renderer={this.props.renderer ? this.props.renderer : 'canvas'}
           style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', maxWidth: '100%' }}
         />
       </div>
