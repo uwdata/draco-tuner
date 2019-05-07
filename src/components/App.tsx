@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import SplitPane from 'react-split-pane';
 import { Dispatch } from 'redux';
+import { save } from '../actions/app-actions';
 import { View, ViewPosition } from '../reducers/app-reducer';
 import { RootState } from '../reducers/index';
 import './app.css';
@@ -13,7 +14,9 @@ interface StateProps {
   showRight: boolean;
 }
 
-interface DispatchProps {}
+interface DispatchProps {
+  save: () => void;
+}
 
 interface OwnProps {}
 
@@ -22,6 +25,10 @@ interface AppProps extends StateProps, DispatchProps, OwnProps {}
 interface State {}
 
 export class App extends React.PureComponent<AppProps, State> {
+  constructor(props: AppProps) {
+    super(props);
+  }
+
   render() {
     const leftStoredSize = localStorage.getItem('left-pane-size');
     let leftSize = this.props.showLeft ? (leftStoredSize ? +leftStoredSize : '25%') : 24;
@@ -48,7 +55,17 @@ export class App extends React.PureComponent<AppProps, State> {
     }
 
     return (
-      <div styleName="app" id="app">
+      <div
+        styleName="app"
+        id="app"
+        tabIndex={0}
+        onKeyDown={event => {
+          if (event.metaKey && event.key === 's') {
+            event.preventDefault();
+            this.props.save();
+          }
+        }}
+      >
         <div styleName="navbar">
           <NavbarContainer />
         </div>
@@ -85,7 +102,11 @@ function mapStateToProps(state: RootState, ownProps: OwnProps): StateProps {
 }
 
 function mapDispatchToProps(dispatch: Dispatch, ownProps: OwnProps): DispatchProps {
-  return {};
+  return {
+    save: () => {
+      dispatch(save());
+    },
+  };
 }
 
 export default connect<StateProps, DispatchProps, OwnProps>(
