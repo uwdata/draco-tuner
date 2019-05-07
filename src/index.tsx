@@ -29,8 +29,10 @@ let persistedState = persistedJSON ? JSON.parse(persistedJSON) : undefined;
 
 // old versions that need to be reset
 if (
-  (!_.isUndefined(persistedState) && persistedState.app.__version__ === '0.0.2') ||
-  persistedState.app.__version__ === '0.0.1'
+  !_.isUndefined(persistedState) &&
+  (persistedState.app.__version__ === '0.0.1' ||
+    persistedState.app.__version__ === '0.0.2' ||
+    persistedState.app.__version__ === '0.0.3')
 ) {
   localStorage.clear();
   persistedState = undefined;
