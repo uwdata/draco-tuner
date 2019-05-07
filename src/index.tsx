@@ -27,6 +27,15 @@ const createStoreWithMiddleware = applyMiddleware(
 const persistedJSON = localStorage.getItem('reduxState');
 let persistedState = persistedJSON ? JSON.parse(persistedJSON) : undefined;
 
+// old versions that need to be reset
+if (
+  (!_.isUndefined(persistedState) && persistedState.app.__version__ === '0.0.2') ||
+  persistedState.app.__version__ === '0.0.1'
+) {
+  localStorage.clear();
+  persistedState = undefined;
+}
+
 if (!_.isUndefined(persistedState) && persistedState.app.__version__ !== VERSION) {
   persistedState = {
     app: {
