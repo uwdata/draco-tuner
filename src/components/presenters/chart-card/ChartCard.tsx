@@ -71,6 +71,19 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
       expanded: this.props.expanded || this.props.focused,
     });
 
+    let comp = this.props.comparator.toString();
+    if (
+      this.props.comparator === CollectionItemComparator.LESS_THAN &&
+      this.props.itemEval !== CollectionItemEval.PASS
+    ) {
+      comp = '≮';
+    } else if (
+      this.props.comparator === CollectionItemComparator.EQUAL &&
+      this.props.itemEval !== CollectionItemEval.PASS
+    ) {
+      comp = '≠';
+    }
+
     return (
       <div
         styleName={styleName}
@@ -131,12 +144,14 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
                   case CollectionItemComparator.EQUAL:
                     chart.comparator = CollectionItemComparator.LESS_THAN;
                     break;
+                  default:
+                    chart.comparator = CollectionItemComparator.LESS_THAN;
                 }
 
                 this.props.updateChart(chart);
               }}
             >
-              {this.props.comparator}
+              {comp}
             </button>
             <span styleName="target">{Infinity}</span>
           </div>
