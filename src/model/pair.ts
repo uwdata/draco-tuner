@@ -58,10 +58,6 @@ export class Pair {
       return undefined;
     }
 
-    if (leftCost === Infinity) {
-      return CollectionItemEval.UNSAT;
-    }
-
     if (pair.comparator === CollectionItemComparator.LESS_THAN) {
       return CollectionItemEval.fromBoolean(leftCost < rightCost);
     }
