@@ -53,8 +53,9 @@ function addConstraintEdit(state: DracoStore, action: ActionType<typeof dracoAct
     const prevEdit = state.edits[state.editIndex];
     if (prevEdit.type === edit.type) {
       if (
-        !ConstraintEdit.isCheckpoint(prevEdit) &&
-        !ConstraintEdit.isCheckpoint(edit) &&
+        ((ConstraintEdit.isCostEdit(prevEdit) && ConstraintEdit.isCostEdit(edit)) ||
+          (ConstraintEdit.isAspEdit(edit) && ConstraintEdit.isAspEdit(prevEdit)) ||
+          (ConstraintEdit.isDescriptionEdit(edit) && ConstraintEdit.isDescriptionEdit(prevEdit))) &&
         prevEdit.targetId === edit.targetId
       ) {
         prevEdit.after = edit.after;
@@ -112,6 +113,8 @@ function updateConstraintMap(state: DracoStore): void {
       state.constraintMap[edit.targetId].asp = edit.before;
     } else if (ConstraintEdit.isDescriptionEdit(edit)) {
       state.constraintMap[edit.targetId].description = edit.before;
+    } else if (ConstraintEdit.isAddEdit(edit)) {
+      state.constraintMap[edit.targetId] = undefined;
     }
   });
 
@@ -122,6 +125,14 @@ function updateConstraintMap(state: DracoStore): void {
       state.constraintMap[edit.targetId].asp = edit.after;
     } else if (ConstraintEdit.isDescriptionEdit(edit)) {
       state.constraintMap[edit.targetId].description = edit.after;
+    } else if (ConstraintEdit.isAddEdit(edit)) {
+      state.constraintMap[edit.targetId] = {
+        asp: '',
+        type: 'soft',
+        name: edit.targetId,
+        description: '',
+        weight: 0,
+      };
     }
   });
 }

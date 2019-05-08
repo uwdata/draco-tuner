@@ -205,6 +205,10 @@ function setAspCode(state: CombinedState, action: ActionType<typeof textEditorAc
 }
 
 function addConstraintEdit(state: CombinedState, action: ActionType<typeof dracoActions.addConstraintEdit>): void {
+  if (action.payload.type === ConstraintEdit.ADD) {
+    state.constraintTuner.focusConstraint = ConstraintEdit.NEW_CONSTRAINT_NAME;
+  }
+
   const constraintMap = state.draco.constraintMap;
   const oldAsp = state.textEditor.asp;
   const newAsp = ConstraintMap.toAspPrograms(constraintMap);

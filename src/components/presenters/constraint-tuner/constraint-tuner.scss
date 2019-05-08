@@ -154,3 +154,12 @@
     font-size: 13px;
   }
 }
+
+.controls {
+  @extend %flex-row;
+  justify-content: center;
+
+  .button-container {
+    @extend %button-container;
+  }
+}

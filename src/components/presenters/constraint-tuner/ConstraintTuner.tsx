@@ -6,6 +6,7 @@ import SplitPane from 'react-split-pane';
 import {
   CollectionItemFilter,
   CollectionItemFilterObject,
+  ConstraintAddEdit,
   ConstraintCostEdit,
   ConstraintEdit,
   ConstraintEditObject,
@@ -178,7 +179,7 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
                 expanded: !_.isUndefined(this.props.focusConstraint),
               })}
             >
-              {this.props.focusConstraint ? (
+              {!_.isUndefined(this.props.focusConstraint) ? (
                 <div styleName="editors">
                   <div styleName="subtitle">Description</div>
                   <div styleName="editor">
@@ -190,6 +191,22 @@ export default class ConstraintTuner extends React.PureComponent<ConstraintTuner
                   </div>
                 </div>
               ) : null}
+            </div>
+            <div styleName="controls">
+              <div styleName="button-container">
+                <button
+                  className="material-icons"
+                  styleName="icon-button"
+                  onClick={() => {
+                    this.props.addConstraintEdit({
+                      type: ConstraintEdit.ADD,
+                      targetId: ConstraintEdit.NEW_CONSTRAINT_NAME,
+                    } as ConstraintAddEdit);
+                  }}
+                >
+                  add
+                </button>
+              </div>
             </div>
             <div
               styleName="constraint-table-container"
