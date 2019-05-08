@@ -86,6 +86,28 @@
     font-weight: 400;
     font-size: 20px;
     color: $medium-purple;
+    cursor: pointer;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: $light-purple;
+      color: #fff;
+    }
+  }
+
+  .swap {
+    margin-top: 4px;
+    color: $medium-purple;
+    cursor: pointer;
+    border-radius: 4px;
+    @extend %flex-row;
+    justify-content: center;
+    font-weight: 400;
+
+    &:hover {
+      background-color: $light-purple;
+      color: #fff;
+    }
   }
 
   .splinter {

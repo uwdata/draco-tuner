@@ -5,9 +5,11 @@ import VisibilitySensor from 'react-visibility-sensor';
 import { TopLevelUnitSpec } from 'vega-lite/build/src/spec/unit';
 import {
   CollectionItem,
+  CollectionItemComparator,
   CollectionItemComparatorType,
   CollectionItemEval,
   CollectionItemEvalType,
+  Pair,
   PairObject,
 } from '../../../model';
 import { Editor, EditorType } from '../../../reducers/text-editor-reducer';
@@ -32,6 +34,7 @@ export interface PairCardDispatchProps {
   toggleFocusPairItem: (pairId: string, position: string, on: boolean) => void;
   toggleShowEditor: (show: boolean) => void;
   setEditorType: (type: EditorType) => void;
+  updatePair: (pair: Pair) => void;
 }
 
 export interface PairCardOwnProps {
@@ -127,7 +130,42 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
                 </div>
                 <div style={{ paddingTop: '16px' }}>{this.props.left.cost}</div>
               </div>
-              <div styleName="comparator">{comp}</div>
+              <div styleName="modifiers">
+                <div
+                  styleName="comparator"
+                  onClick={() => {
+                    const pair = this.buildPairObject();
+                    switch (pair.comparator) {
+                      case CollectionItemComparator.LESS_THAN:
+                        pair.comparator = CollectionItemComparator.EQUAL;
+                        break;
+                      case CollectionItemComparator.EQUAL:
+                        pair.comparator = CollectionItemComparator.LESS_THAN;
+                        break;
+                      default:
+                        pair.comparator = CollectionItemComparator.LESS_THAN;
+                    }
+
+                    this.props.updatePair(pair);
+                  }}
+                >
+                  {comp}
+                </div>
+                <div
+                  className="material-icons"
+                  styleName="swap"
+                  onClick={() => {
+                    const pair = this.buildPairObject();
+                    const temp = pair.left;
+                    pair.left = pair.right;
+                    pair.right = temp;
+
+                    this.props.updatePair(pair);
+                  }}
+                >
+                  swap_horiz
+                </div>
+              </div>
               <div styleName="item">
                 <div
                   styleName={classnames({
@@ -222,6 +260,16 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
         {populated}
       </div>
     );
+  }
+
+  private buildPairObject(): PairObject {
+    return {
+      type: CollectionItem.PAIR,
+      id: +this.props.id,
+      left: this.props.left,
+      right: this.props.right,
+      comparator: this.props.comparator,
+    };
   }
 }
 

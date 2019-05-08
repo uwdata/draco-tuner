@@ -27,6 +27,10 @@ export const setPairs = createAction('pairs-collection/SET_PAIRS', action => {
   return (specDict: SpecDictionaryObject, runId: number) => action({ specDict, runId });
 });
 
+export const updatePairs = createAction('pair-collection/UPDATE_PAIRS', action => {
+  return (pairDict: PairsDictionary) => action(pairDict);
+});
+
 export const resetPairs = createAction('pairs-collection/RESET_PAIRS', action => {
   return (pairs: PairsDictionary) => action(pairs);
 });

@@ -45,6 +45,7 @@ const pairsCollectionReducer = createReducer<PairCollectionStore, PairCollection
     [getType(pairCollectionActions.addEmptyPair)]: addEmptyPair,
     [getType(pairCollectionActions.toggleFocusPairItem)]: toggleFocusPairItem,
     [getType(pairCollectionActions.resetPairs)]: resetPairs,
+    [getType(pairCollectionActions.updatePairs)]: updatePairs,
   }
 );
 
@@ -54,6 +55,26 @@ function setPairs(state: PairCollectionStore, action: ActionType<typeof pairColl
   const specDict = action.payload.specDict;
   const pairsDictionary = SpecDictionary.toPairsDictionary(specDict, state.pairs);
   state.pairs = pairsDictionary;
+}
+
+function updatePairs(state: PairCollectionStore, action: ActionType<typeof pairCollectionActions.updatePairs>): void {
+  const pairDict = action.payload;
+  Object.keys(pairDict).forEach(pairId => {
+    const pair = state.pairs[pairId];
+
+    state.pairs[pairId] = {
+      ...pair,
+      ...pairDict[pairId],
+      left: {
+        ...pair.left,
+        ...pairDict[pairId].left,
+      },
+      right: {
+        ...pair.right,
+        ...pairDict[pairId].right,
+      },
+    };
+  });
 }
 
 function resetPairs(state: PairCollectionStore, action: ActionType<typeof pairCollectionActions.resetPairs>): void {

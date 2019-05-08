@@ -2,7 +2,12 @@ import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { toggleShowEditor } from '../../actions/app-actions';
-import { solvePairsThunk, toggleFocusPair, toggleFocusPairItem } from '../../actions/pair-collection-actions';
+import {
+  solvePairsThunk,
+  toggleFocusPair,
+  toggleFocusPairItem,
+  updatePairs,
+} from '../../actions/pair-collection-actions';
 import { setEditorType, setVegaLiteCode } from '../../actions/text-editor-actions';
 import { Pair, PairObject } from '../../model/pair';
 import { RootState } from '../../reducers';
@@ -55,6 +60,9 @@ function mapDispatchToProps(dispatch: ThunkDispatch<{}, {}, AnyAction>, props: P
     },
     setEditorType: (type: EditorType) => {
       dispatch(setEditorType(type));
+    },
+    updatePair: (pair: PairObject) => {
+      dispatch(updatePairs({ [pair.id]: pair }));
     },
   };
 }
