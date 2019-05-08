@@ -22,6 +22,7 @@ export interface ChartCardStoreProps {
   focused: boolean;
   comparator: CollectionItemComparatorType;
   itemEval: CollectionItemEvalType;
+  facts?: string[];
 }
 export interface ChartCardDispatchProps {
   solveChart: (chart: ChartObject, runId: number) => void;

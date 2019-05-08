@@ -62,6 +62,7 @@ function solveSpecs(specDict: SpecDictionary, asp: { [s: string]: string }, lock
     const spec = specDict[id];
     const newOptions = { ...dracoOptions, models: 1, weights: [{ name: 'max_extra_encs', value: 0 }] };
     const solvedSpec = Spec.dracoSolve(spec, draco, lock, newOptions);
+    console.debug(solvedSpec);
     result[id] = solvedSpec;
   }
 

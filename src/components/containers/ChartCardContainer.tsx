@@ -5,7 +5,7 @@ import { toggleShowEditor } from '../../actions/app-actions';
 import { solveChartsThunk, toggleFocusChart, updateCharts } from '../../actions/chart-collection-actions';
 import { setEditorType, setVegaLiteCode } from '../../actions/text-editor-actions';
 import { Chart, ChartDictionary, ChartObject } from '../../model/chart';
-import { Spec } from '../../model/spec';
+import { DracoSolution, Spec } from '../../model/spec';
 import { RootState } from '../../reducers';
 import { EditorType } from '../../reducers/text-editor-reducer';
 import ChartCard, { ChartCardDispatchProps, ChartCardOwnProps, ChartCardStoreProps } from '../presenters/chart-card';
@@ -18,6 +18,10 @@ function mapStateToProps(state: RootState, ownProps: ChartCardOwnProps): ChartCa
   const focused = state.chartCollection.focusChart === ownProps.id;
   const comparator = chart.comparator;
   const itemEval = Chart.getEval(chart, state.draco.constraintMap);
+  let facts;
+  if (DracoSolution.isDefined(chart.sol)) {
+    facts = chart.sol.facts;
+  }
 
   return {
     vlSpec,
@@ -26,6 +30,7 @@ function mapStateToProps(state: RootState, ownProps: ChartCardOwnProps): ChartCa
     focused,
     comparator,
     itemEval,
+    facts,
   };
 }
 

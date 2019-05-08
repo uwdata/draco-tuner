@@ -42,3 +42,15 @@
     background-color: $light-blue;
   }
 }
+
+.split-editors {
+  @extend %flex-row;
+  width: 100%;
+  flex-grow: 1;
+}
+
+.split-editor {
+  @extend %flex-column;
+  width: 50%;
+  flex-grow: 1;
+}

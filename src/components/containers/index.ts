@@ -16,6 +16,7 @@ import PairCollectionContainer from './PairCollectionContainer';
 import PairEvalMinimapCellContainer from './PairEvalMinimapCellContainer';
 import PairEvalMinimapContainer from './PairEvalMinimapContainer';
 import TextEditorContainer from './TextEditorContainer';
+import VegaLiteAspFactEditorContainer from './VegaLiteAspFactEditorContainer';
 import VegaLiteEditorContainer from './VegaLiteEditorContainer';
 import ViewPaneContainer from './ViewPaneContainer';
 
@@ -40,4 +41,5 @@ export {
   ConstraintInspectorAspEditorContainer,
   ConstraintTunerAspEditorContainer,
   ConstraintTunerDescriptionEditorContainer,
+  VegaLiteAspFactEditorContainer,
 };

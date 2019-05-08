@@ -14,7 +14,14 @@ import {
   textEditorActions,
 } from '../actions/index';
 import { AspPrograms } from '../model/asp-program';
-import { ConstraintEdit, ConstraintEditCheckpoint, ConstraintMap, PairEvalMap, Spec } from '../model/index';
+import {
+  ConstraintEdit,
+  ConstraintEditCheckpoint,
+  ConstraintMap,
+  DracoSolution,
+  PairEvalMap,
+  Spec,
+} from '../model/index';
 import appReducer, { Collection } from './app-reducer';
 import chartCollectionReducer from './chart-collection-reducer';
 import constraintInspecorReducer from './constraint-inspector-reducer';
@@ -55,11 +62,21 @@ export type RootState = CombinedState;
 function setPairs(state: CombinedState, action: ActionType<typeof pairCollectionActions.setPairs>): void {
   state.draco.finishedRunIds.add(action.payload.runId);
   updateDeltaAndScore(state);
+
+  if (action.payload.specDict.hasOwnProperty(`${state.pairCollection.focusPair}.${state.pairCollection.focusItem}`)) {
+    const spec = action.payload.specDict[`${state.pairCollection.focusPair}.${state.pairCollection.focusItem}`];
+    state.textEditor.vegalite.aspFacts = DracoSolution.toFactString(spec.sol);
+  }
 }
 
 function setCharts(state: CombinedState, action: ActionType<typeof chartCollectionActions.setCharts>): void {
   state.draco.finishedRunIds.add(action.payload.runId);
   updateDeltaAndScore(state);
+
+  if (action.payload.specDict.hasOwnProperty(state.chartCollection.focusChart)) {
+    const spec = action.payload.specDict[state.chartCollection.focusChart];
+    state.textEditor.vegalite.aspFacts = DracoSolution.toFactString(spec.sol);
+  }
 }
 
 function save(state: CombinedState, action: ActionType<typeof appActions.save>): void {
@@ -155,6 +172,8 @@ function updateChartVegaLite(state: CombinedState, code: string): void {
     const vlSpec = state.textEditor.vegalite.parsedVlSpec;
     const focusChart = state.chartCollection.charts[focusChartId];
     focusChart.vlSpec = vlSpec;
+
+    state.textEditor.vegalite.aspFacts = DracoSolution.toFactString(focusChart.sol);
   }
 }
 
@@ -164,10 +183,14 @@ function updatePairItemVegaLite(state: CombinedState, code: string): void {
   if (state.textEditor.vegalite.status === VegaLiteStatus.OK) {
     const vlSpec = state.textEditor.vegalite.parsedVlSpec;
     if (!!focusPair && !!focusItem) {
+      const pair = state.pairCollection.pairs[focusPair];
+
       if (focusItem === 'left') {
-        state.pairCollection.pairs[focusPair].left.vlSpec = vlSpec;
+        pair.left.vlSpec = vlSpec;
+        state.textEditor.vegalite.aspFacts = DracoSolution.toFactString(pair.left.sol);
       } else {
-        state.pairCollection.pairs[focusPair].right.vlSpec = vlSpec;
+        pair.right.vlSpec = vlSpec;
+        state.textEditor.vegalite.aspFacts = DracoSolution.toFactString(pair.right.sol);
       }
     }
   }

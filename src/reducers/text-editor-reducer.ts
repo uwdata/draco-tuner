@@ -25,6 +25,7 @@ export interface VegaLiteStore {
   code: string;
   parsedVlSpec: TopLevelUnitSpec;
   status: VegaLiteStatus;
+  aspFacts: string;
 }
 
 export class VegaLiteStatus {
@@ -45,6 +46,7 @@ export const TEXT_EDITOR_REDUCER_INITIAL_STATE: TextEditorStore = {
     code: '',
     parsedVlSpec: null,
     status: VegaLiteStatus.INVALID_VEGALITE,
+    aspFacts: '',
   },
   asp: {
     ...constraintAspPrograms,
@@ -64,6 +66,7 @@ export const textEditorReducer = createReducer<TextEditorStore, TextEditorAction
   [getType(textEditorActions.setEditorType)]: setEditorType,
   [getType(textEditorActions.setAspEditorProgram)]: setAspEditorProgram,
   [getType(textEditorActions.setAspCode)]: setAspCode,
+  [getType(textEditorActions.setVegaLiteAspFactsCode)]: setVegaLiteAspFactsCode,
 });
 
 export default textEditorReducer;
@@ -84,6 +87,13 @@ function setVegaLiteCode(state: TextEditorStore, action: ActionType<typeof textE
   } else {
     state.vegalite.status = VegaLiteStatus.INVALID_JSON;
   }
+}
+
+function setVegaLiteAspFactsCode(
+  state: TextEditorStore,
+  action: ActionType<typeof textEditorActions.setVegaLiteAspFactsCode>
+): void {
+  state.vegalite.aspFacts = action.payload;
 }
 
 function setEditorType(state: TextEditorStore, action: ActionType<typeof textEditorActions.setEditorType>): void {

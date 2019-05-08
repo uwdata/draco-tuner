@@ -120,6 +120,14 @@ export class DracoSolution {
       facts: sol.models[0].facts,
     };
   }
+
+  static toFactString(sol: DracoSolutionObject): string {
+    if (DracoSolution.isDefined(sol)) {
+      return sol.facts.join('.\n');
+    }
+
+    return '';
+  }
 }
 
 export type DracoSolutionUnsatType = typeof DracoSolution.UNSAT;

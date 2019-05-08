@@ -6,6 +6,10 @@ export const setVegaLiteCode = createAction('text-editor/SET_VEGALITE_CODE', act
   return (code: string) => action(code);
 });
 
+export const setVegaLiteAspFactsCode = createAction('text-editor/SET_VEGALITE_ASP_FACTS_CODE', action => {
+  return (code: string) => action(code);
+});
+
 export const setAspCode = createAction('text-editor/SET_ASP_CODE', action => {
   return (code: string, programType: AspProgramsType) => action({ code, programType });
 });

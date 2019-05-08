@@ -10,9 +10,12 @@ import TextEditor, {
 function mapStateToProps(state: RootState, ownProps: TextEditorOwnProps): TextEditorStoreProps {
   const vlSpec = state.textEditor.vegalite.parsedVlSpec;
   const vlStatus = state.textEditor.vegalite.status;
+  const vlAspFacts = state.textEditor.vegalite.aspFacts;
+
   return {
     vlSpec,
     vlStatus,
+    vlAspFacts,
   };
 }
 
