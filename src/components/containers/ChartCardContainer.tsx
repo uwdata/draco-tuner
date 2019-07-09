@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { toggleShowEditor } from '../../actions/app-actions';
-import { solveChartsThunk, toggleFocusChart, updateCharts } from '../../actions/chart-collection-actions';
+import { deleteCharts, solveChartsThunk, toggleFocusChart, updateCharts } from '../../actions/chart-collection-actions';
 import { setEditorType, setVegaLiteCode } from '../../actions/text-editor-actions';
 import { Chart, ChartDictionary, ChartObject } from '../../model/chart';
 import { DracoSolution, Spec } from '../../model/spec';
@@ -58,6 +58,9 @@ function mapDispatchToProps(
     },
     updateChart: (chart: ChartObject) => {
       dispatch(updateCharts({ [chart.id]: chart }));
+    },
+    deleteChart: (chartId: string) => {
+      dispatch(deleteCharts([chartId]));
     },
   };
 }

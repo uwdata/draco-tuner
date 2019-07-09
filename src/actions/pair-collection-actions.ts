@@ -62,3 +62,7 @@ export const addEmptyPair = createAction('pair-collection/ADD_EMPTY_PAIR', actio
 export const toggleFocusPairItem = createAction('pair-collection/TOGGLE_FOCUS_PAIR_ITEM', action => {
   return (pairId: string, position: string, on: boolean) => action({ pairId, position, on });
 });
+
+export const deletePairs = createAction('pair-collection/DELETE_PAIRS', action => {
+  return (pairIds: string[]) => action(pairIds);
+});

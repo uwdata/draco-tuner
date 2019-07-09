@@ -46,6 +46,7 @@ const pairsCollectionReducer = createReducer<PairCollectionStore, PairCollection
     [getType(pairCollectionActions.toggleFocusPairItem)]: toggleFocusPairItem,
     [getType(pairCollectionActions.resetPairs)]: resetPairs,
     [getType(pairCollectionActions.updatePairs)]: updatePairs,
+    [getType(pairCollectionActions.deletePairs)]: deletePairs,
   }
 );
 
@@ -152,5 +153,11 @@ function removePairFilters(
     action.payload.every(toRemove => {
       return !_.isEqual(toRemove, filter);
     });
+  });
+}
+
+function deletePairs(state: PairCollectionStore, action: ActionType<typeof pairCollectionActions.deletePairs>): void {
+  action.payload.forEach(pairId => {
+    delete state.pairs[pairId];
   });
 }

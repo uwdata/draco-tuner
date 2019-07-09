@@ -30,6 +30,7 @@ const chartCollectionReducer = createReducer<ChartCollectionStore, ChartCollecti
     [getType(chartCollectionActions.setChartSorts)]: setChartSorts,
     [getType(chartCollectionActions.resetCharts)]: resetCharts,
     [getType(chartCollectionActions.updateCharts)]: updateCharts,
+    [getType(chartCollectionActions.deleteCharts)]: deleteCharts,
   }
 );
 
@@ -112,5 +113,14 @@ function updateCharts(
       ...originalChart,
       ...chartDict[chartId],
     };
+  });
+}
+
+function deleteCharts(
+  state: ChartCollectionStore,
+  action: ActionType<typeof chartCollectionActions.deleteCharts>
+): void {
+  action.payload.forEach(chartId => {
+    delete state.charts[chartId];
   });
 }

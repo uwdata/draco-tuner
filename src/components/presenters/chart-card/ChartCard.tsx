@@ -31,6 +31,7 @@ export interface ChartCardDispatchProps {
   toggleShowEditor: (show: boolean) => void;
   setEditorType: (type: EditorType) => void;
   updateChart: (chart: ChartObject) => void;
+  deleteChart: (chartId: string) => void;
 }
 export interface ChartCardOwnProps {
   id: string;
@@ -65,6 +66,9 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
       borderColor = CollectionItemEval.BLUE;
     } else {
       borderColor = CollectionItemEval.toColor(this.props.itemEval);
+      if (borderColor === CollectionItemEval.WHITE) {
+        borderColor = CollectionItemEval.GREY;
+      }
     }
 
     const styleName = classnames({
@@ -156,25 +160,40 @@ export default class ChartCard extends React.PureComponent<ChartCardProps, Chart
             </button>
             <span styleName="target">{Infinity}</span>
           </div>
-          <div styleName="button-container">
-            <button
-              styleName={classnames({
-                reloading: !_.isUndefined(this.state.runId) && !this.props.finishedRunIds.has(this.state.runId),
-              })}
-              onClick={e => {
-                e.stopPropagation();
-                const runId = (window as any).runId;
-                (window as any).runId += 1;
-                this.setState({
-                  runId,
-                });
+          <div styleName="controls">
+            <div styleName="button-container">
+              <button
+                styleName={classnames({
+                  'icon-button': true,
+                  reloading: !_.isUndefined(this.state.runId) && !this.props.finishedRunIds.has(this.state.runId),
+                })}
+                onClick={e => {
+                  e.stopPropagation();
+                  const runId = (window as any).runId;
+                  (window as any).runId += 1;
+                  this.setState({
+                    runId,
+                  });
 
-                const chart = this.buildChartObject();
-                this.props.solveChart(chart, runId);
-              }}
-            >
-              <span className="material-icons">refresh</span>
-            </button>
+                  const chart = this.buildChartObject();
+                  this.props.solveChart(chart, runId);
+                }}
+              >
+                <span className="material-icons">refresh</span>
+              </button>
+            </div>
+            <div styleName="button-container">
+              <button
+                className="material-icons"
+                styleName="icon-button"
+                onClick={e => {
+                  e.stopPropagation();
+                  this.props.deleteChart(this.props.id);
+                }}
+              >
+                delete
+              </button>
+            </div>
           </div>
         </div>
       </div>

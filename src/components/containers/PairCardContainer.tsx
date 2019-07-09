@@ -3,6 +3,7 @@ import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
 import { toggleShowEditor } from '../../actions/app-actions';
 import {
+  deletePairs,
   solvePairsThunk,
   toggleFocusPair,
   toggleFocusPairItem,
@@ -63,6 +64,9 @@ function mapDispatchToProps(dispatch: ThunkDispatch<{}, {}, AnyAction>, props: P
     },
     updatePair: (pair: PairObject) => {
       dispatch(updatePairs({ [pair.id]: pair }));
+    },
+    deletePair: (pairId: string) => {
+      dispatch(deletePairs([pairId]));
     },
   };
 }

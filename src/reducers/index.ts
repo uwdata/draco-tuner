@@ -53,11 +53,31 @@ const crossSliceReducer = createReducer<CombinedState, RootAction>(null, {
   [getType(textEditorActions.setAspCode)]: setAspCode,
   [getType(dracoActions.addConstraintEdit)]: addConstraintEdit,
   [getType(appActions.save)]: save,
+  [getType(pairCollectionActions.deletePairs)]: deletePairs,
+  [getType(chartCollectionActions.deleteCharts)]: deleteCharts,
 });
 
 export const rootReducer = reduceReducers(combinedReducers, crossSliceReducer as Reducer);
 
 export type RootState = CombinedState;
+
+function deletePairs(state: CombinedState, action: ActionType<typeof pairCollectionActions.deletePairs>): void {
+  action.payload.forEach(pairId => {
+    if (state.pairCollection.focusPair === pairId) {
+      state.pairCollection.focusPair = undefined;
+      state.pairCollection.focusItem = undefined;
+    }
+  });
+}
+
+function deleteCharts(state: CombinedState, action: ActionType<typeof chartCollectionActions.deleteCharts>): void {
+  action.payload.forEach(chartId => {
+    console.log(chartId);
+    if (state.chartCollection.focusChart === chartId) {
+      state.chartCollection.focusChart = undefined;
+    }
+  });
+}
 
 function setPairs(state: CombinedState, action: ActionType<typeof pairCollectionActions.setPairs>): void {
   state.draco.finishedRunIds.add(action.payload.runId);
@@ -205,8 +225,22 @@ function setAspCode(state: CombinedState, action: ActionType<typeof textEditorAc
 }
 
 function addConstraintEdit(state: CombinedState, action: ActionType<typeof dracoActions.addConstraintEdit>): void {
-  if (action.payload.type === ConstraintEdit.ADD) {
+  const edit = action.payload;
+
+  if (ConstraintEdit.isAddEdit(edit)) {
     state.constraintTuner.focusConstraint = ConstraintEdit.NEW_CONSTRAINT_NAME;
+  }
+
+  if (ConstraintEdit.isAspEdit(edit)) {
+    const beforeMatch = /\w+\((\w*),?\)?/.exec(edit.before);
+    const afterMatch = /\w+\((\w*),?\)?/.exec(edit.after);
+
+    if (beforeMatch && afterMatch) {
+      const nameBefore = beforeMatch[1];
+      const nameAfter = afterMatch[1];
+
+      state.constraintTuner.focusConstraint = nameAfter;
+    }
   }
 
   const constraintMap = state.draco.constraintMap;

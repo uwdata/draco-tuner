@@ -26,6 +26,7 @@ export default abstract class BaseEditor<
 > extends React.PureComponent<P, S> {
   abstract language: string;
 
+  private before: string;
   static DEBOUNCE_DURATION = 100;
 
   constructor(props: P) {
@@ -34,6 +35,8 @@ export default abstract class BaseEditor<
     this.editorDidMount = this.editorDidMount.bind(this);
     this.editorWillMount = this.editorWillMount.bind(this);
     this.handleEditorChange = this.handleEditorChange.bind(this);
+
+    this.before = null;
   }
 
   static getDerivedStateFromProps(props: BaseEditorProps, state: BaseEditorState) {
@@ -74,9 +77,15 @@ export default abstract class BaseEditor<
   }
 
   protected handleEditorChange(newValue: string, e: any) {
+    if (this.before === null) {
+      this.before = this.state.code;
+    }
+
     window.clearTimeout(this.state.updateTimeoutId);
     const updateTimeoutId = window.setTimeout(() => {
-      this.props.updateStoreCode(newValue, this.state.code);
+      const before = this.before;
+      this.before = null;
+      this.props.updateStoreCode(newValue, before);
       this.setState({ updateTimeoutId: undefined });
     }, BaseEditor.DEBOUNCE_DURATION);
     this.setState({

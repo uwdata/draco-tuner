@@ -114,7 +114,7 @@ function updateConstraintMap(state: DracoStore): void {
     } else if (ConstraintEdit.isDescriptionEdit(edit)) {
       state.constraintMap[edit.targetId].description = edit.before;
     } else if (ConstraintEdit.isAddEdit(edit)) {
-      state.constraintMap[edit.targetId] = undefined;
+      delete state.constraintMap[edit.targetId];
     }
   });
 

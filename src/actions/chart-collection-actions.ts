@@ -64,3 +64,7 @@ export const removeChartFilters = createAction('chart-collection/REMOVE_CHART_FI
 export const setChartSorts = createAction('chart-collection/SET_CHART_SORTS', action => {
   return (sortTypes: CollectionItemSortObject[]) => action(sortTypes);
 });
+
+export const deleteCharts = createAction('chart-collection/DELETE_CHARTS', action => {
+  return (chartIds: string[]) => action(chartIds);
+});

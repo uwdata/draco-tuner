@@ -35,6 +35,7 @@ export interface PairCardDispatchProps {
   toggleShowEditor: (show: boolean) => void;
   setEditorType: (type: EditorType) => void;
   updatePair: (pair: Pair) => void;
+  deletePair: (pairId: string) => void;
 }
 
 export interface PairCardOwnProps {
@@ -224,6 +225,18 @@ class PairCard extends React.PureComponent<PairCardProps, PairCardState> {
                 >
                   <span className="material-icons">refresh</span>
                   {this.props.evalType}
+                </button>
+              </div>
+              <div styleName="button-container">
+                <button
+                  className="material-icons"
+                  styleName="icon-button"
+                  onClick={e => {
+                    e.stopPropagation();
+                    this.props.deletePair(this.props.id);
+                  }}
+                >
+                  delete
                 </button>
               </div>
             </div>

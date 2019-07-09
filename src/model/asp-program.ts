@@ -20,6 +20,7 @@ export class AspPrograms {
   static HARD_DEFINE: 'HARD' = 'HARD';
   static HARD_INTEGRITY: 'HARD_INTEGRITY' = 'HARD_INTEGRITY';
   static DEFINE: 'DEFINE' = 'DEFINE';
+  static GENERATE: 'GENERATE' = 'GENERATE';
   static OPTIMIZE: 'OPTIMIZE' = 'OPTIMIZE';
   static OUTPUT: 'OUTPUT' = 'OUTPUT';
   static TOPK_LUA: 'TOPK_LUA' = 'TOPK_LUA';
@@ -32,6 +33,7 @@ export class AspPrograms {
       AspPrograms.HARD_DEFINE,
       AspPrograms.HARD_INTEGRITY,
       AspPrograms.DEFINE,
+      AspPrograms.GENERATE,
       AspPrograms.OPTIMIZE,
       AspPrograms.OUTPUT,
       AspPrograms.TOPK_LUA,
@@ -116,6 +118,7 @@ export type AspProgramsType =
   | typeof AspPrograms.HARD_DEFINE
   | typeof AspPrograms.HARD_INTEGRITY
   | typeof AspPrograms.DEFINE
+  | typeof AspPrograms.GENERATE
   | typeof AspPrograms.OPTIMIZE
   | typeof AspPrograms.OUTPUT
   | typeof AspPrograms.TOPK_LUA;

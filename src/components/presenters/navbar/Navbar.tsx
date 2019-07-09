@@ -79,9 +79,8 @@ export default class Navbar extends React.Component<NavbarProps, NavbarState> {
                           this.props.resetCharts(result);
                           break;
                       }
-
-                      fileReader.readAsText(file);
                     };
+                    fileReader.readAsText(file);
                   }
                 }}
               >

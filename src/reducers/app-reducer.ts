@@ -21,7 +21,7 @@ export type ViewPositionType = typeof ViewPosition.LEFT | typeof ViewPosition.CE
 export class View {
   static COLLECTION_CHARTS: 'collection-charts' = 'collection-charts';
   static COLLECTION_PAIRS: 'collection-pairs' = 'collection-pairs';
-  static CONSTRAINT_TUNER: 'constraint-tuner' = 'constraint-tuner';
+  static CONSTRAINT_TUNER: 'constraint-editor' = 'constraint-editor';
   static CONSTRAINT_INSPECTOR: 'constraint-inspector' = 'constraint-inspector';
   static EDITOR_VEGALITE: 'editor-vegalite' = 'editor-vegalite';
   static EDITOR_ASP: 'editor-asp' = 'editor-asp';
@@ -46,7 +46,7 @@ export class View {
       case View.COLLECTION_PAIRS:
         return 'Pair Collection';
       case View.CONSTRAINT_TUNER:
-        return 'Constraint Tuner';
+        return 'Constraint Editor';
       case View.CONSTRAINT_INSPECTOR:
         return 'Constraint Inspector';
       case View.EDITOR_VEGALITE:

@@ -72,6 +72,10 @@
 
   button {
     color: $light-purple;
+
+    &.icon-button {
+      color: $light-purple;
+    }
   }
 }
 
@@ -98,4 +102,11 @@
 
 .target {
   color: $light-grey;
+}
+
+.controls {
+  @extend %flex-row;
+  flex-shrink: 0;
+  justify-content: space-around;
+  width: 100%;
 }

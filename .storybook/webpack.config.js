@@ -93,6 +93,13 @@ module.exports = ({ config, mode }) => {
           "../node_modules/wasm-clingo/clingo.wasm"
         ),
         to: "static/clingo.wasm"
+      },
+      {
+        from: path.resolve(
+          __dirname,
+          "../data",
+        ),
+        to: "data"
       }
     ])
   );
